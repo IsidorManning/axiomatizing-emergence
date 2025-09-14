@@ -1,0 +1,10 @@
+grid:
+  P: [100]
+  T: [16]
+  S: [1]
+  seed: [0,1]
+batch_size: 4
+depth_candidates: [1, 2]
+lr: 0.001
+weight_decay: 0.0
+optimizer: adamw
