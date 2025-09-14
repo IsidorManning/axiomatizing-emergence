@@ -1,3 +1,5 @@
+# Models package
+=======
 """Model architectures for Axiom Emergence experiments."""
 
 from .heads import LinearHead
