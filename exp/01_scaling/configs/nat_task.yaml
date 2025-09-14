@@ -1,0 +1,13 @@
+# Natural task experiment configuration
+
+grid:
+  # Placeholder parameter for natural tasks
+  dataset: ["nat_task"]
+  # Random seeds for reproducibility
+  seeds: [0, 1, 2]
+
+recipe:
+  - name: nat_task
+    task: nat_task
+    model: transformer
+    train_steps: 1000
