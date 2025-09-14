@@ -47,3 +47,35 @@ def load_and_expand(path: str | bytes | "os.PathLike[str]") -> list[dict[str, An
         expanded = expand_grid(grid_spec)
         return [{**base, **g} for g in expanded]
     return expand_grid(cfg)
+
+
+def main(argv: list[str] | None = None) -> None:
+    """Expand a YAML grid file into a JSON plan.
+
+    Parameters
+    ----------
+    argv:
+        Optional sequence of arguments. Uses :data:`sys.argv` when ``None``.
+    """
+    import argparse
+    import json
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("path", help="YAML grid specification to expand")
+    parser.add_argument(
+        "--out",
+        "-o",
+        help="Optional path to save the expanded plan as JSON",
+    )
+    args = parser.parse_args(argv)
+
+    runs = load_and_expand(args.path)
+    plan = json.dumps(runs, indent=2)
+    print(plan)
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as fh:
+            fh.write(plan)
+
+
+if __name__ == "__main__":
+    main()
