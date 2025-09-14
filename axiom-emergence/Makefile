@@ -7,7 +7,7 @@ test:
 	pytest
 
 run-scaling-smoke:
-	AE_SMALL=1 $(PYTHON) exp/scaling/run.py
+	AE_SMALL=1 $(PYTHON) ../exp/01_scaling/run.py
 
 run-scaling:
 	$(PYTHON) exp/scaling/run.py

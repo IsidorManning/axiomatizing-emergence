@@ -1,18 +1,15 @@
 # Axiom Emergence
 
 ## Quickstart
-1. Install dependencies
-   ```bash
-   make setup
-   ```
-2. Run tests
-   ```bash
-   make test
-   ```
-3. Launch a fast smoke test for scaling
-   ```bash
-   make run-scaling-smoke
-   ```
+
+To install dependencies, run the tests, and execute a tiny scaling smoke
+test, run the following commands from this directory:
+
+```bash
+make setup
+make test
+AE_SMALL=1 make run-scaling-smoke
+```
 
 ## Experiments
 Run any of the following to reproduce placeholder experiments:
