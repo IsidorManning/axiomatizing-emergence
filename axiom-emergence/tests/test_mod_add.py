@@ -1,7 +1,15 @@
 import os
 import sys
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+import pytest
+
+# Add project root (one directory above ``tests``) to ``sys.path`` so that
+# ``tasks`` can be imported when tests are executed from an arbitrary working
+# directory.
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
+# Skip the entire module if PyTorch is unavailable.
+torch = pytest.importorskip("torch")
 
 from tasks.mod_add import get_dataloaders
 
