@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import random
 
-import numpy as np
+try:  # optional dependency
+    import numpy as np
+except Exception:  # pragma: no cover - handled gracefully
+    np = None  # type: ignore
 
 try:  # optional dependency
     import torch
@@ -27,7 +30,8 @@ def set_seeds(seed: int, deterministic: bool = True) -> None:
     """
 
     random.seed(seed)
-    np.random.seed(seed)
+    if np is not None:  # pragma: no branch - numpy optional
+        np.random.seed(seed)
 
     if torch is not None:
         torch.manual_seed(seed)
@@ -36,4 +40,3 @@ def set_seeds(seed: int, deterministic: bool = True) -> None:
         if deterministic:
             torch.backends.cudnn.deterministic = True
             torch.backends.cudnn.benchmark = False
-
