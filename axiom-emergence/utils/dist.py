@@ -47,7 +47,7 @@ def tv(p: ArrayLike, q: ArrayLike) -> float:
     return 0.5 * float(np.sum(np.abs(p_np - q_np)))
 
 
-def js_div(p: ArrayLike, q: ArrayLike, eps: float = 1e-12) -> float:
+def js_div(p: ArrayLike, q: ArrayLike, eps: float = 1e-12) -> ArrayLike | float:
     """Jensen-Shannon divergence between two discrete distributions.
 
     Parameters
@@ -73,7 +73,10 @@ def js_div(p: ArrayLike, q: ArrayLike, eps: float = 1e-12) -> float:
     m_safe = np.clip(m, eps, 1.0)
     kl_pm = np.sum(p_safe * np.log(p_safe / m_safe))
     kl_qm = np.sum(q_safe * np.log(q_safe / m_safe))
-    return 0.5 * float(kl_pm + kl_qm)
+    result = 0.5 * float(kl_pm + kl_qm)
+    if torch is not None and (isinstance(p, torch.Tensor) or isinstance(q, torch.Tensor)):
+        return torch.tensor(result, dtype=torch.float32)
+    return result
 
 
 def wasserstein_logits(logits_p: ArrayLike, logits_q: ArrayLike) -> float:
