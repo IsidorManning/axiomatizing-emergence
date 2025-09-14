@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+
+# Add project root (parent of ``tests``) to Python path.
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from tasks.tiny_grammar_icl import TinyGrammarICL, VOCAB
 
