@@ -223,6 +223,8 @@ Then, a \textit{learning system} is a point $S=(D,\Xi)\in \mathcal S$.
 
 \end{statementbox}
 
+Anchor: So a learning space is a data distribution + recipe, modeled as a point in a product topological space.
+
 Lastly, as you might have already thought, this definition of a learning system is indeed an axiom. I assume that everything we put into the recipe can form its topological space. We will state this axiom more formally once we get there.
 
 However, by imposing this axiom, we can apply the theory of topology to our learning systems. With topology, we can make the idea of “two systems are similar” precise via neighborhoods and metrics. This will come in handy later on in our axioms. Topology could give us the formal language for talking about sequences of models, limits, continuity, convergence, and so on. When we later define what we mean by a “capability” we can also use topology to look at threshold sets and boundaries of emergence.
@@ -461,6 +463,8 @@ For example, we might have $R=(N,P,T)$, where:
     When a feature map $\psi:\mathcal R \to \R^k$ is used, we take the pullback topology induced by $\psi$.
 \end{statementbox}
 
+Anchor: Resources are positive vectors (tokens, parameters, training steps) that we scale to study capability emergence in learning systems.
+
 This allows us to speak of neighborhoods of resource configurations, interior points of superlevel sets, and continuity of the capability map. 
 
 \subsection{The Training Map}
@@ -484,6 +488,8 @@ where for each system–resource pair $(S,R)$, the kernel $K(S,R)$ specifies a p
 \end{itemize}
 
 \end{statementbox}
+
+Anchor: Training is stochastic, so we model it as a Markov kernel from learning system + resources to distributions over trained states.
 
 Equivalently, the kernel may be realized via a measurable map
 
@@ -521,6 +527,8 @@ Thus, this construction makes explicit what practitioners know implicitly: train
 The training kernel $K(S,R)$ tells us \textit{where you land in weight space.} But we also need to define a predictor, $\Pi_\theta$, that tells us \textit{what those weights predict.} Many results (calibration, ensembling, metric design) live entirely on the inference side and shouldn’t be conflated with training randomness.
 
 \begin{statementbox}{Definition: The Predictor Map}
+
+Anchor: Each trained state induces a predictor map assigning outputs distributions; continuity holds here.
 
 Let $(X,Y)$ be the input/output spaces. Define $\mathcal P (Y)$ as the set of probability measures on $Y$. A trained state $\theta$ induces a stochastic kernel, called the predictor map,
 
@@ -615,6 +623,8 @@ A \textit{capability} is a pair $\Phi:=(\mathcal T_\Phi, \mathcal U _\Phi)$.
 
 \end{statementbox}
 
+Anchor: A capability is a task + utility, giving us a precise, bounded performance score.
+
 A capability here is an experimental setup: what data we feed, what counts as correct, and how we score performance. Framing it rigorously means we can talk about emergence as “a sharp change in expected capability under scaling,” not just “it feels like the model suddenly gets good at X.”
 
 \subsubsection{State Score}
@@ -657,6 +667,8 @@ m_\Phi(S,R)=\mathbb E_{K_{S,R}}\!\big[M_\Phi(\theta)\big]
 
 \end{statementbox}
 
+Anchor: Seed-averaged capability is the core order parameter for emergence--A measure that quantifies the different states of emergence in a learning systems as resources increase.
+
 The expected capability is the true curve we want when we plot performance vs. scale: the seed-averaged trajectory of learning. It’s the counterpart of Shannon’s expected information measure — stripping away incidental noise to reveal the systematic structure. This is where all definitions unify: $S$, $R$  (resources), training randomness, and capability definitions come together in a single function $m_\Phi(S,R)$. Emergence then becomes a property of this function’s shape.
 
 \subsection{Representability}
@@ -670,6 +682,8 @@ Not all learning systems can have certain abilities emerge. I cannot train an ML
     \]
     Then, we say $\Phi$ \textit{is representable} by the learning system $S$ at level $\tau$, if and only if $E_\tau$ is nonempty and has nonempty interior in $\mathcal S \times \mathcal R$.
 \end{statementbox}
+
+Anchor: A capability is representable if it exceeds $\tau$ on a nonempty open neighborhood in system-resource space.
 
 Empirically, we replace $m_\Phi$ by its seed-averaged estimate and require a lower confidence bound to exceed $\tau + \epsilon$ on a neighborhood, ensuring robustness to stochasticity.
 
@@ -748,6 +762,8 @@ where:
 \end{itemize}
 
 \end{statementbox}
+
+Anchor: In general, more resources, more emergence.
 
 \textbf{Intuitively,} more data/parameters/compute shouldn’t \textit{hurt} a capability in expectation. It rules out “perverse” regressions that are really optimization noise; it’s a weak, falsifiable regularity to build on. (Violations typically indicate under/over-training, metric noise, or a recipe bug.)
 
@@ -863,13 +879,15 @@ Conclusions about $\Phi$ must be invariant under linear reparameterizations of i
 
 \begin{statementbox}{Axiom 5 (A5) - Topology}
 
-\((\mathcal D, \tau_D)\) and \((\mathcal R, \tau_\mathcal R)\) are topological spaces. Their product \(\mathcal S = \mathcal D \times \mathcal R \) induces a predictor map,
+\((\mathcal D, \tau_\mathcal D)\) and \((\mathcal R, \tau_\mathcal R)\) are topological spaces. Their product \(\mathcal S = \mathcal D \times \mathcal R \) induces a predictor map,
 \[
 G:\mathcal S \to \{\Pi_\theta : X\to \mathcal P (Y)\}.
 \]
 For fixed $R$, $G$ is continuous in the function-space topology. 
 
 \end{statementbox}
+
+Anchor: $(\mathcal D, \tau_\mathcal D)\times (\mathcal R, \tau_\mathcal R)$ produces a product topological space $=S$
 
 Continuity is assumed only for predictors, not for internal representations.
 
@@ -1128,7 +1146,181 @@ Secondly, simple linear fits give tiny positive slopes but negative $R^2$ for bo
 
 Lightbulb!!! Right now Axiom 5 is very general, and while it is hard to justify in it of itself, this experiment might suggest that this axion is empirically well-motivated only at the level of predictor outputs. For representations, continuity is not guaranteed.
 
-% right before \appendix
+\subsection{testing Axiom 2: One-Dimension Collapse; Scaling Experiment}
+
+\subsubsection{Background}
+
+Axiom 2 formalizes the idea that emergence and capability scaling are governed by an intrinsic one-dimensional manifold in resource space - a law of “effective scaling.”
+It predicts that as the number of parameters (P), tokens (T), and optimization steps (S) increase jointly, the model’s measured capability should rise monotonically following a sigmoidal pattern when plotted against the correct effective resource axis.
+
+Our experiment aims to empirically test this claim on a simple controlled task: modular addition learning using MLPs of varying parameter count, token count, and training steps.
+This task is deliberately simple so that we can isolate the structural regularities of emergence itself, independent of complex architecture-specific dynamics.
+
+\subsubsection{Experimental Setup}
+
+Each run trains a multilayer perceptron (ModAddMLP) on the modular addition task.
+The model, data, and compute resources are characterized by:
+
+\begin{itemize}
+    \item $P$: number of trainable parameters, controlled by the model’s width and depth.
+    \item $T$: number of training tokens (total data examples seen).
+    \item $S$: number of training steps or optimization iterations.
+\end{itemize}
+
+For each configuration $(P,T,S)$, we train the model to convergence (or a fixed step budget) and record the final test accuracy test $A_\text{test}$, which we treat as an empirical estimate of capability,
+
+\[
+C=A_\text{test}\in [0,1]
+\]
+
+All results are logged into per-run directories (e.g., runs/P3000_T10000_S5000_seed0), and after averaging across random seeds, we obtain approximately 80 unique averaged points $(P,T,S,C)$ that populate our resource–capability landscape.
+
+To test the axiom, we search for a direction $\alpha = (\alpha_P, \alpha_T, \alpha_S)$ in log-space such that capabilities collapse to a one-dimensional curve.
+\begin{enumerate}
+    \item We take logs of all resources:
+    \[
+        X=[\log P, \log T, \log S]
+    \]
+    \item we learn $\alpha$, the onset $s^*$, width $w$, and the parameters of a logistic function
+    \[
+    f(s')=C_\min + ( C_\max -C_\min )\sigma(s'),\quad \sigma(s')=\frac 1 {1+e^{-s'}}
+    \]
+    such that the mean-squared error between predicted and observed capabilities is minimized:
+    \[
+    \min_{\alpha, s^*,w,C_\min, C_\max} \E _{(P,T,S)}\left[\left( C-f\left( \frac{\alpha^\top \log R - s^*}{w}\right)\right)^2\right]
+    \]
+    \item During optimization, $\alpha$ is normalized ($\|\alpha\|_2=1$) to make its components interpretable as relative importance weights of the three resources.
+\end{enumerate}
+
+The fitted parameters define:
+\begin{itemize}
+    \item $\alpha$: direction of effective resource.
+    \item $s^*$: onset of emergence (the log-resource where capability ≈ 0.5).
+    \item $w$: sharpness of transition (the log-width between 10\% and 90\% capability $≈ 4.4 w$).
+    \item $C_\min, C_\max$: lower and upper asymptotes of observed capability.
+\end{itemize}
+
+Finally, we compute collapse errors in both capability space and logit space (RMSE and MAE), and produce three diagnostic plots:
+
+\begin{itemize}
+    \item Capability vs projected resource (collapse curve).
+    \item Predicted vs observed capabilities (parity).
+    \item Residuals vs projected coordinate (structure of deviations).
+\end{itemize}
+
+\subsubsection{Results}
+
+The fitted logistic function explains the majority of variation in capability across all 80 points.
+The estimated direction and parameters are:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{rccc}
+\toprule
+Parameter & Meaning & Estimate \\
+\midrule
+$\alpha_P$  & param importance & 0.285  \\
+$\alpha_T$  & token importance &  0.722 \\
+$\alpha_S$ & step importance & 0.630 \\
+$s^*$ & onset (log scale) & 15.125 \\
+$w$ & width & 0.190 \\
+\bottomrule
+\end{tabular}
+\caption{Estimated .}
+\label{tab:mphi-results}
+\end{table}
+\clearpage
+
+This implies that a capability primarily scales with data tokens and training steps, with parameter count having a smaller but non-negligible effect. A 1\% increase in token count is approximately equivalent to a 2.5\% increase in parameters along iso-capability contours. The transition from 10\% to 90\% capability occurs over a multiplicative increase of $\approx 2.3$ times in the effective resource.
+
+Fit quality:
+
+RMSE(capability) = 0.165
+
+MAE(capability) = 0.075
+→ Average error ≈7.5 pp capability.
+
+RMSE(logit) = 5.05
+
+MAE(logit) = 3.52
+
+This means the logistic function captures the overall S-shaped trend, though it slightly overestimates capability near onset (as seen from residuals).
+
+Collapse Plot: Points align along a smooth sigmoidal curve, confirming a 1-D monotone structure.
+Deviations are systematic (underperformance near the lower shoulder), suggesting mild asymmetry rather than random noise.
+
+Parity Plot: Predicted vs observed capability falls near the diagonal, especially in the high-capacity regime (above 0.7), indicating a stable mapping.
+
+Residual Plot:
+Negative residuals at small $z$ show the empirical curve rises more slowly than a perfect logistic — consistent with a Gompertz-like skew or a finite-size correction.
+
+\subsubsection{Interpretation}
+
+The empirical evidence supports Axiom 2 in its essential qualitative content:
+
+Existence of a 1-D effective resource variable:
+The discovery of a direction $\alpha$ in log-resource space along which all measured capabilities collapse provides strong evidence that the system’s behavior can be summarized by a single “effective resource” dimension.
+
+Smooth monotonic relationship:
+The capability rises monotonically and saturates smoothly — a fundamental characteristic of emergence.
+
+Sigmoidal shape:
+The observed functional form is well-approximated by a logistic curve, matching the axiom’s requirement of a smooth increasing function $f$.
+
+Finite-size deviations:
+Residual structure near onset reflects mild departures from pure logisticity, likely due to finite sampling or unmodeled nonlinear interactions.
+
+Hence, the experiment empirically confirms the structural content of Axiom 2 — the existence of a low-dimensional smooth law governing the transition from non-representability to full representability of a capability.
+It does not yet fix the exact shape of $f$, but validates its existence.
+
+\subsubsection{Limitations}
+
+While the evidence supports the axiom, several caveats remain:
+
+The logistic function is a parametric assumption. The data suggest a slightly skewed curve; a non-parametric or generalized sigmoid (Gompertz/Richards) may improve fit.
+
+The number of data points ($\approx 80$) is moderate but not large; bootstrapped confidence intervals are wide.
+
+The task (modular addition) is simple; generalization to other cognitive or perceptual tasks remains untested.
+
+The residuals show structure, suggesting small interaction effects between parameters, tokens, and steps not captured by a single $\alpha$.
+
+Power-law exponents in the asymptotic tail remain uncertain due to the additive form of the resource aggregator.
+
+Thus, these results should be interpreted as first-order empirical confirmation of Axiom 2’s structure, not as a final statistical proof.
+
+Future improvements will aim to strengthen the validity and generality of Axiom 2 by:
+
+Statistical Refinement:
+
+Increase the number of runs per grid region ($\ge 300$ points) for more stable estimation.
+
+Use non-parametric monotone regression to confirm the existence of a smooth mapping $f$ without assuming logistic form.
+
+Quantify uncertainty in$\alpha, s^*,w$ using bootstrap or Bayesian inference, and evaluate confidence intervals.
+
+Model \& Task Generalization:
+
+Replicate the experiment on distinct tasks (e.g., parity, sorting, simple algorithmic reasoning).
+
+Evaluate whether the same 1-D collapse structure holds, with possibly task-specific $\alpha$ and $f$.
+
+Theoretical Extensions:
+
+Derive closed-form predictions for the scaling law coefficients assuming the axioms hold jointly.
+
+Test if Axiom 2 combined with resource constraints (Axiom 3) reproduces known empirical scaling laws (e.g., Chinchilla, OpenAI power laws).
+
+Asymptotic Tail:
+
+Redefine the tail aggregator multiplicatively and refit the exponents $a,b,c,\gamma$.
+
+Compare derived $\gamma$ with known theoretical values from scaling literature (e.g., Hestness et al. 2017, Kaplan et al. 2020).
+
+Cross-Task Regularities:
+
+Evaluate if $\alpha$ (direction weights) remain approximately invariant across architectures and tasks — which would hint at a universal scaling manifold.
+
 \clearpage
 \appendix
 
@@ -1190,4 +1382,82 @@ The theory might be more useful when speaking strictly about behavioral continui
 \end{histaxiom}
 
 
+\section{Mathematical Concepts}
+
+\subsection{Probability- and Measure Theory}
+
+\subsubsection{Markov Kernel}
+
+Given a measurable space $X$ (inputs) and $Y$ (outputs), $\mathcal B (Y)$ the $\sigma$-algebra of measurable subsets of $Y$. A \textit{Markov} kernel $K$ from $X$ to $Y$ is a map
+\[
+    K:X\times \mathcal B (Y)\to [0,1]
+\]
+such that:
+\begin{enumerate}
+    \item For every fixed $x\in X$, the set function $B\mapsto K(x,B)$ is a probability measure on $(Y,\mathcal B(Y))$.
+    \item For every fixed measurable set $B\subseteq Y$, the function $x\mapsto K(x,B)$ is measurable.  
+\end{enumerate}
+
+It associates to each point $x\in X$ a probability measure on $(Y,\mathcal B)$ such that, for every measurable set $B\in \mathcal B$, the map $x\mapsto\kappa (B,x)$ is measurable with respect to the $\sigma$-algebra $\mathcal A$.
+
+[wiki reference]
+
+If a deterministic function gives you one point, a Markov kernel gives you a whole distribution. We can see kernels as a stochastic function: There exists a measurable map $F:X\times \Omega\to Y$ on some probability space $(\Omega, \mathbb P)$ such that 
+\[
+K(x,\cdot)=\mathbb P (F(x,\omega)\in \cdot)
+\]
+
+In practice, kernels let us say “the output is random, but in a controlled, measurable way," which is exactly why we use it in defining the training kernel.
+
+\subsubsection{Weak convergence of measures}
+
+
+\subsection{Topology and Functional Analysis}
+
+\subsubsection{Wasserstein Metric}
+
+The W metric is a natural way for measuring the "distance" between probability distributions. If we have two probability distributions $D$ and $D'$, over a space $X$, if you think of them as piles of sand, the W distance is the minimum cost of transporting sand from one pile to reshape it into the other.
+
+Distributions are "close" if we can rearrange one into the other with little effort.
+
+Formally, let $(X,d)$ be a metric space. Let $\mathcal P _p(X)$ be the set of Borel probability measures $\mu$ on $X$ with finite $p$-th moment:
+\[
+    \int_X d(x,x_0)^p\mu(dx)<\infty
+\]
+for some arbitrary reference point $x_0\in X$.
+
+For $\mu, \nu\in \mathcal P _p(X)$, a \textit{coupling} is a joint distribution $\gamma$ on $X\times X$ with marginals $\mu$ and $\nu$:
+
+\[
+    \gamma(A\times X)=\mu (A),\quad \gamma(X\times B)=\nu(B)
+\]
+
+for all measurable $A,B\subseteq X$
+
+Then, the \textit{Wasserstein-}$p$ distance is:
+\[
+    W_p(\mu,\nu)=\left(\inf_{\gamma\in \Gamma(\mu,\nu)}\int_{X\times X} d(x,y)^p d\gamma(x,y)\right)^{1/p}
+\]
+where $\Gamma(\mu, \nu)$ is the set of all couplings.
+
+So 
+\subsubsection{Kantorovich–Rubinstein Duality}
+
+\subsubsection{Product Topologies}
+
+\subsubsection{Open-Compact Topologies}
+
+\subsubsection{Functionals}
+
+\subsubsection{Continuity of functionals}
+
+\subsubsection{Polish spaces}
+
+
+\subsection{Statistics and Learning Theory}
+
+\subsubsection{Order Parameter}
+
+
+\subsubsection{Lipschitzness}
 \end{document}
