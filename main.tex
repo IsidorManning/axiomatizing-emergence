@@ -1,60 +1,143 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Axiomatizing AI: Emergence Under Scaling
+%  Author: Isidor Manning
+%  Clean & Structured LaTeX Header (2025)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \documentclass[12pt]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{setspace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- PAGE GEOMETRY & LAYOUT ---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+  margin=1.5in,
+  includefoot
+]{geometry}
+
+\usepackage{setspace}        % Line spacing control
+\usepackage{parskip}         % No paragraph indentation, vertical space between paragraphs
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- TYPOGRAPHY & READABILITY ---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{microtype} % better kerning, spacing, line breaks
+\linespread{1.05}      % slight line spacing to breathe
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- BIBLIOGRAPHY SETTINGS ---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{natbib}
 \bibliographystyle{plainnat}
-\usepackage{parskip}     % removes indent + adds vertical space
-\setlength{\parindent}{0pt}   % just in case
-\setlength{\parskip}{6pt}     % space between paragraphs
+\usepackage{doi}
+\usepackage{url}
 
-% --- Math + theorem environments + tables ---
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{amsthm}
-\usepackage{booktabs}
-\usepackage{graphicx}
-\graphicspath{ {figures/} }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- ENUMERATIONS, TABLES, AND GRAPHICS ---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{enumitem}        % Compact lists
+\usepackage{booktabs}        % Professional tables
+\usepackage{graphicx}        % Figures
+\graphicspath{{figures/}}    % Default figure path
+\usepackage[font=small,labelfont=bf,labelsep=period]{caption}
 
-% Shortcuts
-\newcommand{\E}{\mathbb{E}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- MATHEMATICS PACKAGES ---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{varwidth}        % Helps with flexible box widths in theorem boxes
+\usepackage{newtxtext,newtxmath}
+
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\text{Prob}}
+\newcommand{\B}{\mathscr{B}}
 
-% Load tcolorbox with theorem library
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- HYPERLINKS & CROSS-REFERENCING ---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[colorlinks=true,
+            linkcolor=blue!40!black,
+            citecolor=blue!50!black,
+            urlcolor=blue!60!black,
+            pdfusetitle,
+            pagebackref=true]{hyperref}
+
+\usepackage[capitalize,nameinlink]{cleveref}
+% Examples:
+%   \cref{sec:intro} -> “Section 1”
+%   \cref{thm:main} -> “Theorem 3.2”
+%   \cref{app:proofs} -> “Appendix A”
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- TCOLORBOX STYLES (Definitions, Theorems, etc.) ---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[most]{tcolorbox}
 \tcbuselibrary{theorems}
+\tcbuselibrary{skins}
 
-% Simple box for important stuff
-\newtcolorbox{statementbox}[1]{%
-    colback=white,
-    colframe=black!70,
+% General theorem box style
+\tcbset{
+  crispbox/.style={
+    enhanced, breakable,
+    colback=gray!14,
+    colframe=black!35,
+    boxrule=0.4pt,
+    arc=0pt,
+    left=8pt,right=8pt,top=6pt,bottom=6pt,
+    before skip=10pt, after skip=10pt,
+    attach boxed title to top left={yshift=-1mm},
+    boxed title style={
+      colback=gray!14,
+      colframe=black!35,
+      boxrule=0.4pt,
+      arc=0pt,
+      left=6pt,right=6pt,top=2pt,bottom=2pt,
+    },
+    varwidth boxed title,
+    fonttitle=\bfseries\small,
     coltitle=black,
-    fonttitle=\bfseries,
-    title={#1},
-    enhanced,
-    breakable,
-    attach boxed title to top left,
-    boxed title style={colback=gray!10}
+    separator sign={.\ },
+  }
 }
 
-% ---- TOCs ----
-\usepackage{etoc}                 % flexible local tables of contents
-\setcounter{tocdepth}{2}          % show up to subsections in the main ToC
+% --- amsthm theorems (labels + [Title] work out of the box)
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{note}{Note}[section]
+\newtheorem{axiom}{Axiom} % independent axiom counter
 
-% ---- Historical axiom box (title text black; date goes in title) ----
-\usepackage[most]{tcolorbox}
-\newtcolorbox{histaxiom}[1][]{%
-  title={#1},                     % you write: Title — YYYY-MM-DD
-  colback=gray!1,
-  colframe=gray!60,
-  coltitle=black,                 % ensure black title text
-  borderline west={2pt}{0pt}{gray!70},
-  enhanced,
-  breakable,
-  attach boxed title to top left,
-  boxed title style={colback=gray!15}
-}
+% --- Make cleveref print nice names
+\crefname{definition}{Definition}{Definitions}
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{example}{Example}{Examples}
+\crefname{note}{Note}{Notes}
+\crefname{axiom}{Axiom}{Axioms}
 
-% --- Helper to reduce boilerplate ---
-% \HistAxiomEntry{Version title}{Status}{Date}{Old statement}{Issue}{Solution}
+% --- Box the environments with your tcolorbox style
+\tcolorboxenvironment{definition}{crispbox}
+\tcolorboxenvironment{theorem}{crispbox}
+\tcolorboxenvironment{lemma}{crispbox}
+\tcolorboxenvironment{corollary}{crispbox}
+\tcolorboxenvironment{example}{crispbox}
+\tcolorboxenvironment{note}{crispbox}
+\tcolorboxenvironment{axiom}{crispbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- CUSTOM MACROS ---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Historical Axiom Entry: for version tracking of evolving statements
 \newcommand{\HistAxiomEntry}[6]{%
   \begin{histaxiom}[#1]
     \textbf{Status:} #2\par
@@ -65,175 +148,327 @@
   \end{histaxiom}%
 }
 
-% --- Links ---
-\usepackage{hyperref}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- DOCUMENT METADATA ---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Axiomatic Theory of Generalization and Structure Formation in Learning Systems}
+\author{Isidor Seppälä Manning}
+\date{August 2025}
 
-% --- For compact lists in notes ---
-\usepackage{enumitem}
-
-\title{Axiomatizing AI: Emergence Under Scaling}
-\author{Isidor Manning}
-\date{August 2025 - TBD}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- DOCUMENT START ---
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \maketitle
+
+% === Abstract ===
+\begin{abstract}
+The recent successes of artificial intelligence—systems that acquire reasoning, language, and perception capabilities through scale—have revealed a profound gap in our theoretical understanding. While we can train such systems, we cannot yet explain, in mathematical terms, why new abilities emerge when scale and structure increase.
+
+This work proposes an axiomatic theory of learning systems: a formal framework seeking the minimal assumptions under which learning, generalization, and emergent capability can arise in computational systems. The theory begins by defining a domain of learning systems equipped with topological and probabilistic structure, describing how data distributions, architectural procedures, and resource configurations jointly determine a system’s behavior. Within this domain, we formalize capabilities as measurable functionals over predictor distributions and define their expectation over training randomness as the capability measure $m_\Phi(S,R)$ 
+
+From a small set of falsifiable axioms—continuity, representability, universality, and criticality—follow testable predictions about scaling laws, threshold phenomena, and invariance structures observed across modern machine learning. These axioms aim not to model a specific architecture, but to capture the universal regularities of systems that learn under resource constraints.
+
+Ultimately, this program treats intelligence as a phenomenon of structure formation—the spontaneous emergence of invariance and capability from scaling and interaction. Methodologically, it follows a path similar in spirit to Shannon’s Mathematical Theory of Communication: beginning from empirical regularities in an experimental domain and distilling them into a minimal set of axioms that yield predictive laws. In the same way that Shannon transformed communication into an exact mathematical discipline, this work seeks to transform learning itself into one—replacing heuristic observation with structure, invariance, and proof. Axiomatic learning theory thus aspires to serve as the mathematical backbone of artificial intelligence: a foundation explaining not only how intelligent systems are built, but why they must emerge.
+\end{abstract}
+
+\noindent\textbf{Keywords:} Emergence, Scaling Laws, Learning Theory, Axiomatic Systems.
+
+% === Table of Contents ===
 \tableofcontents
-\newpage
+
+\section*{Notation}
+\phantomsection
+\addcontentsline{toc}{section}{Notation}
+
+The following symbols are used throughout the paper.  
+Calligraphic letters denote abstract spaces; capital Roman letters denote elements of those spaces; Greek letters denote functions, kernels, and distributions.
+
+\vspace{1em}
+
+\subsection*{Spaces and Elements}
+
+\begin{tabular}{ll}
+$\mathcal D$ & Space of data domains \\
+$\Omega\in\mathcal D$ & Data domain \\
+$\mathcal X$ & Input space \\
+$\mathcal Y$ & Output space \\
+$\mathcal P$ & Procedure space \\
+$P\in\mathcal P$ & Procedure \\
+$\mathcal S = \mathcal D\times\mathcal P$ & Learning space \\
+$S\in\mathcal S$ & Learning system \\
+$\mathcal R$ & Resource base \\
+$R\in\mathcal R$ & Resource vector \\
+$\Theta$ & Parameter space \\
+$\theta\in\Theta$ & Trained parameter state \\
+\end{tabular}
+
+\vspace{1em}
+
+\subsection*{Probability and Training Objects}
+
+\begin{tabular}{ll}
+$\mu$ & Data-generating distribution \\
+$K(S,R)$ & Training kernel (Markov kernel) \\
+$\Pi_\theta$ & Predictor map (stochastic kernel) \\
+$\Prob(\Theta)$ & Space of probability measures on parameters \\
+$\gamma$ & Coupling of probability measures \\
+$\Rightarrow$ & Weak convergence of measures \\
+\end{tabular}
+
+\vspace{1em}
+
+\subsection*{Capability Objects}
+
+\begin{tabular}{ll}
+$\Phi = (\mathcal T,\mathcal U,\mathcal V_\Phi)$ & Capability type \\
+$\mathcal T = (\mathcal X,\mathcal Y,\mu)$ & Learning task \\
+$\mathcal U$ & Learning utility \\
+$\mathcal V_\Phi$ & Capability codomain \\
+$M_\Phi(\theta)$ & State-level capability score \\
+$m_\Phi(S,R)$ & Seed-averaged (expected) capability \\
+$\tau_\Phi(S,R)$ & Representability threshold \\
+$\Sigma_c(S,\Phi)$ & Iso-capability set $\{R: m_\Phi(S,R)=c\}$ \\
+\end{tabular}
+
+\vspace{1em}
+
+\subsection*{Resource Geometry and Scaling}
+
+\begin{tabular}{ll}
+$\psi:\mathcal R\to\mathbb R^k$ & Feature map of the resource base \\
+$\alpha\in(\mathbb R^k)^*$ & Effective direction \\
+$s(R)=\alpha^\top\psi(R)$ & Effective resource scalar \\
+$f:\mathbb R\to\mathbb R$ & Scaling function (S-curve) \\
+\end{tabular}
+
+\vspace{1em}
+
+\subsection*{Order and Topological Structure}
+
+\begin{tabular}{ll}
+$\preceq$ & Resource order \\
+$\oplus$ & Resource composition (monoid operation) \\
+$\tau_\mathcal R$ & Resource topology \\
+$\tau_\mathcal S$ & Learning-system topology \\
+\end{tabular}
+
+% === Acknowledgements ===
+\section*{Acknowledgements}
+\phantomsection
+\addcontentsline{toc}{chapter}{Acknowledgements}
+I thank...
+
+% === Main Matter ===
 
 \section{Introduction}
-Emergent abilities in large language models (LLMs) are capabilities that appear suddenly and unexpectedly as the model scales up in size, data, and computational resources. When LLMs reach a certain size and complexity, they suddenly show capabilities that weren't seen before.
 
-These abilities are not linearly predictable based on the model's performance on smaller scales, making them seem like qualitative leaps in capability rather than simple quantitative improvements. 
+\subsection{The Unexplained Emergence of Intelligence}
+Over the past decade, modern machine learning has entered an era of striking empirical regularities. When models are scaled in data, parameters, and compute, their performance follows smooth power-law trends across orders of magnitude \citet{hestness2017deep, kaplan2020scaling, hoffmann2022training}. Yet amid these predictable curves, a different kind of phenomenon appears: qualitatively new capabilities emerge abruptly. Large language models, for example, acquire reasoning, coding, or translation abilities not present in smaller versions \citet{wei2022emergent, srivastava2022beyond}. These transitions suggest that scaling does more than enlarge existing capacities—it reorganizes the effective structure of learning itself.
 
-I am trying to create a mathematical theory of emergent capabilities in learning systems. These are the mysterious abilities—like arithmetic, reasoning, code generation—that seem to “just appear” when models are scaled up.
+Despite their prevalence, such emergent effects remain mathematically unexplained. Current theories describe optimization, generalization, and expressivity, but not why a continuous change in scale can produce discontinuous jumps in capability. Empirical scaling laws quantify the behavior of loss surfaces, yet they do not identify the invariant structures underlying those laws. The field thus stands in a situation reminiscent of information theory before Shannon: an abundance of experimental facts, no formal vocabulary to express them.
 
-I’m beginning with emergent capabilities under scaling because it sits at the heart of the LLM revolution.
+This paper pursues the hypothesis that emergence in learning systems possesses an underlying order amenable to mathematical description. Rather than treating emergence as an incidental property of particular architectures, we seek to express it through minimal structural assumptions that hold across architectures and tasks. In doing so, we follow the methodological spirit of the Erlangen and Shannon programs. Just as Klein proposed that geometry be characterized by invariance under transformations \citet{bronstein2021geometric}, and Shannon formalized communication by a handful of axioms \citet{shannon1948mathematical}, we ask whether the scaling behavior of learning systems can be organized by a comparable set of first principles.
 
-The recent breakthroughs in AI were powered by their emergent structures. They weren’t explicitly trained. They surfaced, and we don’t understand why.
+Such an endeavor requires bridging two perspectives: the empirical regularities revealed by large-scale experiments, and the abstract mathematical language capable of encoding them. If successful, an axiomatization of emergence would allow us to move from phenomenological observation to deductive prediction—clarifying when and why new capabilities must appear as resources grow. It would provide, in short, a conceptual grammar for the unexplained order observed in modern scaling phenomena.
 
-GPT-2 wasn’t special. GPT-3 was. GPT-4 has reasoning capabilities that earlier models didn’t. These weren’t programmed. They emerged, and this gave birth to the AI The Big AI Boom. We don’t understand why. But scaling does something.
+\subsection{Lack of Formal Foundations}
+Despite remarkable empirical progress, contemporary deep learning theory lacks a mathematical language in which the phenomenon of emergence can even be posed precisely. Existing theories describe certain facets of learning—optimization dynamics, expressivity of architectures, and generalization under fixed capacity—but none provide a substrate where scaling itself can be treated as a formal variable and capability as a measurable function over it.
 
-That’s the mystery I’m tackling.
+The standard approaches treat a model as a parametrized function class and study convergence properties as sample size increases. However, these analyses presuppose a static notion of the “learning system.” When scale changes, we do not merely re-train a fixed system with more data; we instantiate a different system, defined by a new architecture, training regime, and parameterization. The relevant space of objects therefore is not a single model, but a population of learning systems evolving under resource constraints. Within current theory, no canonical structure connects these systems to one another. Consequently, concepts like emergent capability—a property observed only across scales—lack a well-defined mathematical representation.
 
-\subsection{Questions}
+Moreover, our existing theoretical frameworks operate at different levels of abstraction, but none bridge the empirical and the formal. Statistical learning theory provides asymptotic bounds on risk but is insensitive to architectural scale. Scaling-law analyses \citet{kaplan2020scaling, hoffmann2022training} reveal quantitative regularities but lack the notion of topology or continuity that would allow one to speak of phase transitions in capability. Geometric Deep Learning \citet{bronstein2021geometric} introduced a unifying geometric view of inductive bias, yet it treats the underlying group symmetries as given rather than emergent. What is missing is a framework that unifies these views: one capable of expressing learning systems, resources, and capabilities as formal objects within a shared mathematical space.
 
-\begin{itemize}
-    \item Can I define a small set of general, falsifiable axioms that explain \textit{when and why} new capabilities emerge as we scale model resources?
+Without such a substrate, our understanding of emergence remains descriptive rather than explanatory. We can observe scaling curves and capability thresholds, but we cannot derive them or determine which observed patterns are fundamental and which are contingent. A theory of learning that aspires to generality must therefore begin at a deeper level: by defining the minimal structural conditions under which a system of learning systems—when scaled—must display emergent behavior.
 
-    \item Can I propose a minimal set of mathematical assumptions such that from them, I can \textit{prove the existence} of critical thresholds—points at which certain capabilities emerge—and derive \textit{scaling laws} that match empirical observations?
-\end{itemize}
+\subsection{Towards an Axiomatic Theory of Learning Systems}
+The objective of this work is to construct a mathematical framework that explains emergent capabilities in learning systems through a small set of falsifiable axioms. The goal is not to model any particular architecture or algorithm, but to identify the minimal structural conditions under which qualitative changes in capability necessarily arise as a function of scale.
 
+We begin from a general guiding question: \textit{What are the smallest mathematical conditions under which the experimental phenomena of deep learning must occur?}. More specifically, \textit{under what general conditions does a learning system acquire new capabilities as its resources increase?}.
 
-\subsection{What This Involves—The Structure of My Work}
-\begin{enumerate}
-    \item \textbf{Defining the domain clearly:} \begin{itemize}
-        \item What is a learning system?
-        \item What are its resources? (tokens, parameters, compute)
-        \item What is a capability, and how do we measure it?
-    \end{itemize}
+To answer it, we adopt the methodological stance of axiomatic science. Rather than accumulating descriptive models, we seek to isolate a handful of postulates—expressed in the language of topology, measure theory, and probability—that make emergence a derivable property of the system. This is akin to what Shannon accomplished for communication theory \citet{shannon1948mathematical} and what Klein’s Erlangen program achieved for geometry \citet{bronstein2021geometric}: the transformation of an empirical field into a formal one by identifying its invariants.
 
-    \item \textbf{Proposing axioms:} \begin{itemize}
-        \item They should be falsifiable—they might break under experiment which is an opportunity to refine them.
-        \item They should be general—ideally true across many learning systems.
-        \item They should be minimal—remove one, and the predictions break.
-    \end{itemize}
+The framework pursued here treats a learning system not as an isolated model but as a point in a continuous mathematical space—a product of data-generating processes and construction recipes. Scaling then corresponds to trajectories through this space, parameterized by resource vectors (data, parameters, compute). Within this setting, a capability becomes a bounded functional $m_\Phi(S,R)$ that maps a system–resource pair to an expected performance score. Emergence can then be defined precisely as a qualitative transition in this functional’s structure—such as the sudden appearance of an open region where a capability becomes representable.
 
-    \item \textbf{Making predictions:} \begin{itemize}
-        \item Derive theorems from the axioms.
-        \item Predict phenomena like sharp transitions, power laws, universal curves.
-        \item Run toy experiments (like modular addition or in-context learning) to test them.
-    \end{itemize}
+An axiomatic approach to emergence serves two purposes. First, it provides a unifying theoretical language that can generalize across architectures, tasks, and modalities. Second, it renders “emergence” empirically testable: each axiom can be confirmed or falsified through experiment. The resulting theory thus aims not for metaphysical explanation but for predictive compression: a minimal set of assumptions from which scaling laws, critical thresholds, and universality curves follow as theorems rather than observations.
 
-    \item \textbf{Refining the theory:} \begin{itemize}
-        \item If the predictions break, I’ll revisit my definitions and axioms.
-        \item I’ll aim to find deeper invariants, or maybe redefine what a “capability” even is.
-        \item The process loops: definition → axiom → prediction → test → refinement.
-    \end{itemize}
-\end{enumerate}
+If successful, such a framework would stand to deep learning as thermodynamics once stood to statistical physics—a higher-level, invariant description of phenomena that remain stable under the details of implementation. It would transform the mystery of emergent behavior from a narrative about surprising model behavior into a structured mathematical question: what properties of the learning system’s space force emergence to occur?
 
-\subsection{Why This Matters}
-This isn’t just about LLMs or transformers. If successful, this theory could:
+\subsection{Structural Formalization of Emergent Capabilities}
+To move from intuition to formalism, we must identify the mathematical objects that constitute the domain of emergence. A theory of learning systems cannot rely on empirical definitions—such as architectures, datasets, or optimizers—whose meanings shift across experiments. Instead, it must abstract these into entities that admit continuity, convergence, and invariance: the basic ingredients of any axiomatic science.
 
-´\begin{itemize}
-    \item Give us universal scaling laws for intelligence
-    \item Predict when a new model will suddenly gain a powerful new ability
-    \item Serve as the mathematical backbone of AI system design
-    \item Possibly generalize to non-neural learning systems (e.g., biological, hybrid systems)
-    \item Lay groundwork for a future theory of computational cognition
-\end{itemize}
+The central insight guiding this work is that a learning system can be treated as a point in a structured space. We begin by defining the data domain $\Omega$ (the statistical source of observations) and a procedure $P$ (the specification of how models are built and trained). Each carries a natural topology: the weak topology on distributions for data, and a product topology on hyperparameters and algorithms for recipes. Their product forms the learning space
+\[
+\mathcal S=(\Omega, \tau_\Omega) \times (\mathcal P , \tau_\mathcal P),
+\]
+so that a specific learning system is represented as a point $S=(\Omega, P)$ in this topological space. This abstraction allows us to speak rigorously about neighborhoods of similar systems, continuity of transformations between them, and convergence under scaling.
+
+Scaling itself is expressed through a resource vector
+ \[
+ R\in \R^d_{>0},
+ \]
+whose coordinates correspond to tokens, parameters, compute, or other measurable resources. These live in a Euclidean topology and are often studied through smooth feature maps $\psi(R)=(\log R_1,\dots, \log R_d)$ that linearize multiplicative scaling effects. Thus, changing a model’s scale corresponds to following a path through resource space.
+
+Training introduces stochasticity, which we represent as a Markov kernel
+\[
+K:\mathcal S \times \R^d_{>0} \to \mathcal P (\Theta),
+\]
+mapping each system–resource pair to a probability distribution over trained states $\theta\in\Theta$. This captures the randomness of initialization, data shuffling, and noise during optimization, ensuring that the theory reasons about distributions of outcomes rather than single training runs.
+
+Each trained state $\theta$ induces a predictor map
+\[
+\Pi_\theta :\mathcal X \to \mathcal P(\mathcal Y),
+\]
+
+assigning to every input a distribution over outputs—encapsulating the model’s belief structure. A capability is then defined as a task–utility pair $\Phi= (T_\Phi, U_\Phi)$ that measures how effectively these predictions align with ground truth. Averaging over the stochasticity of training yields the seed-averaged capability
+
+\[
+m_\Phi(S,R)=\E _{\theta\sim K(S,R)} [M_\Phi(\theta)],
+\]
+which serves as the order parameter of the theory: a continuous function over system and resource space quantifying performance under scaling.
+
+Within this formalism, the role of the forthcoming axioms is to specify invariant relations that $m_\Phi(S,R)$ must satisfy—continuity, monotonicity, universality, and representability—under broad structural conditions. These axioms mirror the regularities observed empirically in large models but express them in a coordinate-free, topological language.
+
+Conceptually, this construction parallels the unifying philosophy of Geometric Deep Learning \citep{bronstein2021geometric}: where GDL describes inductive bias through invariance under symmetry groups, we describe emergence through invariance under scaling transformations. The difference is one of ontology: GDL assumes a given group action on data; this framework asks what minimal structure forces such order to appear spontaneously.
+
+The resulting formal setting—topological learning spaces, resource manifolds, stochastic training kernels, and continuous capability maps—constitutes the mathematical substrate upon which the axioms of emergence are stated. It provides the precise language in which empirical phenomena like “sharp transitions” and “universality curves” can be reformulated as theorems.
+
+\subsection{Structure and Validation}
+The remainder of this work is organized to translate the conceptual program above into a coherent mathematical and empirical framework.
+
+In Chapter 2, The Domain of Emergence Theory, we formalize the mathematical objects on which the theory rests. We define learning systems as points in a product topological space of the data domain and a "procedure", formalize resources as positive vectors controlling scale, and describe the stochastic nature of training through a Markov kernel mapping systems and resources to distributions over trained states. This yields the central functional $m_\Phi(S,R)$—the seed-averaged capability—that serves as the quantitative order parameter of emergence.
+
+In Chapter 3, Axiomatizing Emergence, we introduce the axioms governing this functional. The first layer of structural axioms ensures that the theory is well-posed: the necessary topological and measure-theoretic regularity conditions under which continuity, measurability, and convergence hold. Upon this substrate, the axioms of emergence (A1–A6) specify the invariant relations that empirical scaling phenomena appear to obey—representability, universality, monotonicity, and local continuity—culminating in a one-dimensional representation theorem that expresses emergent capability as a universal scaling curve.
+
+Chapter 4 develops the theoretical consequences of these axioms, establishing that under the stated conditions, any continuous measure of capability must locally collapse onto a single effective resource axis. This result links the formal structure of the theory to the empirical scaling laws observed in large models.
+
+Finally, Chapters 5–6 test the framework empirically. Rather than treating experiments as mere illustrations, they are designed as falsification attempts—systematic efforts to locate the boundaries where the axioms fail. Each experiment, from toy tasks such as modular addition and parity to larger synthetic setups, probes a different aspect of the axioms: monotonicity, continuity, universality, and representability. This approach reflects the central epistemic stance of the theory: that mathematical structure gains meaning only through its ability to withstand empirical refutation.
+
+The overall aim is therefore twofold. First, to propose a unified formal substrate for studying capability emergence in learning systems—independent of architecture, modality, or optimization details. Second, to establish a research program in which scaling phenomena become not just observations but mathematical consequences of a small, testable set of principles. By grounding the study of emergence in falsifiable structure, this work seeks to transform a descriptive mystery of modern AI into a mathematically rigorous, predictive science.
 
 \section{The Domain of Emergence Theory}
 
-We first need to clearly state the domain of our theory and answer questions like:
+To construct a mathematical theory, one must first delineate its domain of discourse—that is, the class of objects the theory concerns.
 
-\begin{itemize}
-    \item What are the objects of our theory?
-    \item What are the resources being scaled?
-    \item How do we measure the “emergent capability
-    \item What is the scope of the theory?
-\end{itemize}
+The purpose of this chapter is to define these foundational objects and relations, establishing a precise mathematical setting in which the phenomena of emergence can be studied. This includes specifying what constitutes a learning system, what resources are subject to scaling, and how we quantify emergent capability.
 
-The most important definition is the one about the learning systems. To be able to rigorously study emergent structures, we need to step away from the experimental notions of neural networks, Transformer architectures, etc., Instead, we need to find a mathematical abstraction at the perfect balance between usability and generality.
+The formal ingredients introduced here are conceptually parallel to those used in \textit{Geometric Deep Learning} \citet{bronstein2021geometric}: domains, symmetries, signals, and mappings. Yet our formulation departs from specific architectures, framing these ingredients in a level of abstraction sufficient to encompass \textit{any} learning system.
 
-\subsection{Learning Systems And Recipes--What We Are Modeling}
+This generality is essential. Although the motivating examples arise from neural networks, the goal is not to describe particular architectures but to identify structural invariants—mathematical properties that remain stable across scales, models, and modalities.
 
-My goal is to understand and model a system that learns and becomes more and more intelligent as it gets scaled up. More formally, I want to mathematically model a Transformer that gets trained and with emergent abilities surfacing as resources like compute, number of parameters, and training tokens increases beyond a certain threshold. 
+At the center of this construction lies the notion of a learning system. To analyze emergence rigorously, we must transcend implementation details and instead define an abstract representation that balances expressive power with mathematical tractability.
 
-We will denote this learning system by $S$.
+\subsection{The Data Domain and Value Space}
 
-We will also define a recipe, denoted by the Greek letter, $\Xi$, which will include information about the way we construct these intelligent models.
+\begin{definition}[The Data Domain]\label{def:data-domain}
+    The \textit{data domain} $(\Omega, \tau_\Omega)$ is a topological space representing the set of possible inputs on which signals are defined. When equipped with a Borel $\sigma$-algebra $\mathscr B(\Omega)$ (\ref{app:borel}), it becomes a measurable space $(\Omega, \mathscr B(\Omega))$ (\ref{app:measurable-space}).
+\end{definition}
 
-The following is a specific case of a learning system. In the next section we will see the general definition of a learning system.
+$\Omega$ formalizes the "world" of observations. Each $\omega\in\Omega$ represents a point, node, or token. It plays the same role in GDL \citet{bronstein2021geometric} where signals live. 
 
-\begin{statementbox}{Example: Learning System}
+\begin{definition}{The Space of Data Domains}{}
+    It will occasionally be useful to talk about the \textit{space of data domains}, denoted $\mathcal D$. 
+\end{definition}
 
-Let $S$ denote the specific learning system and $\Xi$ the recipe, given by
+\begin{definition}[Value Space]\label{def:value-space}
+    The \textit{value space} $(\mathcal C, \tau_\mathcal C)$ is a topological vector space (\ref{app:tvs}). When equipped with a Borel $\sigma$-algebra $\mathscr B(\mathcal C)$ (\ref{app:borel}), it becomes a measurable space $(\mathcal C, \mathscr B(\mathcal C))$ (\ref{app:measurable-space}).
+\end{definition}
 
+The value space $\mathcal C$ is an arbitrary topological vector space (often finite-dimensional, but may be non-linear, discrete, or manifold-valued). It encodes what kind of quantity the signal represents, which could be intensities, labels, features, probability distributions, etc.
+
+In \citet{bronstein2021geometric}, $\mathcal C$ is called the \textit{channel} or \textit{feature} space. Here, the word \textit{value} space is used since it matches the level of abstraction we are after.
+
+\subsection{Signals and The Signal Space}
+
+\begin{definition}[Signals]\label{def:signals}
+    A \textit{signal} is a measurable map (\ref{app:measurable-map})
+    \[
+    x:\Omega\to \mathcal C
+    \]
+    mapping each element of a domain $\Omega$ to an element of a \textit{value space} $\mathcal C$.
+\end{definition}
+
+Intuitively, all we are saying is that $x$ takes elements of "data domain" $\Omega$ (to be defined) and maps them to elements of the value space $\mathcal C$.
+
+Machine learning is about estimating functions. The set-up is that we have some data consisting of $n$ samples/observations $\{(x_i,y_i)\}^N _{i=1}$ independent and identically distributed from the data distribution defined over the product space of the input- and output domain $\mathcal X\times \mathcal Y$
+
+\begin{definition}{The Signal Space}{}
+    Given $\Omega$ and $\mathcal C$, define the space of signals
+    \[
+    \mathcal X(\Omega,\mathcal C)=\{ x:\Omega\to \mathcal C \mid x \text{ is measurable and } \|x\|<\infty \}
+    \]
+\end{definition}
+
+As noted in \citet{bronstein2021geometric}, if $\mathcal C = \R^n$ and $\mu$ is finite, this is the Hilbert space $L^2 (\Omega, \mu ;\R^n)$ with inner product defined as:
 \[
-S :=  (D,\mathcal L,A,\rho,\iota,F),\quad \Xi:= (\mathcal L,A,\rho,\iota,F)
+\langle x,y\rangle = \int_\Omega \langle x ( \omega ) , y(\omega)\rangle_\mathcal C\ d\mu ( \omega)
 \]
 
-where:
+Intuitively, $\mathcal X $ is the formal object we will later apply operators to. It's where training and inference act.
 
-\begin{itemize}
-    \item $D\in \mathcal D$ is a subset of probability measures $\mathcal D$, and represents the data-generating process (training distribution and sampling scheme),
+\subsection{Symmetries and Group Actions}
 
-    \item $\mathcal L$ is the per-example loss (e.g., cross-entropy),
-    \item $A$ is the training algorithm incl. schedule (optimizer family + LR/BS schedules),
-    \item $\rho$ is regularization (weight decay, dropout, augmentations),
-    \item $\iota$ is the initialization distribution,
-    \item $F$ is the model architecture family.
-    
-\end{itemize}
+To talk about invariants and inductive bias we need to formally define the notion of symmetry. 
 
-\end{statementbox}
+\begin{definition}{Symmetry Group}{}
+    A symmetry group (\ref{app:groups}) $G$ acts on $\Omega$ via homeomorphisms $g:\Omega\to \Omega$ preserving structure:
+    \[
+    (g\cdot x)(\omega)=x(g^{-1} \omega)
+    \]
+    $G$ encodes equivalence transformations of the domain
+\end{definition}
+
+This will be of great importance when questioning whether such a $G$ must exist for all learning systems.
+ 
+\subsection{Procedure and Learning Systems}
+
+The problem with a specific definition of a learning system is that it is not generalizable; deep learning systems vary a lot and much of the field is experimental so naturally a specific model would just be a tiny fraction of possible models. This is the motivation for defining a more abstract and general framework for mathematically reasoning about AI models, the cornerstone of which is the definition of a learning system $S$.
+
+\begin{definition}[Procedure Space]\label{def:procedures}
+The procedure space $(P,\tau_P)$ is a Hausdorff topological space whose elements 
+encode model architectures, optimization hyperparameters, parameter initializations, 
+and other controllable training choices.
+\end{definition}
+
+\begin{definition}[Learning System]\label{def:learning-system}
+A learning system is a pair $S = (D,P)$ consisting of a data domain $D$ and a 
+procedure $P$. The space of learning systems is the product topological space
+\[
+\mathcal S = \Omega \times P, \qquad \tau_\mathcal S = \tau_\Omega \times \tau_P.
+\]
+\end{definition}
+
+This asserts that both domains (data) and procedures (algorithms, architectures, optimizers, etc.) have a notion of closeness or continuity, and that the joint space of systems inherits a product topology. It’s the foundation for all later continuity and measurability statements.
+
+It’s empirically neutral and doesn’t assert any scaling behavior or monotonicity.
+
+Intuitively, all we are saying is that the different ways we might create our end-model all live in the same abstract topological space $\mathcal P$. Moreover, in the case of modern deep learning, a procedure $P$ is usually itself a longer tuple with each component equipped with its own natural topology, making $\mathcal P$ into a topological product space (\ref{app:product-topologies}). 
+
+The procedure simply includes information about the way intelligent models are constructed.
 
 When we later say that “a capability emerges in $S$” we must be referring to a particular class of systems—a particular class of $S$. It is only then we can ask questions like “how does this behavior generalize over multiple $S$?” which will be a very important wonders to explore.
 
-I will now begin generalizing this notion of a learning system and show how we will define $S$ as a point in a certain topological space.
+With topology,  the idea of “two systems are similar” becomes precise via neighborhoods and metrics. Topology could yield the formal language for talking about sequences of models, limits, continuity, convergence, and so on. 
 
-\subsubsection{Topologizing The Learning System}
-Now, the problem with a specific definition of $S$ (like the one provided above) is that it is not generalizable; deep learning systems vary a lot and much of the field is experimental so naturally this specific $S$ would just be a tiny fraction of possible models. This is the motivation for defining a more abstract and general framework for mathematically reasoning about AI models.  
+Before we move on, we dedicate the next section to exemplify this fundamental abstraction. I will take our specific learning system we defined earlier, and define the topologies for each each space. This will get a bit theoretical but will hopefully strengthen the validity of this axiom.
 
-\begin{statementbox}{Definition: Recipe}
+\subsubsection{Philosophical Note on the Topologization of AI Models}
 
-The \textit{space of recipes} is a topological space $(\mathcal X , \tau_{\mathcal X})$ with underlying set $\mathcal X$ and topology $\tau _\mathcal X$.
-
-Then, a \textit{recipe} is simply a point in the topological space $\Xi\in \mathcal X$.
-
-\end{statementbox}
-
-Intuitively, all we are saying is that the different ways we might create our end-model all live in the same topological space $\mathcal X$. 
-
-Moreover, in the case of modern deep learning, a recipe $\Xi$ is usually itself a longer tuple with each component equipped with its own natural topology, making $\mathcal X$ into a topological product space. 
-
-We do the same with the learning system:
-
-\begin{statementbox}{Definition: Learning System}
-
-Let $(\mathcal D, \tau_D)$ be a topological space of data-generating processes and $(\mathcal X, \tau_\mathcal X)$ a recipe space.
-
-We define the \textit{space of learning systems} as the product topological space
-
+At first glance, representing a learning system as a tuple 
 \[
-\mathcal S=(S,\tau_\mathcal S)=(\mathcal D , \tau_D)\times (\mathcal X, \tau_\mathcal X).
+S=(\Omega, P)
 \]
+where the procedure $P$ contains objects such as architectures, optimizers, losses, and initialization schemes, may appear unconventional. Treating such a tuple as a point in a topological space forces us to ask: what kind of mathematical object is this?
 
-Then, a \textit{learning system} is a point $S=(D,\Xi)\in \mathcal S$.
+This abstraction, however, mirrors the foundational moves in several mature fields. In probability theory, a “random variable” is not a variable but a measurable mapping (\ref{app:}). In category theory, a “category” is a highly structured tuple treated as a point in Cat (\ref{app:}). In geometric deep learning, a graph neural network is treated as a point in a space of equivariant signal processors (\ref{app:}). In statistical mechanics, a spin configuration is a giant tuple in a product topology (\ref{app:}).
 
-\end{statementbox}
+Throughout history, complex, heterogeneous objects gain mathematical coherence once embedded into a topological or measurable space. 
 
-Anchor: So a learning space is a data distribution + recipe, modeled as a point in a product topological space.
+Here, the learning system is not a specific model but a design specification. Once placed inside a topological structure, continuity of training, representability, and scaling become well-defined as we ought see. This abstraction is precisely what allows the theory to state and prove general laws of emergence that remain valid across architectures, optimizers, and data modalities.
 
-Lastly, as you might have already thought, this definition of a learning system is indeed an axiom. I assume that everything we put into the recipe can form its topological space. We will state this axiom more formally once we get there.
+\subsubsection{Example of a Learning System—The Canonical Learning Space Topology}
 
-However, by imposing this axiom, we can apply the theory of topology to our learning systems. With topology, we can make the idea of “two systems are similar” precise via neighborhoods and metrics. This will come in handy later on in our axioms. Topology could give us the formal language for talking about sequences of models, limits, continuity, convergence, and so on. When we later define what we mean by a “capability” we can also use topology to look at threshold sets and boundaries of emergence.
-
-Before we move on, I will dedicate the next section to exemplify this abstraction. I will take our specific learning system we defined earlier, and define the topologies for each each space. This will get a bit theoretical but will hopefully strengthen the validity of this axiom.
-
-\subsection{Example of a Learning System—The Canonical Learning Space Topology}
-
-Going back to our old example where $\Xi=(\mathcal L, A, \rho, \iota, F)$, I will now propose some natural topologies for their respective topological space. In this example:
+Going back to our old example where $P=(\mathcal L, A, \rho, \iota, F)$, I will now propose some natural topologies for their respective topological space. In this example:
 
 \begin{itemize}
     \item $(\mathcal L, \tau_{\mathcal L})$: per-example loss space,
@@ -244,10 +479,8 @@ Going back to our old example where $\Xi=(\mathcal L, A, \rho, \iota, F)$, I wil
 \end{itemize}
 so:
 \[
-\mathcal S = (\mathcal D, \tau_D)\times (\mathcal L, \tau_{\mathcal L}) \times (A,\tau_A) \times (\rho,\tau_\rho) \times (\iota,\tau_\iota) \times (F,\tau_F).
+\mathcal S = (\Omega, \tau_\Omega)\times (\mathcal L, \tau_{\mathcal L}) \times (A,\tau_A) \times (\rho,\tau_\rho) \times (\iota,\tau_\iota) \times (F,\tau_F).
 \]
-
-\subsubsection{Data-generating process $(\mathcal D, \tau_D)$}
 
 Suppose $(X,d)$ is a metric space (e.g. sequences, tokens, or $\mathbb R^n$). Let $\mathcal P(X)$ denote the set of Borel probability measures on $X$. To treat data-generating processes as mathematical objects, we must equip $\mathcal P(X)$ with a topology, i.e. a notion of convergence of distributions.
 
@@ -264,25 +497,19 @@ where $C_b(X)$ denotes the space of bounded continuous functions on $X$.
 
 This topology is standard in probability theory and stats. It expresses the idea that probability measures are close whenever they yield similar expectations for all continuous observables. In particular, weak convergence formalizes the intuition that empirical distributions converge to the true data distribution as sample size grows.
 
-\subsubsection{Loss functions $(\mathcal L, \tau_\mathcal L)$}
-
 $\mathcal L$ is the set of per-example losses, which we treat as measurable functions $\ell: Y \times \hat{Y} \to \mathbb R_{\geq 0}$.
 
 \textbf{Topology $\tau_\mathcal L$:} Uniform convergence on compact sets, or the $L^p$-topology with respect to the data distribution $D$.
 
 Losses are functionals. Their behavior is stable if they converge uniformly. This makes the risk functional $\mathbb E_D[\ell]$ continuous.
 
-\subsubsection{Training algorithms $(A, \tau_A)$}
-
 $A$ is the set of algorithms mapping data with parameters and output updated parameters.
 
-We can think of each algorithm as a map $T: \Theta \times \mathcal D \to \Theta$, where $\Theta$ is the parameter space.
+We can think of each algorithm as a map $T: \Theta \times \Omega \to \Theta$, where $\Theta$ is the parameter space.
 
 \textbf{Topology $\tau_A$:} compact-open topology (standard for function spaces), or equivalently pointwise convergence on compacts.
 
 It ensures “if two optimizers are close, then their parameter updates are close on compact sets of inputs.”
-
-\subsubsection{Regularization $(\rho, \tau_\rho)$}
 
 $\rho$ are maps or functionals modifying training dynamics (e.g. penalties, dropout distributions, augmentations).
 
@@ -292,15 +519,11 @@ These are again functions/transformations.
 
 It ensures stability under small changes in the regularization scheme.
 
-\subsubsection{Initialization distributions $(\iota, \tau_\iota)$}
-
 $\iota$ is a probability measure on the parameter space $\Theta$.
 
 \textbf{Topology $\tau_\iota$:} weak topology on probability measures (same as for data $D$).
 
 Initialization schemes are compared by the limiting distribution of parameter samples.
-
-\subsubsection{Architecture families $(F, \tau_F)$}
 
 $F$ is the set of model architectures, thought of as families of functions $f_\theta:  X \to Y$parameterized by $\theta \in \Theta$.
 
@@ -308,42 +531,192 @@ $F$ is the set of model architectures, thought of as families of functions $f_\t
 
 Architectures are function classes; topologies of function spaces are standard here. Uniform-on-compacts is natural for deep learning since inputs are usually bounded sequences.
 
-\subsection{The Recipe-Local Neighborhood}
+\subsection{Resources}
 
-To say speak of ”nearness” between learning systems’ recipes, later on in our axioms we need to define a certain “Learning Space Neighborhood” This is what we will do now.
+Our central question revolves around explaining the general conditions under which a
+learning system acquires new capabilities as resources increase. Thus, the construction 
+of "resources" in this theory is of great importance.
+
+\subsubsection{The Resource Base}
+
+In studying emergence, we need a space that captures how much of each measurable 
+quantity a learning system consumes or possesses (data, compute, parameters, 
+optimization steps, etc.). This space must let us:
+\begin{enumerate}
+    \item compare two configurations (“does system A have more resources than B?”),
+    \item combine resources when they accumulate (“training with both datasets is like adding their sizes”), and
+    \item vary resources continuously to study scaling limits and local neighborhoods.
+\end{enumerate}
+
+These requirements naturally lead to an algebraic–topological structure with an order 
+$\preceq$ to express "no less than," a binary operation $\oplus$ to express accumulation, 
+an identity element $0$ representing “no resource,” and a topology $\tau_\mathcal R$ to 
+express smooth change and convergence. Together these define what we call the resource base.
+
+Elements of $\mathcal R$ represent specific configurations of measurable resources 
+allocated to a learning system (e.g. training tokens, model parameters, or optimization 
+steps). We write $R\in \mathcal R$.
+
+We require an operation $\oplus:\mathcal R \times \mathcal R \to \mathcal R$ that 
+combines two resource allocations into a joint one:
+\[
+(R_1,R_2)\mapsto R_3.
+\]
+Intuitively, $R_1\oplus R_2=R_3$ just means that we are using $R_1$ and $R_2$ together 
+as $R_3$. 
+
+\begin{definition}[Resource Base]\label{def:resource-base}
+The resource base is a topological ordered commutative monoid
+\[
+(\mathcal R,\oplus,0,\preceq,\tau_\mathcal R)
+\]
+satisfying:
+\begin{enumerate}
+    \item $(\mathcal R,\oplus,0)$ is a commutative monoid,
+    \item $(\mathcal R,\preceq)$ is a closed partial order,
+    \item $\oplus$ is monotone in each argument with respect to $\preceq$,
+    \item $\tau_\mathcal R$ is Hausdorff and makes $\oplus$ and the order relation continuous.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Resource Order]\label{def:resource-order}
+    A \textit{resource order} is a partial order $\preceq$ on $\mathcal R$ compatible 
+    with $\oplus$, meaning that
+    \[
+    R_1 \preceq R_2 \ \Rightarrow\ R_1 \oplus R_3 \preceq R_2 \oplus R_3,
+    \]
+    for all $R_1,R_2,R_3\in\mathcal R$.
+\end{definition}
+
+"$R_1\preceq R_2$" reads intuitively as "$R_2$ provides at least as much of every 
+resource as $R_1$."
+
+\begin{definition}[Resource Topology]\label{def:resource-topology}
+    A \textit{resource topology} $\tau_\mathcal R$ on $\mathcal R$ is a Hausdorff 
+    topology making $\oplus$ continuous:
+    \[
+    (R_1,R_2)\mapsto R_1\oplus R_2
+    \quad\text{is continuous on}\quad
+    (\mathcal R\times\mathcal R,\tau_\mathcal R\times\tau_\mathcal R).
+    \]
+\end{definition}
+
+The topology encodes smooth variation of resources and enables defining limits, 
+continuity, and neighborhoods in $\mathcal R$.
+
+A resource base is to learning systems what a geometric domain is to signals: an 
+abstract set where composition, comparison, and continuity are defined. The formalism 
+requires only that resources can be composed, compared, and varied continuously. The 
+Euclidean model $\R^d_{>0}$ serves as a concrete instantiation but is not assumed 
+axiomatically.
+
+In practical machine learning, a training run can be characterized by measurable 
+quantities such as tokens processed, parameter count, optimizer steps, FLOP compute, 
+and dataset size. Let us denote such quantities collectively by the vector
+\[
+R=(R_\text{data}, R_\text{params}, R_\text{steps}, R_\text{compute},\dots)\in \R^d_{>0}.
+\]
+Then the tuple 
+\[
+(\mathcal R, \oplus, 0 ,\preceq , \tau_\mathcal R)
+    =(\R^d_{>0},+,0,\le,\tau_\text{Euclidean})
+\]
+forms a resource base. The operation $R_1\oplus R_2=R_1+R_2$ corresponds to combining 
+independent training runs or budgets, the order $R_1\preceq R_2$ holds when every 
+resource component of $R_1$ does not exceed that of $R_2$, and the topology is the 
+standard Euclidean one, ensuring that small changes of resources produce continuous 
+changes in system behavior. 
+
+Under this model, a sequence $(R_n)$ with $R_n\to R_\infty$ captures the notion of 
+"scaling up" a training configuration continuously, and the study of emergent 
+capabilities can be expressed as limits of expected capability (to be defined) over 
+such sequences or neighborhoods in $\mathcal R$.
+
+\subsubsection{Feature Maps And Resource Directions}
+
+Before we define what we mean by a feature map $\psi$ and a "direction" $\alpha$ in a resource base, we clarify each conceptually: The feature map $\psi$ provides \textit{coordinates} for resources in the relevant resource base. It is how we turn abstract elements $R\in \mathcal R$ into numerical representations that can enter analytic expressions. It is simply a convenient embedding into a familiar space where one can do geometry and analysis. The "direction" $\alpha$ then specifies which "axis" of this coordinate system corresponds to \textit{effective scaling}, i.e., the dimension along which capability transitions occur. Formally, it's not necessarily a Euclidean vector, but an element of the dual space to wherever $\psi$ maps.
+
+
+\begin{definition}[Feature Map]\label{def:feature-map}
+    Let $(\mathcal R, \oplus, 0, \preceq, \tau_\mathcal R)$ be a resource base.  
+    A \textit{feature map} is a continuous, injective monoid homomorphism
+    \[
+    \psi:\mathcal R \to \mathbb R^k
+    \]
+    satisfying:
+    \begin{enumerate}
+        \item $\psi(0)=0$,
+        \item $\psi(R_1\oplus R_2)=\psi(R_1)+\psi(R_2)$,
+        \item $R_1\preceq R_2 \iff \psi(R_1)\le \psi(R_2)$ coordinate-wise.
+    \end{enumerate}
+    The image $\psi(\mathcal R)\subseteq\mathbb R^k$ defines a concrete Euclidean realization of the abstract resource base.
+\end{definition}
+
+Intuitively, $\psi$ embeds the abstract resource base structure into Euclidean coordinates that respect combination, ordering, and continuity.
+
+In the canonical case $\mathcal R = \R^d_{>0}$, $\psi(R)=\log R$ is a typical choice, mapping multiplicative scaling to additive coordinates.
+
+\begin{definition}{The Effective Direction}
+    Given a feautre map $\psi:\mathcal R \to \R^k$, an \textit{effective direction} $\alpha$ is a nonzero element 
+    \[
+    \alpha\in (\R^k)^*
+    \]
+    of the dual space, representing a functional that projects resource embeddings onto an \textit{effective-resource axis}:
+    \[
+    s(R):= \alpha(\psi(r))=\alpha^\top \psi(R)
+    \]
+\end{definition}
+
+Only the direction of $\alpha$ matters, not its magnitude; scalar multiples are considered equivalent. Intuitively, $\alpha$ defines how the combination of tokens, parameters, and compute collapse into a single "effective scale" variable--the axis along which emergence curves are aligned.
+
+\subsubsection{Resource Equivalence}
+
+\begin{definition}[Capability Equivalence of Resources]\label{def:cap-equiv}
+For a fixed state $S$, define an equivalence relation on resources by
+\[
+    R \sim R'
+    \quad\Longleftrightarrow\quad
+    m_\Phi(S,R)=m_\Phi(S,R').
+\]
+The equivalence classes of $\sim_{\rm cap}$ are the iso-capability sets.
+\end{definition}
+
+\subsection{The procedure-Local Neighborhood}
+
+We want to define a metric space (or at least a topological space) of learning systems, so that when we later talk about continuity of the training kernel, predictor map, and expected capability, it all has rigorous meaning. The objects of this space are, as defined, $S=(\Omega,P)$ where $\Omega\in \mathcal D $ is a data domain and $P\in \mathcal P$ is a procedure. The learning space is the product space $\mathcal S =\mathcal D \times \mathcal P$, and to give it a topology, we define two metrics: The data distance $d_\mathcal D$ on $\mathcal D$ and the procedure distance $d_\mathcal P$ on $\mathcal P$. Then we can form the combined neighborhood basis:
+\[
+U(S;\epsilon_\mathcal D, \epsilon_\mathcal P ) = B_{d_\mathcal D}(\Omega; \epsilon_D) \times B_{d_\mathcal P}(P;\epsilon_\mathcal P)
+\]
 
 \subsubsection{The Data Distance}
 
-To clearly define this neighborhood, we will need a couple of metrics, starting off with the data distance.
+Following \citet{bronstein2021geometric}, we import the definition of a data-domain distance. Their framework provides a mathematically grounded way to measure similarity between data domains that may have very different underlying structures—graphs, manifolds, or Euclidean grids—through the geometry of their metric spaces. This notion of distance is essential for our purposes since it gives a rigorous meaning to statements such as “two learning systems are trained on similar domains,” and it allows us to define neighborhoods, continuity, and convergence in the learning-space topology introduced later.
 
-\begin{statementbox}{Definition: The Data Distance}
-
-Let $(\mathcal Z,d_\mathcal Z)$ be a Polish sample space (i.e., a topological space that is separable and completely metrizable). Fix $p\ge 1$ and define
-
+\begin{definition}{The Data Distance}{}
+Let $\mathcal D$ be the set of admissible data domains. For $\Omega,\Omega'\in \mathcal D$, define:
 \[
-\mathcal D := \mathcal P_P(\mathcal Z)\\=\left\{
-D:\text{Borel probability on }\mathcal Z \text{ with } \int d_\mathcal Z (z,z_0)^pD(dz)<\infty
-\right\}
+d_\mathcal D(\Omega, \Omega' ):= \inf_{\eta\in G} \|d_\Omega - d_{\Omega'} \circ ( \eta\times \eta) \|,
 \]
+where $G\subseteq \text{Bij}(\Omega,\Omega')$ is a group of admissible transformations and $\|\cdot \|$ is an appropriate functional norm.
+\end{definition}
 
-Equip $\mathcal D$ with the Wasserstein metric $W_p$. This induces the topology $\tau_D$. Then, our \textit{data distance} as
+The concrete form of $d_\mathcal D$ depends on the nature of the domains in $\mathcal D$:
+\begin{itemize}
+    \item \textbf{Graphs:} When each domain $\Omega$ is a graph $G=(V,E)$, a natural metric is the graph edit distance, defined as the minimum number of edge or vertex modifications needed to transform $G$ into $G'$. This captures structural similarity between relational datasets.
+    
+    \item \textbf{Manifolds:} When domains are smooth manifolds endowed with Riemannian metrics $\Omega$, one typically uses the Gromov–Hausdorff distance to compare them, which measures the smallest distortion required to make their pairwise point-to-point distances coincide under some correspondence.
+    
+    \item \textbf{Euclidean datasets:} For domains embedded in $\R^n$ (e.g., text token sequences or image grids), a convenient choice is the Wasserstein distance between the corresponding empirical measures—an optimal-transport formulation that quantifies how much “mass” must move to morph one data distribution into another.
+\end{itemize}
 
-\[
-d_D(D,D'):= W_p(D,D')
-\]
+\subsubsection{The Procedure Distance}
 
-where $D,D'\in \mathcal D$
+Unlike the data domain $\Omega$, the space of procedures $\mathcal P$ (training algorithms, optimization schedules, hyperparameters, etc.) lacks a single canonical geometry. Some procedure attributes like optimizer type or normalization layers are categorical: they identify qualitatively distinct regimes that cannot be continuously deformed into another. Other attributes like learning rate, weight decay, dropout rate, or initialization scale are continuous and admit smooth variation. 
 
-\end{statementbox}
-
-\subsubsection{The Recipe Distance}
-
-Next, we move on to the recipe distance, which, as it sounds, will help measuring the “distance” between different recipes in $(\mathcal X, \tau_\mathcal X)$.
-
-First, we need to split categorical vs. continuous parts of $\phi_\Xi$. Here are a few examples of what I mean with “categorical features” and “continues features”:
+To define a meaningful notion of "closeness" between two procedures, we therefore decompose each procedure $P\in \mathcal P$ into a categorical component $c(P)\in C$ and a continuous hyperparameter vector $h(P)\in \R^p$. The set $C$ is given the discrete topology, reflecting that distinct categorical configurations are separated by finite distance, while $\R^p$ carries the Euclidean topology, allowing infinitesimal perturbations in continuous hyperparameters.
 
 \begin{itemize}
-    \item \textbf{Categorical features $c(\Xi)$} (one-hot or simple labels): \begin{itemize}
+    \item \textbf{Categorical features $c(P)$} (one-hot or simple labels): \begin{itemize}
         \item optimizer family (AdamW, SGD, Lion, …)
         \item schedule shape (cosine, linear, step, …)
         \item architecture family (attn-only, full transformer, conv-mixer, …)
@@ -351,7 +724,7 @@ First, we need to split categorical vs. continuous parts of $\phi_\Xi$. Here are
         \item normalization / activation (LayerNorm vs. RMSNorm; ReLU/GELU/SiLU)
         \item precision regime (bf16, fp8, 8-bit optimizers)
     \end{itemize}
-    \item \textbf{Continuous features $h(\Xi)$} (we use logs for positive scales): \begin{itemize}
+    \item \textbf{Continuous features $h(P)$} (we use logs for positive scales): \begin{itemize}
         \item $\log$ weight decay, dropout rate, label smoothing
         \item $\log $ init variance or fan-in scale
         \item optimizer hyperparams ($\beta_1$, $\beta_2$, $\epsilon$, $\alpha$), gradient clip
@@ -359,158 +732,77 @@ First, we need to split categorical vs. continuous parts of $\phi_\Xi$. Here are
     \end{itemize}
 \end{itemize}
 
-\begin{statementbox}{Definition: The Recipe Distance}
+To capture both continuous and categorical aspects of procedures, we define two complementary: a continuous part $d_\text{cont}$ that measures small perturbations in continuous hyperparameters, and a categorical part $d_\text{cat}$ that separates distinct procedural families into disconnected components. Their combination $d_\mathcal P =d_\text{cont}+d_\text{cat}$ induces the topology $\tau_\mathcal P$ whose basic open sets correspond to tolerance-weighted Euclidean neighborhoods within each categorical class.
 
-Let $C$ be the set of categorical features. Give $C$ the discrete topology. 
+\begin{definition}{The procedure Distance}{}
 
-Secondly, let $h:\Xi \to \mathbb R^p$ be the vector of continuous hyperparameters in log-coordinates. Give $\mathbb R^p$ the Euclidian topology. Then, define $\phi:\Xi \to C\times \mathbb R^p$ by
+ Let $\mathcal P$ denote the space of procedures, each of which can be represented by a combination of a categorical feature vector $c(P)\in C$ and a continuous hyperparameter vector $h(P)\in \R^p$. Equip $C$ with a metric $d_C :C\times C \to [0,\infty]$ and $\R^p$ with the Euclidean metric weighted by a positive diagonal matrix $W=\text{diag}(1/\tau_1 , \dots,1/\tau_p)$ where each $\tau_j>0$. Define continuous respectively categorical distances as
+ \[
+    d_\text{cont}(P,P'):= \|W(h(P)-h(P'))\|_2
+ \]
+ \[
+ d_\text{cat}(P,P'):=\begin{cases}
+     0,&c(P)=c(P')\\
+     \infty , & c(P)\ne c(P')
+ \end{cases}
+ \]
+ Then, the \textit{procedure distance} is defined as
+ \[
+ d_\mathcal P ( P,P'):= d_\text{cont}(P,P')+d_\text{cat}(P,P')
+ \]
+\end{definition}
 
+For $\epsilon>0$, the open $\epsilon$-ball centered at $P$ is
 \[
-\phi(\Xi)=(c(\Xi),h(\Xi))
+B_{d_\mathcal P}(P;\epsilon)=\{P'\in \mathcal P : d_\mathcal P ( P,P')<\epsilon\}
 \]
+The collection of all such sets forms a neighborhood basis for the procedure topology $\tau_\mathcal P$.
 
-Define $\tau_\Xi$ to be the initial topology making $\phi$ continuous when $C\times \mathbb R^p$ has the product topology (discrete $\times $ Euclidian). Concretely, a basic neighborhood of $\Xi$ is
+The resulting distance function $d_\mathcal P$ assigns finite values only when two procedures share the same categorical configuration, measuring within-category proximity through a weighted Euclidean norm on $h$. When categories differ, the distance is infinite, corresponding to disconnected components of the space.
+This construction mirrors the intuition that small changes to hyperparameters represent minor procedural variations, whereas switching optimizer families or architectures constitutes an entirely new experimental regime.
 
-\[
-\{\,\Xi':\ c(\Xi')=c(\Xi)\ \text{and}\ \|W(h(\Xi')-h(\Xi))\|_2<\varepsilon_\Xi\,\},
-\]
-
-for some diagonal
-
-\[
-W=\text{diag}\!\left( \frac 1 {\tau_1} , \dots , \frac 1 {\tau_p}\right)\quad \text{and}\quad \epsilon_\Xi >0.
-\]
-
-The \textit{recipe distance} is defined as
-
-\[
-d_\Xi(\Xi,\Xi') :=
-\begin{cases}
-\|W(h(\Xi)-h(\Xi'))\|_2, \text{ and } c(\Xi)=c(\Xi')\\
-\infty, \text{ and } c(\Xi)\neq c(\Xi')
-\end{cases}
-\]
-
-where $d_\Xi(\Xi,\Xi')\in [0,\infty]$.
-
-\end{statementbox}
-
-This is an extended metric. Its open balls are exactly the sets above and they generate $\tau_\mathcal X$. Note that the choice of positive tolerances $\tau_j$ (i.e., diagonal $W$) does not change the topology. Also, log coordinates require positive parameters; if some hyperparameter can be zero, we might want to use $\log(\alpha+\cdot )$ with some tiny $\alpha>0$.
-
-Choose per-dimension tolerances $\tau_j>0$ that encode “how much change counts as small”
-
-\[
-d_{\text{cont}}(\Xi,\Xi') 
-:= \left\| W\,\big(h(\Xi)-h(\Xi')\big)\right\|_2,
-\quad W:=\mathrm{diag}\!\left(\frac{1}{\tau_1},\dots,\frac{1}{\tau_p}\right)
-\]
-
-So a change equal to one tolerance contributes $1$ along that coordinate. Now we can combine the two into one recipe distance,
-
-\[
-d_\Xi(\Xi,\Xi') :=
-\begin{cases}
-d_{\text{cont}}(\Xi,\Xi'),& \text{if } c(\Xi)=c(\Xi')\\
-\infty, &\text{otherwise}
-\end{cases}
-\]
+Intuitively, the weighting matrix $W$ is a metric tensor in disguise, defining how sensitive the distance is to perturbations in each hyperparameter dimension through a set of positive tolerances $\{\tau_j\}^p_{j=1}$. Each \textit{tolerence constant} $\tau_j>0$ specifies the scale of variation in $h_j$ that counts as "small," shaping the geometry of open neighborhoods in the procedure space without altering its topology. The smaller $\tau_j$ is, the more sensitive the metric is to variations in $h_j$ (a tiny deviation will already produce a large distance). The larger $\tau_j$ is, the less sensitive the metric is (even a big numerical change counts as a "small" perturbation.) These various $\tau_j$don’t change the topology (any positive scaling defines the same open sets), but they affect the geometry; the shape of open balls and how we quantify nearness in practice.
 
 \subsubsection{The Learning System Neighborhood}
 
-\begin{statementbox}{Definition: The Learning System (LS) Neighborhood}
+With the data domain distance and procedure distance defined, the LS neighborhood can be formalized.
 
-With the recipe and data distances defined, the LS neighborhood is exactly the basic open set:
+\begin{definition}{The Learning System (LS) Neighborhood}{}
+    Let $\mathcal S = \mathcal D \times \mathcal P$ be the learning system. For $S=(\Omega,P)\in \mathcal S$, define the basic neighborhood
+    \begin{align*}
+        U(S;\epsilon_\mathcal D, \epsilon_\mathcal P)&:=\{S'=(\Omega' ,P'):d_\mathcal D(\Omega,\Omega')<\epsilon _\mathcal D, d_\mathcal P ( P,P')<\epsilon_\mathcal P\}\\
+        &= B_{d_\mathcal D}(\Omega; \epsilon_D) \times B_{d_\mathcal P}(P;\epsilon_\mathcal P)
+    \end{align*}    
+\end{definition}
 
+\subsection{The Training Kernel}
+
+Having defined the structure of the learning space and the resource base, we now formalize the process that links them to trained model states. Training deep models is inherently stochastic: shuffling data, random initialization, dropout, augmentation noise. To reason about outcomes rigorously, we need to model training not as a deterministic function but as a stochastic bilinear map $\mathcal S \times \mathcal R\mapsto \text{trained model state}$. So for any given learning system $\mathcal S = (\Omega, P)$ and resource configuration $R\in \mathcal R$, the training process doesn't produce a single deterministic point in the parameter space, but a \textit{distribution} over trained states. That's exactly what a Markov kernel formalizes, where the input is deterministic and the output is a probability measure over possible parameter states. These parameter states live in the parameter space.
+
+\begin{definition}[Parameter Space]\label{def:paramspace}
+The parameter space $(\Theta,\tau_\Theta,\mathcal B(\Theta))$ is a Polish space 
+equipped with its Borel $\sigma$-algebra.
+\end{definition}
+
+We simply view $\Theta$ as the set of all trained states $\theta\in \Theta$ a procedure $P\in \mathcal P$ can can produce.   
+
+\begin{definition}[Training Kernel]\label{def:kernel}
+A training kernel is a Markov kernel
 \[
-\mathcal U(S)=\Bigl\{S'=(D',\Xi'):d_D(D,D')\le\varepsilon_D, d_\Xi(\Xi,\Xi')\le\varepsilon_\Xi\Bigr\}
-\\= B_{W_p}(D,\varepsilon_D)\times B_{d_\Xi}(\Xi,\varepsilon_\Xi)
+K : \mathcal S \times \mathcal R \longrightarrow \mathrm{Prob}(\Theta)
 \]
+such that:
+\begin{enumerate}
+    \item for each measurable $A \subseteq \Theta$, the map 
+    $(S,R)\mapsto K(S,R)(A)$ is measurable,
+    \item $K$ is weakly continuous in $(S,R)$ with respect to 
+    the product topology $\tau_\mathcal S\times\tau_\mathcal R$.
+\end{enumerate}
+\end{definition}
 
-So $\{\mathcal U (S;\epsilon_D,\epsilon_\Xi)\}$ is a neighborhood basis at $S$ in $\mathcal S$. 
 
-\end{statementbox}
+Intuitively, $K(S,R)$ represents the distribution over trained parameter states $\theta\in \Theta$ obtained by training learning system $S$ under resources $R$. It assigns to each $(S,R)$ a probability measure $K(S,R)$ over the parameter space $\Theta$. To talk about the continuity of this map, we must specify a topology on the space of probability measures. The weak topology is the natural choice because it captures what actually matters in learning: Two distributions over parameters are "close" if they give almost the same expectation for all bounded continuous observables.
 
-\subsubsection{Studying Learning Systems}
-
-With this $S$ we could you define equivalence classes of systems where different choices yield the same scaling laws. For example, two different systems, $S$ and $S'$, might belong to the same universality class for emergence under a specific capability.
-
-\subsection{Resources And The Feature Map}
-
-Linear algebra is arguably the core of LLMs. Thus, it makes sense for us to start exploring the treating of abstract concepts like ”resources,” as abstract vectors. We want to define this in the first place because it will allow us to theoretically understand how resources affect the learning system. In other words, this defines the independent variables that control our learning system $S$.
-
-\begin{statementbox}{Example: Resources}
-
-Let resources be a positive vector $R\in \mathbb R^d_{>0}$ with a feature map $\psi:\mathbb R^d_{>0}\to \mathbb R^d$, defined by
-
-\[
-\psi(R):=(\log R_1,\dots,\log R_d)\in \mathbb R^d
-\]
-
-For example, we might have $R=(N,P,T)$, where:
-\begin{itemize}
-    \item $N$ is the number of training tokens/examples,
-    \item $P$ is the number of parameters from $F$,
-    \item $T$ is the optimization budget (number of optimization steps or total FLOPs).
-\end{itemize}
-
-\end{statementbox}
-
-\subsubsection{Topologizing the Resource Vector--The Resource Space}
-
-\begin{statementbox}{Definition: Resources}
-    We define the \textit{resource space} as $\mathcal R=(\R^d_{>0}, \tau_{\R^d_{>0}})$ the set of positive vectors of dimension $d$ with standard Euclidean topology $\tau_{\R^d_{>0}}$.
-
-    When a feature map $\psi:\mathcal R \to \R^k$ is used, we take the pullback topology induced by $\psi$.
-\end{statementbox}
-
-Anchor: Resources are positive vectors (tokens, parameters, training steps) that we scale to study capability emergence in learning systems.
-
-This allows us to speak of neighborhoods of resource configurations, interior points of superlevel sets, and continuity of the capability map. 
-
-\subsection{The Training Map}
-
-Training deep models is inherently stochastic: shuffling data, random initialization, dropout, augmentation noise. To reason about outcomes rigorously, we need to model training not as a deterministic function but as a stochastic map from learning system + resources to trained states. Probability theory gives us the language to treat “random training outcomes” as distributions over parameters, rather than loose hand-waving.
-
-\begin{statementbox}{Definition: The Training Kernel}
-
-Define the stochastic training map as a Markov kernel
-
-\[
-K :\mathcal S \times \mathbb R^d_{>0} \longrightarrow B(\Theta)
-\]
-
-where for each system–resource pair $(S,R)$, the kernel $K(S,R)$ specifies a probability measure on the parameter space $\Theta$. Sampling $\theta\sim K(S,R)$ corresponds to training a model with system $S\in \mathcal S$ under resources $R\in \mathbb R^d_{>0}$, with all stochasticity folded into the randomness of $K$. Here:
-
-\begin{itemize}
-    \item $\Theta$ is the space of model states (like weight vectors of a neural net), typically equipped with the Borel Sigma-algebra from its ambient topological structure.
-    \item $B(\Theta)$ is the space of Borel probability measures on $\Theta$. Each elements of $B(\Theta)$ represents a distribution over trained states.
-    \item $K$ is a measurable assignment of probability distributions: for fixed $(S,R)$, $K(S,R)$ is a probability measure on $\Theta$; for measurable sets $B \subseteq \Theta$, the map $(S,R)\mapsto K(S,R)(B)$ is measurable.
-\end{itemize}
-
-\end{statementbox}
-
-Anchor: Training is stochastic, so we model it as a Markov kernel from learning system + resources to distributions over trained states.
-
-Equivalently, the kernel may be realized via a measurable map
-
-\[
-\text{Train}:\mathcal S \times \mathbb R^d_{>0} \times \Omega\longrightarrow \Theta
-\]
-
-defined on an underlying probability space $(\Omega, \mathbb P)$ of randomness sources such that
-
-\[
-K(S,R)=\mathbb P \circ \text{Train}(S,R,\omega)^{-1}
-\]
-
-where:
-\begin{itemize}
-    \item $(\Omega,\mathbb P)$ is an abstract probability space encoding all sources of randomness in training (seeds, noise, etc.).
-    \item $\text{Train}$ is the measurable training function that takes a system, a resource, and a randomness seed $\omega\in \Omega$ to a concrete trained state $\theta\in \Theta$.
-    \item $\mathbb P \circ \text{Train }(S,R,\omega)^{-1}$ is the induced distribution on parameters $\theta$ when randomness $\omega$ is sampled from $\mathbb P$.
-\end{itemize}
-
-Think of the training map as a dice roll conditioned on system $S$ and resources $R$. Sometimes you get a “good seed,” sometimes a bad one—but what matters mathematically is the distribution of possible trained states. By formalizing this randomness, we can later ask: do emergent capabilities appear consistently, or only under rare lucky seeds? This connects to our earlier definitions by making the learning system $S$ and resources $R$ the inputs of a stochastic process.
 
 Training outcomes are never deterministic: even fixing system design and resource budget, two training runs may lead to different states $\theta$. To model this rigorously, we treat training as a Markov kernel, i.e. a map from inputs $(S,R)$ to probability distributions on outcomes. This allows us to:
 
@@ -520,35 +812,60 @@ Training outcomes are never deterministic: even fixing system design and resourc
     \item Align with probability theory, where kernels are the natural object for stochastic transformations.
 \end{enumerate}
 
-Thus, this construction makes explicit what practitioners know implicitly: training defines not one point, but a distribution of possible models.
+This construction also allows the expected capability $m_\Phi(S,R)$ to be expressed as an integral with respect to this distribution, giving the theory its probabilistic foundation while remaining agnostic to the detailed optimization dynamics. It abstracts away the internal optimization trajectory, representing only its distributional outcome.
+
+In practical experiments, $K$ is approximated empirically by running multiple training seeds with fixed $S$ and $R$, estimating the resulting distribution of performance or model states.
+
+The kernel can equivalently be realized through a measurable map
+\[
+\text{Train}:\mathcal S \times \mathcal R \times \Omega\longrightarrow \Theta,
+\]
+
+defined on an underlying probability space $(\Omega, \mathcal F,  \mathbb P)$ (\ref{app:probability-spaces}) capturing all sources of randomness (initialization, data shuffling, etc.), such that
+
+\[
+K(S,R)=\mathbb P \circ \text{Train}(S,R,\omega)^{-1}
+\]
+
 
 \subsection{The Predictor Map}
 
-The training kernel $K(S,R)$ tells us \textit{where you land in weight space.} But we also need to define a predictor, $\Pi_\theta$, that tells us \textit{what those weights predict.} Many results (calibration, ensembling, metric design) live entirely on the inference side and shouldn’t be conflated with training randomness.
+Once training has produced a parameterized state $\theta\in\Theta$, we must formalize how that state generates predictions. In other, we need a mathematical object that maps inputs to distributions over outputs according to the trained model’s internal parameters. This is what we call the predictor map.
 
-\begin{statementbox}{Definition: The Predictor Map}
+The predictor map is conceptually distinct from the training map. The training map describes how a learning system produces a distribution over parameter states as we vary data, procedures, and resources. The predictor map describes what any particular trained state believes about the world — how it converts inputs to probabilistic outputs.
 
-Anchor: Each trained state induces a predictor map assigning outputs distributions; continuity holds here.
+In practice, the predictor map generalizes the notion of a model’s forward pass: for each $\theta$, it defines a stochastic kernel $\Pi_\theta(x)$ representing the model’s belief distribution over possible outputs for a given input $x$. This abstraction unifies regression, classification, and sequence modeling under a single formalism.
 
-Let $(X,Y)$ be the input/output spaces. Define $\mathcal P (Y)$ as the set of probability measures on $Y$. A trained state $\theta$ induces a stochastic kernel, called the predictor map,
-
+\begin{definition}[Predictor Map]\label{def:predictor}
+For each parameter $\theta\in\Theta$, the predictor is a measurable map
 \[
-\Pi_\theta:X\to \mathcal P(Y),\quad x\mapsto \Pi_\theta(\cdot \mid x),
+\Pi_\theta : X \to \mathrm{Prob}(Y)
 \]
+which is continuous in $\theta$.
+\end{definition}
 
-i.e., for each input $x$, $\Pi_\theta(\cdot \mid x)$ is a probability distribution on outputs $Y$—the model’s belief over outputs for input $x$.
 
-\end{statementbox}
-
-The reason we keep both is because they answer different questions: How do we sample trained models? ($K$) vs. What does a specific trained model believe about outputs? ($\Pi$). Keeping them separate gives us exact, composable statements and avoids silent changes in $m_\Phi$ when averaging across seeds or checkpoints.
+Intuitively, $\Pi_\theta$ is the predictive distribution of outputs given the model parameters $\theta$ and input $x$.The predictor map expresses a trained model’s behavior as a stochastic function from inputs to output distributions. In the deterministic case, $\Pi_\theta(\cdot \mid x)$ reduces to a Dirac measure centered at $f_\theta(x)$.
 
 \subsection{The Composition of $\Pi_\theta$ and $K$}
 
-For completeness, we can define a “mixture predictor,”
+Together, the training kernel $K$ and the predictor map $\Pi_\theta$ define a hierarchy of mappings: training randomness first selects a parameter distribution $K(S,R)$, and then each parameter $\theta$ defines its own predictive kernel $\Pi_\theta$. The composition of these two levels yields the expected predictive behavior of the entire learning system under resources $R$.
 
+\begin{definition}
+    The \textit{mixture predictor} is defined as
+    \[
+    \bar \Pi _{S,R}(\cdot \mid x):= \int _\Theta \Pi_\theta(\cdot \mid x)dK(S,R)(\theta).
+    \]
+\end{definition}
+
+This integral defines a mixture predictor, representing the average predictive distribution across all trained models sampled from the training kernel.
+
+Structurally, this composition realizes a categorical diagram:
 \[
-\bar \Pi _{S,R}(\cdot \mid x):= \int _\Theta \Pi_\theta(\cdot \mid x)dK(S,R)(\theta).
+\mathcal S \times \mathcal R \xrightarrow{\ K \ } \text{Prob}(\Theta) \xrightarrow{\ \Pi_\theta \ }\text{Prob}(\mathcal Y)
 \]
+
+The decomposition of learning into a training map and a predictor map is more than notational convenience — it provides a rigorous way to separate epistemic uncertainty (over parameter states) from aleatoric uncertainty (over outputs given parameters).This separation underlies the later definition of expected capability and ensures that emergence can be studied as a property of measurable compositions, rather than a property of any single trained model instance.
 
 \subsection{What $\Pi_\theta$ looks like in common cases}
 
@@ -598,110 +915,261 @@ Examples of $\mathcal U_\Phi$:
     \]
     \item probability mass of the acceptable set $A(x)$ (if multiple outputs are valid): $\Pi_\theta(A(x)\mid x)$ or its log mapped to $[0,1]$.
 \end{itemize}
-
 \subsection{Quantifying Emergence}
 
-\subsubsection{Capability}
+Having defined the structure of learning systems, their resources, and the 
+stochastic training map, we now introduce the central evaluative concepts of 
+the theory: learning tasks, utilities, capability types, and the associated 
+capability scores. These will ultimately give rise to the expected capability 
+$m_\Phi(S,R)$, the order parameter whose behavior encodes emergence.
 
-Emergence is only meaningful relative to a capability: we need to specify “what task” the system should perform and “how” we measure success. Mathematics forces us to be precise: a capability is not just “the model can translate,” but a tuple of input/output spaces, evaluation distribution, and a scoring rule. This makes capabilities comparable across learning systems.
+\subsubsection{Learning Tasks}
 
-\begin{statementbox}{Definition: Learning Task}
+The learning task $\mathcal T$ defines the probabilistic environment in which
+a capability is evaluated: which inputs appear, which outputs are considered
+correct or high-value, and with what frequencies.
 
-Let $\mathcal T _\Phi=(X,Y,g_\Phi, p_\Phi)$ be the \textit{task} with input/output spaces $(X,Y)$, ground truth $g_\Phi(x,y)$, and evaluation distribution $p_\Phi(x,y)$. 
-
-\end{statementbox}
-
-\begin{statementbox}{Definition: Learning Utility}
-
-Let $\mathcal U_\Phi : \mathcal P \times Y \to[0,1]$ be the \textit{utility}-—a bounded and continuous scoring rule mapping predictions to $[0,1]$ (e.g., probability on the true label, normalized log score).
-
-\end{statementbox}
-
-\begin{statementbox}{Definition: Capability}
-
-A \textit{capability} is a pair $\Phi:=(\mathcal T_\Phi, \mathcal U _\Phi)$.
-
-\end{statementbox}
-
-Anchor: A capability is a task + utility, giving us a precise, bounded performance score.
-
-A capability here is an experimental setup: what data we feed, what counts as correct, and how we score performance. Framing it rigorously means we can talk about emergence as “a sharp change in expected capability under scaling,” not just “it feels like the model suddenly gets good at X.”
-
-\subsubsection{State Score}
-
-Given a trained state $\theta$ (which we get from $\Pi_\theta$), we need a well-defined numerical quantity that says how good that state is at a capability. This is where the state-level score $M_\Phi(\theta):\mathcal S \times \mathcal R \to [0,1]$ comes in: it evaluates one fixed trained model against the capability’s scoring rule. We restrict to bounded, continuous scoring rules to ensure mathematical tractability (continuity guarantees smooth dependence on model parameters).
-
-\begin{statementbox}{Definition: State-Level Score}
-
-For a trained state $\theta$, we define the \textit{state-level score}, $M_\Phi$, as 
-
+\begin{definition}[Learning Task]\label{def:learning-task}
+Let $\mathcal X$ be an input space, $\mathcal Y$ an output space, 
+and let $\mu \in \Prob(\mathcal X \times \mathcal Y)$ be a joint data-generating distribution.
+A \textit{learning task} is the probability space
 \[
-M_\Phi(\theta)=\mathbb E_{(x,y)\sim p_\Phi}\Big[\mathcal U_\Phi\big(\Pi_\theta(x),y\big)\Big]
+\mathcal T := (\mathcal X, \mathcal Y, \mu),
 \]
+where $\mu$ defines the statistical relationship between inputs and outputs.
+\end{definition}
 
-where:
+The marginal $\mu_\mathcal X$ defines the input distribution, and the conditional 
+$\mu(\cdot \mid x)$ describes the true labeling or generative process.
+
+The task defines a stochastic environment—a world with inputs and outputs—from 
+which examples $(x,y)$ are drawn. It is intentionally abstract: it can represent 
+supervised learning, reinforcement learning, or generative modeling, depending on 
+the structure of $\mathcal Y$. In general, each domain $\Omega\in \mathcal D$ 
+induces its own family of tasks $\mathcal T(\Omega)$, allowing a task to depend on 
+the geometry of its data domain (e.g., signals on a manifold, graph, or Euclidean grid).
+
+For example, in image classification we might have 
+$\mathcal X = \R^{H\times W \times 3}$, $\mathcal Y= \{1,\dots,K\}$, and 
+$\mu$ the empirical data distribution. In language modeling, we might instead have 
+$\mathcal X = \Sigma^{\le n}$, $\mathcal Y = \Sigma$, and $\mu$ the joint 
+next-token distribution.
+
+\subsubsection{Capability Codomain}
+
+To accommodate a wide class of capability types—including accuracy, loss, 
+reward, perplexity, likelihood, or any task-specific utility—we do not restrict
+capabilities to the unit interval $[0,1]$. Instead we work with a general ordered,
+measurable, topological space that serves as the codomain for all state-level 
+and expected capability maps.
+
+\begin{definition}[Capability Codomain]\label{def:capabilitycodomain}
+A \emph{capability codomain} is a quadruple
+\[
+(\mathcal V_\Phi,\, \preceq,\, \mathcal F_\Phi,\, \tau_\Phi)
+\]
+consisting of:
+\begin{enumerate}
+    \item a set $\mathcal V_\Phi$ equipped with a partial order $\preceq$;
+    \item a $\sigma$-algebra $\mathcal F_\Phi$ making $(\mathcal V_\Phi,\mathcal F_\Phi)$ a 
+    measurable space;
+    \item a Hausdorff topology $\tau_\Phi$ compatible with the measurable structure;
+    \item such that the following regularity condition holds:
+    \begin{enumerate}
+        \item (\textbf{Order--Topology Compatibility}) 
+        whenever $v_n \to v$ in $\tau_\Phi$ and $v_n \preceq w$ for all $n$,
+        then $v \preceq w$.
+    \end{enumerate}
+\end{enumerate}
+\end{definition}
+
+The codomain $\mathcal V_\Phi$ represents the values returned by a capability type 
+$\Phi$; the order $\preceq$ encodes ``better vs.\ worse'' performance; the measurable
+structure ensures expectations such as $m_\Phi(S,R)$ are well-defined; and the 
+Hausdorff topology provides a notion of continuity compatible with the theory's 
+topological assumptions on learning systems and resources.
+
+Typical examples include:
 \begin{itemize}
-    \item $\Pi_\theta$ is the model’s predictive object at parameter state $\theta$: a mapping from inputs to probability distributions over outputs.
-    \item $\mathcal U_\Phi$ is a scoring rule that knows how to take that predictive object and the ground-truth $y$ and return a number in $[0,1]$.
-    \item $M_\Phi(\theta)$ is continuous in $\theta$ if $\Pi$ and $\mathcal U _\Phi$ are continuous and dominated convergence applies.
+    \item the unit interval $([0,1],\le)$ for accuracy-like metrics;
+    \item the extended nonnegative reals $([0,\infty],\le)$ for loss or perplexity;
+    \item totally ordered discrete sets (e.g.\ $\{0,1\}$) for representability indicators;
+    \item partially ordered performance levels with task-specific structure.
 \end{itemize}
+This abstraction allows the theory to treat capability values uniformly without 
+restricting to any fixed numerical range.
 
-\end{statementbox}
+\subsubsection{Learning Utility}
 
-So we feed $\Pi_\theta(\cdot\mid x)$ and $y$ into $\mathcal U_\Phi$ (probability of acceptable set, normalized log prob, Brier-like score, etc.), then average over the eval distribution $p_\Phi$.
+The learning task $\mathcal T$ defines the probabilistic environment, and the 
+utility $\mathcal U$ defines the evaluation rule. Together they specify what it 
+means to “perform well” on that capability.
 
-A state score is just “how well this particular trained model did on the task.” It’s the bridge between a single point in parameter space and the notion of capability. This plugs back into our topological view: since the parameter space $\Theta$ is topologized, continuity ensures that small perturbations of parameters lead to small changes in performance.
+\begin{definition}[Learning Utility]\label{def:learning-utility}
+Given a task $\mathcal T=(\mathcal X,\mathcal Y,\mu)$ and a capability codomain 
+$(\mathcal V_\Phi,\preceq,\mathcal F_\Phi,\tau_\Phi)$, a \textit{learning utility} 
+is a measurable function
+\[
+\mathcal U : \Prob(\mathcal Y) \times \mathcal Y \longrightarrow \mathcal V_\Phi,
+\]
+assigning a score $\mathcal U(p,y)$ to a predicted distribution $p$
+when the true label is $y$.
+The utility is called \textit{regular} if it is bounded and continuous
+in its first argument $p$ with respect to the weak topology on $\Prob(\mathcal Y)$.
+\end{definition}
+
+The utility $\mathcal U$ specifies what it means to "perform well." For 
+log-likelihood, $\mathcal U(y',y)=\log  p(y\mid x)$, for accuracy, 
+$\mathcal U(y',y)=\mathbf 1\{y'=y\}$, for reward maximization, 
+$\mathcal U(y',y)$ can encode a scalar reward signal. The flexibility of 
+$\mathcal U$ makes the framework agnostic to the specific nature of the task.
+
+\subsubsection{Capability Types}
+
+A capability type packages together the environment, value scale, and evaluation 
+rule into a single object.
+
+\begin{definition}[Capability Type]\label{def:capability-type}
+    A \textit{capability type} $\Phi$ is a triple consisting of:
+    \[
+    \Phi := (\mathcal T, \mathcal U, \mathcal V_\Phi),
+    \]
+    where $\mathcal T=(\mathcal X,\mathcal Y,\mu)$ is a learning task, 
+    $\mathcal V_\Phi$ is a capability codomain, and 
+    $\mathcal U:\Prob(\mathcal Y)\times\mathcal Y\to\mathcal V_\Phi$ is a 
+    regular learning utility.
+\end{definition}
+
+Intuitively, $\Phi$ specifies both the “world” in which the model operates and the 
+metric according to which its behavior is judged. Different choices of $\Phi$ can 
+describe accuracy on a benchmark, log-likelihood, BLEU score, task reward, or 
+more abstract forms of performance.
+
+\subsubsection{State-Level Capability}
+
+Given a trained state $\theta$ (obtained via the training kernel and predictor map), 
+we need a well-defined numerical quantity that says how good that state is at a 
+capability. This is the \emph{state-level score} $M_\Phi(\theta)$: it evaluates one 
+fixed trained model against the capability’s scoring rule.
+
+\begin{definition}[State-Level Capability Score]\label{def:state-capability}
+Let $\Phi=(\mathcal T,\mathcal U,\mathcal V_\Phi)$ denote a capability type, 
+where $\mathcal T=(\mathcal X,\mathcal Y,\mu)$ is a learning task and 
+$\mathcal U:\Prob(\mathcal Y)\times\mathcal Y\to\mathcal V_\Phi$ a regular utility.
+For a predictor $\Pi_\theta:\mathcal X\to\Prob(\mathcal Y)$ corresponding to a 
+trained state $\theta\in\Theta$, the \textit{state-level capability score} is the functional
+\[
+M_\Phi(\theta)
+    :=\mathbb E_{(x,y)\sim\mu}\,\mathbb E_{y'\sim\Pi_\theta(\cdot|x)}\!\left[\mathcal U(y',y)\right].
+\]
+Equivalently, expanding this as integrals,
+\[
+M_\Phi(\theta)
+    =\int_{\mathcal X\times \mathcal Y}\left(\int_\mathcal Y \mathcal U (y',y)\ \Pi _\theta(dy'\mid x)\right)\mu(dx,dy).
+\]
+\end{definition}
+
+Because $\mathcal U$ is bounded and $\mu$ and $\Pi_\theta(\cdot\mid x)$ are probability 
+measures, $M_\Phi(\theta)$ is well-defined and bounded for every $\theta\in\Theta$.
+
+$M_\Phi(\theta)$ quantifies how well a specific model instance $\theta$ performs on 
+capability type $\Phi$. In practice, it corresponds to metrics such as accuracy, 
+log-likelihood, BLEU, or reward, depending on $\mathcal U$.
 
 \subsubsection{Expected Capability}
 
-Because training is stochastic, one state score is not enough: we care about average behavior across seeds and sources of randomness. The expected capability $m_\Phi(S,R):\mathcal S \times \mathcal R \to [0,1]$ aggregates over randomness, producing a stable number that depends only on the system $S$ and resource vector $R$. This expectation is crucial. Otherwise, emergence could appear or disappear based purely on unlucky runs.
+Because training is stochastic, one state score is not enough: we care about average 
+behavior across seeds and sources of randomness. The expected capability aggregates 
+over randomness, producing a stable number that depends only on the system $S$ and 
+resource vector $R$. This expectation is crucial; otherwise, emergence could appear 
+or disappear purely due to lucky or unlucky runs.
 
-\begin{statementbox}{Definition: Seed-Averaged Capability}
-
-For a trained state $\theta$, we define the \textit{seed-averaged} capability, $m_\Phi$, as
-
+\begin{definition}[Seed-Averaged Capability]\label{def:expected-capability}
+Let $K$ be the training kernel mapping each system-resource pair $(S,R)$ to a 
+distribution $K(S,R)\in \Prob(\Theta)$ over trained parameter states.
+The \textit{seed-averaged capability} 
+$m_\Phi:\mathcal S \times \mathcal R \to \mathcal V_\Phi$ for capability type $\Phi$ is 
 \[
-m_\Phi(S,R)=\mathbb E_{K_{S,R}}\!\big[M_\Phi(\theta)\big]
-=\int_\Theta M_\Phi(\theta)\,K_{S,R}(d\theta)
+m_\Phi(S,R)
+    := \mathbb E _{\theta\sim K(S,R)}[M_\Phi(\theta)]
+    = \int_\Theta M_\Phi(\theta)\, dK(S,R)(\theta).
 \]
+\end{definition}
 
-\end{statementbox}
+Since $M_\Phi$ is bounded and $K(S,R)$ is a probability measure, this expectation is 
+always finite. The map $m_\Phi(S,R)$ represents the expected performance of a learning 
+system $S\in \mathcal S$ trained with resources $R\in \mathcal R$ on the capability 
+type $\Phi$. It averages over randomness in training to yield a stable, reproducible 
+quantity.
 
-Anchor: Seed-averaged capability is the core order parameter for emergence--A measure that quantifies the different states of emergence in a learning systems as resources increase.
-
-The expected capability is the true curve we want when we plot performance vs. scale: the seed-averaged trajectory of learning. It’s the counterpart of Shannon’s expected information measure — stripping away incidental noise to reveal the systematic structure. This is where all definitions unify: $S$, $R$  (resources), training randomness, and capability definitions come together in a single function $m_\Phi(S,R)$. Emergence then becomes a property of this function’s shape.
+This expected capability acts as the theory’s order parameter for emergence: it is 
+the measurable quantity whose changes (continuous or abrupt) reveal the onset of new 
+qualitative behaviors as resources, data, or architectures scale.
 
 \subsection{Representability}
 
-Not all learning systems can have certain abilities emerge. I cannot train an MLP with 2 layer, expecting to achieve a $m_\Phi>0.99$ on a parity capability with length 64. That's not how machine learning works, so naturally we will need tools to answer the question "when is a capability $\Phi$ representable by a learning system $S\in \mathcal S $?"
+Not all learning systems can have certain abilities emerge. We cannot train an MLP with 2 layer, expecting to achieve a $m_\Phi>0.99$ on a parity capability with length 64. That's not how machine learning works, so naturally we will need tools to answer the question "when is a capability $\Phi$ representable by a learning system $S\in \mathcal S $?"
 
-\begin{statementbox}{Definition: Representability of Capability}
-    Let $\tau \in (0,1)$ be a performance threshold (e.g., $\tau=0.90$). Define the \textit{superlevel set} as
+\begin{definition}
+    Let $m_\Phi:\mathcal S\times \mathcal R \to \mathcal V_\Phi$ be the capability function associated with capability type $\Phi$. Define the trivial capability floor by
     \[
-        E_\tau =\{ S\times R \in \mathcal S \times \mathcal R: m_\phi(S,R)>\tau \}.
+    c_{\min} := \inf_{R\in \mathcal R} m_\Phi(S,R)
     \]
-    Then, we say $\Phi$ \textit{is representable} by the learning system $S$ at level $\tau$, if and only if $E_\tau$ is nonempty and has nonempty interior in $\mathcal S \times \mathcal R$.
-\end{statementbox}
-
-Anchor: A capability is representable if it exceeds $\tau$ on a nonempty open neighborhood in system-resource space.
-
-Empirically, we replace $m_\Phi$ by its seed-averaged estimate and require a lower confidence bound to exceed $\tau + \epsilon$ on a neighborhood, ensuring robustness to stochasticity.
-
-Using "$>\tau$" makes $E_\tau$ open whenever $m_\Phi$ is continuous, so "hard interior" means "there's a neighborhood of configurations where the capability holds," not a single lucky point.
-
-\begin{statementbox}{Definition: Representability threshold along a resource axis}
-    Fix a coordinate $R_i\in \mathcal R$, holding both $\Xi$ and $R_j$, $i\ne j$ constant. Then define
+    Then $\Phi$ is \textit{representable} by $S$ if and only if
     \[
-        R_\Phi = \inf \{ R_i : m_\Phi (\Xi, R_i\times R_j)>\tau\}
+    \sup_R m_\Phi(S,R)>c_\min
     \]
-    If this infimum is finite and the set $\{ R_i : m_\phi >\tau\}$ contains an open interval above it, we say "$\Phi$ \textit{emerges along} $P$ \textit{at} $R_\Phi$" for that slice.
-\end{statementbox}
+    Equivalently, $\Phi$ is \textit{representable} by $S$ if and only if there exists a $R^*\in \mathcal R$ and an open neighborhood $N(R^*)$ such that $m_\Phi(S,R)>c_\min$ for all $R\in N(R^*)$
+\end{definition}
 
-At last, we have a function, $m_\Phi$ that reflects performance on a capability $\Phi$. We now want to come up with a set of axioms for this function and the definitions around it that reflects the emergence of tasks we see in empirical results. Here’s the mental picture you can keep in your mind:
+\begin{definition}{Representability Practically}{}
+    Let $m_\Phi:\mathcal S\times \mathcal R \to \mathcal V_\Phi$ be the capability function associated with capability type $\Phi$, and let $\tau_\Phi :\mathcal S \times \mathcal R \to \R$ be a \textit{representability threshold functional}, assigning to each $(S,R)\in \mathcal S \times \mathcal R$ a reference value of capability requried to count as successful. Then, a capability $\Phi$ is said to be \textit{representable} by a learning system $S$ at resources $R$ if
+    \[
+    m_\Phi(S,R)\ge \tau_\Phi(S,R)
+    \]
+    The set of all such pairs is the \textit{representability region}
+    \[
+    \mathcal R_\Phi(S):=\{R\in \mathcal R : m_\Phi(S,R)\ge \tau_\Phi(S,R)\}
+    \]
+\end{definition}
 
-\[
-(S,R)\ \xrightarrow{\ K\ }\ \theta\ \xrightarrow{\ \Pi\ }\ \Pi_\theta(\cdot\mid x)\ \xrightarrow{\ \mathcal U_\Phi\ }\ \text{score}\in [0,1]\ \xrightarrow{\ \mathbb E_{x,y},\ \mathbb E_\theta\ }\ m_\Phi
-\]
+Representability expresses achievability: it formalizes when a capability type can be realized by a given system under sufficient resources. The threshold $\tau_\Phi$ can be constant, task-dependent, or empirically defined (e.g., human-level accuracy, baseline reward, statistical significance). By treating it as a functional rather than a scalar constant, the definition remains fully general and coordinate-free.
+
+The structure of the representability region $\mathcal R_\Phi(S)$ within the resource base determines where new capabilities appear. Its boundaries correspond to critical surfaces, and its one-dimensional intersections define representability thresholds along chosen resource directions.
+
+\begin{definition}{Representability Threshold Along a Resource Axis}{}
+    Let $\psi:\mathcal R \to \R^k$ be a feature map and $\alpha\in (R^k)^*$ be an efficient direction. The \textit{representability threshold} of capability type $\Phi$ for system $S$ along direction $\alpha$ is
+    \[
+    \rho_\Phi(S;\alpha):=\inf \{s(R)=\alpha ^\top \psi(R): m_\Phi(S,R)\ge \tau_\Phi(S,R)\}
+    \]
+    It gives the minimal effective resource scale along $\alpha$ at which $S$ represents capability $\Phi$.
+\end{definition}
+
+\subsubsection{Critical Surfaces}
+
+\begin{definition}[Iso Capability]\label{def:iso-capability}
+    For any fixed capability value $c\in \R$, define the \textit{iso-capability set}
+    \[
+    \Sigma_c(S,\Phi):= \{R\in \mathcal R:m_\Phi(S,R)=c\}
+    \]
+\end{definition}
+
+Level sets of $m_\Phi(S,R)$ describe the geometry of the capability landscape. Points where $\nabla _Rm_\Phi$ changes discontinuously or the topology of $\Sigma_c$ changes define critical surfaces, which mark transitions in representability—the formal analogue of emergent “phase boundaries” in learning behavior.
+
+\subsubsection{Gauge Equivalence}
+
+\begin{definition}{Gauge Equivalence}{}
+    Let $\psi,\psi':\mathcal \R \to \R^k$ be feature maps, $\alpha,\alpha' \in (\R^k)^*$ be directions, and let $f,f':\R\to \R$ be smooth, strictly increasing, S-shaped functions. Then, we say that the triples $(\psi,\alpha,f)$ and $(\psi' , \alpha' ,f')$ are \textit{resource-equivalent}, written
+    \[
+    (\psi,\alpha,f)\sim (\psi',\alpha',f')
+    \]
+    if and only if there exists an invertible matrix $A\in GL(k)$, a vector $c\in \R^k$, and scalars $a>0$, $b\in \R$ such that:
+    \[
+    \psi'(R)=A\psi(R)+c,\quad \alpha' =(A^{-1})^\top \alpha ,\quad f'(x)=f(ax+b) 
+    \]
+\end{definition}
+
+This gauge equivalence tells us how different coordinate choices $\psi$, directions $\alpha$, and nonlinear profiles $f$ can be transformed into each other without changing the model’s behavior.
 
 \subsection{Scope of the Theory}
 
@@ -710,7 +1178,7 @@ The framework developed here aims to provide a mathematical language for describ
 \subsubsection{In Scope}
 
 \begin{itemize}
-    \item \textbf{Learning systems} $S$ trained via stochastic optimization on large datasets, represented abstractly through data distributions and recipes.
+    \item \textbf{Learning systems} $S$ trained via stochastic optimization on large datasets, represented abstractly through data distributions and procedures.
     \item \textbf{Resource scaling $R \in \mathbb R^d_{>0}$:} we explicitly model the effect of increasing data, parameters, compute, or other resource coordinates.
     \item \textbf{Training stochasticity:} modeled at the level of distributions over trained states via the Markov kernel $K$.
     \item \textbf{Capabilities $\Phi$:} defined abstractly as tasks and evaluation utilities, with performance measured by state-level scores and seed-averaged expectations.
@@ -728,191 +1196,1431 @@ The framework developed here aims to provide a mathematical language for describ
 
 \section{Axiomatizing Emergence}
 
-\subsection{What Do We Want From Our Axioms?}
+\subsection{Purpose and Structure of the Axiomatic Framework}
 
-When creating and refining our axioms, we want them to do 3 things:
+We now specify the formal assumptions that define the space of admissible learning systems. These assumptions are divided into two tiers: structural regularity conditions, and the fundamental axioms of emergence
+
+The following framework distinguishes between assumptions, postulates, and axioms. The assumptions ensure the mathematical well-posedness of the objects of the theory. The postulates express geometric regularities as identified by \citet{bronstein2021geometric} that define the admissible class of learning systems. The axioms (A1–A5) state the fundamental behavioral laws of emergence. While these statements are currently presented as independent, future work may investigate their logical dependencies—specifically whether the geometric postulates (G1–G3) can be derived from the emergence axioms, thereby reducing the theory to a minimal, independent core.
+
+This makes it possible for the axioms of our theory to even speak sensibly. But conceptually, we can call only the second layer the “axioms of emergence.” The first layer is just the mathematical substrate. The axioms of the theory will depend on these base assumptions, and that's fine.
+
+\subsection{Axioms of the Physics of Learning}
+
+The theory rests on four axioms that jointly specify the ``physics'' governing 
+how learning systems behave under scaling.  
+These axioms fall naturally into three conceptual groups:
+
+\begin{itemize}
+    \item \textbf{Group I: Existence Axiom} (ensuring capabilities are not vacuous),
+    \item \textbf{Group II: Structural Axioms} (continuity and monotonicity of training),
+    \item \textbf{Group III: Emergent Universality} (the one-dimensional law).
+\end{itemize}
+
+Each group reflects a qualitatively different kind of assumption: logical existence, 
+regularity conditions, and empirical universality.  
+Together, they define the landscape on which emergence unfolds.
+
+\subsubsection{Group I: Existence of Capability Realization}
+
+Before one can study emergence, one must ensure that the capability in question 
+is not logically or mathematically empty.  
+This is encoded in a minimal existence axiom.
+
+\begin{axiom}[Axiom of Representability]\label{axi:representability}
+For every capability type $\Phi$ whose task-functional is measurable and realizable in principle, 
+there exists at least one learning system $S\in\mathcal S$ and at least one resource configuration 
+$R\in \mathcal R$ such that $\Phi$ is representable at $(S,R)$.
+\end{axiom}
+
+This axiom ensures that the capability function $m_\Phi$ is not the trivial constant function.  
+It guarantees that the capability is realizable \emph{somewhere} in the joint space 
+of learning systems and resources.  
+Without this, the remaining axioms would be vacuous: one cannot study emergence if 
+there is nothing that can emerge.
+
+If removed, the entire theory could collapse to the degenerate case where every capability has 
+zero (or baseline) performance regardless of resources.  
+This would make representability and scaling meaningless.
+
+\subsubsection{Group II: Structural Axioms of Learning Dynamics}
+
+The next two axioms encode the structural regularity of 
+learning dynamics: monotonicity with respect to resources and 
+continuity with respect to both system and resource variations.  
+These play the same role as smoothness and order axioms in classical physics.
+
+\begin{axiom}[Axiom of Conditional Kernel Monotonicity]\label{axi:kernel-monotonicity}
+Let $\Phi$ be a capability type and let $S\in\mathcal S$ be a learning system for which 
+$\Phi$ is locally representable in a neighborhood of resource configurations $R_1\preceq R_2$. 
+Then the training kernel $K$ is monotone-compatible with the resource order in that neighborhood:
+there exists a coupling $\gamma$ of $K(S,R_1)$ and $K(S,R_2)$ such that 
+\[
+M_\Phi(\theta_1)\;\le\; M_\Phi(\theta_2)
+\quad\text{for $\gamma$-a.e.\ } (\theta_1,\theta_2).
+\]
+\end{axiom}
+
+This axiom says: \emph{increasing resources cannot make a model worse, on average}.  
+The coupling formulation expresses this as a relation between distributions 
+over trained states.  
+It does not assume determinism — only that training with more resources yields 
+a stochastically better distribution of outcomes.
+
+If removed, capability monotonicity would no longer hold, the geometry of iso-capability surfaces 
+could be pathological, and scaling laws would fail.  
+This axiom is equivalent to “more training never reduces the expected skill.”
+
+\begin{axiom}[Axiom of Kernel Continuity]\label{axi:kernel-continuity}
+For any sequence $(S_n,R_n)\to (S,R)$ in the product topology of $\mathcal S\times\mathcal R$, 
+the training kernel varies continuously in the weak topology:
+\[
+K(S_n,R_n)\;\Rightarrow\; K(S,R)
+\quad\text{in } (\mathrm{Prob}(\Theta),\tau_{\mathrm{weak}}).
+\]
+\end{axiom}
+
+Intuitvely, small changes to the learning system or its resource configuration 
+should produce only small changes in the distribution of trained outcomes.  
+This is the topological backbone that makes expected capability continuous.
+
+If removed, the capability function $m_\Phi(S,R)$ could be discontinuous, 
+tearing apart the geometry needed for representability thresholds, 
+superlevel-set structure, and the existence of effective directions.
+
+\subsubsection{Group III: Universality and the One-Dimensional Law}
+
+The final axiom captures the empirical phenomenon that, in the regime where 
+a capability is representable and sufficiently smooth,  
+all multi-dimensional resource tradeoffs collapse onto a single effective axis.
+
+\begin{axiom}[Axiom of Universality]\label{axi:universality}
+There exists an equivalence class $[\psi,\alpha,f]$ such that for every learning system 
+$S\in\mathcal S$ in a local neighborhood of procedures,
+\[
+m_\Phi(S,R)\;\approx\; f\!\left(\alpha^\top \psi(R)\right),
+\]
+where:
+\begin{enumerate}
+    \item $\psi:\mathcal R\to \mathbb R^k$ is a continuous feature map of the resource base,
+    \item $\alpha\in (\mathbb R^k)^*$ is an efficient direction,
+    \item $f:\mathbb R\to\mathbb R$ is a smooth, monotonically increasing scaling function.
+\end{enumerate}
+\end{axiom}
+
+Although resources are multi-dimensional (data, parameters, compute, optimization steps),  
+emergence depends effectively on a single scaling variable  
+\[
+s(R)=\alpha^\top\psi(R).
+\]
+Every capability collapses onto a one-dimensional manifold of effective resource.  
+The invariance under affine changes of $\psi$ and $\alpha$ expresses that the law is 
+about the \emph{collapse itself}, not particular coordinates.
+
+If removed, the theory would be a purely qualitative description of capability geometry.  
+There would be no reason to expect predictable scaling curves, 
+no effective axes, and no universality across architectures or procedures.  
+This axiom encodes the empirical ``scaling collapse'' at the heart of deep learning.
+
+\subsection{Postulates of Geometric Regularity (G1-G3)}
+
+In addition to the above measure-theoretic regularity, we impose three conditions. The following postulates specify the geometric structure that admissible learning systems must satisfy within the domain defined in Chapter 2. They internalize the geometric priors identified by \citet{bronstein2021geometric}) and ensure that the expected capability functional $m_\Phi(S,R)$ is invariant, stable, and hierarchical.
+
+\begin{definition}{Geometric Regularity 1 (G1) — Symmetry}{}
+There exists $G$ acting measurably on $\Omega$ and $\mathcal C$ such that for every $g\in G$,
+\[
+(g\cdot x )(\omega)=g_\mathcal C (x(g_\Omega^{-1}(\omega)),\quad x\in \mathcal X, \ \omega \in \Omega, \ g\in G
+\]
+Each predictor $\Pi_\theta :\mathcal X \to \mathcal P (\mathcal Y)$ is $G$-equivariant:
+\[
+\Pi_\theta(g\cdot x)=g\cdot \Pi_\theta(x),
+\]
+and the capability functional respects this symmetry:
+\[
+m_\Phi(S,R)=m_\Phi(g\cdot S, R) \quad \forall g\in G.
+\]
+\end{definition}
+
+This postulate says that learning systems live in a geometric universe: every admissible system $S\in \mathcal S$ carries an invariance structure $G$ describing transformations that preserve meaning. In GDL, this corresponds to equivariance under domain symmetries. In our theory, it ensures that capability depends on intrinsic structure, not on arbitrary parameterizations.
+
+\begin{definition}{Geometric Regularity 2 (G2) — Stability to Deformations}{}
+Let $d_\mathcal D$ be a metric on the space of domains and $d_\mathcal X$ a norm on signals. Then for all $S,S'\in \mathcal S$ and fixed $R\in \mathcal R$,
+\[
+| m_\Phi(S,R) - m_\Phi(S',R) | \le C_\Phi\, d_\mathcal{D}(D,D') + C'_\Phi\, d_\mathcal{X}(x,x').
+\]
+
+This is a Lipschitz continuity condition of the capability functional with respect to deformations of the domain or signal. It ensures that small geometric perturbations—changes in data geometry or learned representation—produce only small changes in capability. It gives mathematical expression to robustness and continuity of learning.
+
+This postulate sits naturally on top B7 (continuity of composition).
+
+\end{definition}
+
+\begin{definition}{Geometric Regularity 3 (G3) — Scale Separation}{}
+There exists a filtration of the resource manifold
+\[
+\mathcal R_1\subset \mathcal R_2 \subset \cdots \subset \mathcal R_J =\mathcal R
+\]
+and corresponding projections
+\[
+P_j:\mathcal X \to \mathcal X_j
+\]
+such that capability decomposes hierarchically:
+\[
+m_\Phi(S,R_J)=F_\Phi(P_J,\dots,P_1),\quad m_\Phi(S,R_{j+1})\ge m_\Phi(S,R_j)
+\]
+and the incremental gains decrease with $j$.
+\end{definition}
+
+This expresses the hierarchical, multi-scale composition principle. It ties the resource space $\mathcal R$ to emergent capability: increasing resources extends the receptive field of the system, but returns diminish with scale.
+It mirrors GDL’s “scale separation” prior and links directly to A4–A5 axioms on monotonicity and scaling laws.
+
+The geometric regularity conditions extend the basic structural assumptions by incorporating the invariance and stability principles that \citet{bronstein2021geometric} identified as necessary for expressive architectures. The next section introduces the axioms of emergence (A1–A5), which specify how capability behaves within this structured domain.
+
+\section{Instantiation and Empirical Realization}
+
+The preceding chapters developed a fully abstract framework for learning systems: topological spaces of data domains and procedures, a resource base equipped with a feature map, a stochastic training kernel, predictor maps, and a seed-averaged capability functional $m_\Phi(S,R)$ that serves as an order parameter for emergence. This structure is intentionally architecture-agnostic; it is meant to describe any learning system compatible with the axioms, rather than any particular model or implementation.
+
+A mathematical theory of an empirical domain, however, only acquires content once its objects can be realized. In probability theory, random variables become meaningful through concrete constructions on measurable spaces; in statistical mechanics, spin systems are instantiated on lattices with explicit Hamiltonians; in Geometric Deep Learning, abstract equivariant maps are realized as graph and grid neural networks. In the same spirit, the present framework must be linked to actual training pipelines before its axioms can be interpreted as more than formal constraints.
+
+The goal of this chapter is to make this link explicit. By \emph{instantiation} we mean a systematic assignment of the abstract objects
+\[
+  (\Omega, P, S, R, K, \Pi_\theta, m_\Phi)
+\]
+to concrete choices of data distributions, architectures, optimizers, resource schedules, and evaluation metrics in real experiments. The purpose is threefold: (i) to demonstrate that the axioms can be satisfied by actual systems used in practice, (ii) to provide a reusable template for mapping arbitrary ML workflows into the formalism, and (iii) to prepare the ground for falsification-focused experiments.
+
+Throughout this chapter, “instantiation” is not treated as an afterthought or a collection of illustrative examples. Instead, it is a central component of the theory: it specifies how the abstract learning space $S$, the resource base $R$, and the capability functional $m_\Phi$ interface with code. Once this interface is established, the theorems of Chapter~\ref{chap:theoretical-consequences} become empirical predictions about how particular training pipelines should behave under scaling, and failures of those predictions become information about the limits of the axioms.
+
+\subsection{Purpose and Scope of Instantiation}
+
+The notion of a learning system $S = (\Omega,P)$ as a point in a topological space, a resource vector $R \in \mathcal{R}$ as an element of a topological ordered monoid, and a training process as a Markov kernel
+\[
+  K : (S \times \mathcal{R}, \tau_S \times \tau_{\mathcal{R}})
+  \rightsquigarrow (\Prob(\Theta), \tau_{\mathrm{weak}})
+\]
+is deliberately abstract. This level of generality is necessary to state the axioms of emergence—monotonicity, universality, representability, and continuity—in a coordinate-free manner, and to prove the collapse theorem linking $m_\Phi(S,R)$ to a one-dimensional effective resource axis.
+
+At the same time, this abstraction raises a natural question: \emph{what are these objects in practice?} What, concretely, does it mean to take a tuple
+\[
+  S = (\Omega, P) =
+  (\text{data distribution}, \text{training procedure})
+\]
+and treat it as a single point in a topological space? How do standard components of modern machine learning—such as a Transformer architecture with AdamW optimization on a modular addition task—appear inside this formalism?
+
+The purpose of instantiation is to answer these questions in a disciplined way. Concretely, an instantiation has the following roles:
+\begin{enumerate}
+  \item \textbf{Semantic grounding.} It ties each abstract definition to a family
+  of real-world objects (datasets, models, training loops), ensuring that the
+  formalism describes the intended empirical domain and is not vacuous.
+
+  \item \textbf{Operational usability.} It provides a repeatable recipe for
+  mapping arbitrary training setups into the theory: given a piece of code, one
+  can identify the associated $S$, $R$, $K$, $\Pi_\theta$, and $m_\Phi$.
+
+  \item \textbf{Prediction interface.} It specifies where theorems “touch” reality:
+  once an experiment is instantiated, statements such as monotone capability,
+  local continuity, or one-dimensional collapse become concrete predictions about
+  measurable quantities.
+
+  \item \textbf{Falsification and refinement.} By exhibiting explicit systems
+  and computing their capabilities under scaling, one can locate where the axioms
+  fail, thereby refining the scope of the theory and suggesting modifications or
+  extensions.
+\end{enumerate}
+
+The scope of the present chapter is restricted to instantiations that are sufficiently simple to be analyzed clearly, yet rich enough to exercise every part of the formalism. In particular, we focus on small-scale controlled tasks such as modular addition and parity, along with minimal deep-learning pipelines that already resemble those used in practice. These examples will be revisited in the chapter of experiments as the basis for empirical tests of the axioms.
+
+\subsection{A Framework for Instantiating Learning Systems}
+\label{subsec:instantiation-framework}
+
+To keep the connection between theory and implementation systematic, each instantiation in this chapter follows a common pattern. Given a concrete training setup written in code, we extract the following seven objects:
 
 \begin{enumerate}
-    \item \textbf{Predictive power:} from the axioms we can derive a \textit{representation theorem} that makes \textit{quantitative} predictions. In our case, the representation theorem are the scaling laws we see in LLMs.
-    \item \textbf{Invariance:} claims don’t depend on irrelevant choices; our axioms shouldn’t depend on basis rotations, unit rescalings, and so on.
-    \item \textbf{Smallest set:} nothing redundant; each axiom’s removal should break the key derivation to our representation theorem.
+  \item \textbf{Data domain $(\Omega,\tau_\Omega)$.}
+  The set of possible inputs (and, when relevant, input--output pairs) together
+  with its topology. In practice, $\Omega$ may be a finite set (e.g.\ discrete
+  tokens or images), a subset of $\R^n$, or a product space. The data-generating
+  distribution $D$ on $\Omega$ equips it with a natural measurable structure.
+
+  \item \textbf{Procedure $(P,\tau_P)$.}
+  A specification of how models are built and trained: architecture family,
+  loss function, optimizer, initialization scheme, regularization, and any
+  hyperparameters that control them. We view $P$ as a point in a product space
+  of categorical and continuous components endowed with the procedure topology
+  of Definition~\ref{def:procedure-distance}, so that small perturbations in
+  hyperparameters correspond to nearby procedures.
+
+  \item \textbf{Learning system $S = (\Omega,P)$.}
+  The pair of data domain and procedure, regarded as a point in the product
+  space $S = \mathcal{D} \times \mathcal{P}$ with the product topology
+  (Axiom~\ref{ax:learning-system-topology}). This representation allows us to
+  talk about neighborhoods of “similar” systems and continuous deformations
+  between them.
+
+  \item \textbf{Resource base $(\mathcal{R},\oplus,0,\preceq,\tau_{\mathcal{R}})$.}
+  The coordinates that control scale: number of parameters, tokens, optimization
+  steps, or other resource-like quantities. For each instantiation we specify:
+  \begin{itemize}
+    \item the concrete resource vector $R \in \R^d_{>0}$,
+    \item the combination operation $\oplus$ (often componentwise addition),
+    \item the partial order $\preceq$ capturing “no less resource,” and
+    \item a feature map $\psi : \mathcal{R} \to \R^k$ that embeds resources into
+          Euclidean coordinates (Definition~\ref{def:feature-map}).
+  \end{itemize}
+  In simple cases we take $\mathcal{R} = \R^d_{>0}$ with $\psi(R) = \log R$,
+  turning multiplicative scaling into additive coordinates.
+
+  \item \textbf{Training kernel $K(S,R)$.}
+  The stochastic training process, represented as a Markov kernel from
+  $S \times \mathcal{R}$ to $\Prob(\Theta)$ (Axiom~\ref{ax:training-kernel}). In
+  code, this corresponds to randomized initialization, data shuffling, and any
+  other randomness in optimization. Given $(S,R)$, a single training run samples
+  a parameter state $\theta \sim K(S,R)$; repeating the run with different seeds
+  draws from the same kernel.
+
+  \item \textbf{Predictor map $\Pi_\theta$.}
+  For each trained state $\theta \in \Theta$, the associated predictor
+  $\Pi_\theta : X \to \Prob(Y)$ maps inputs to predictive distributions over
+  outputs (Definition~\ref{def:predictor-map}). In practice, $\Pi_\theta$ is
+  implemented by a neural network followed by a softmax, logistic sigmoid, or
+  other output layer.
+
+  \item \textbf{Capability functional $m_\Phi(S,R)$.}
+  A capability type $\Phi$ specifies a task and a bounded utility function
+  $U_\Phi$ that scores predictions against ground truth. Given $\theta$ and
+  $\Phi$, the state-level score $M_\Phi(\theta)$ is the expected utility over
+  data, and the seed-averaged capability
+  \[
+    m_\Phi(S,R)
+      = \E_{\theta \sim K(S,R)}[ M_\Phi(\theta) ]
+  \]
+  aggregates over training randomness (Definition~\ref{def:expected-capability}).
+  This is the quantity to which the axioms and the collapse theorem apply.
 \end{enumerate}
 
-We know that the scaling laws work. So what must a measure of capability, $\Phi$, satisfy under scaling? So what properties should capability emergence obey?
+For each concrete example (e.g.\ modular addition, parity, or small language models), the subsections that follow will instantiate these seven objects explicitly. The intention is that, given any future training pipeline, one can repeat the same extraction procedure: identify $(\Omega,P)$, specify the resource coordinates $R$ and feature map $\psi$, define the corresponding kernel $K$, and thus obtain a well-defined capability map $m_\Phi(S,R)$.
 
-\subsection{Current Axioms}
+This structured approach ensures that the theory remains usable. Rather than treating the abstract definitions as detached from practice, we treat each experiment as a point in the same learning space on which the axioms are stated. Once this identification is made, statements like “capability is monotone in resources,” “capability is continuous in procedure-local neighborhoods,” or “capability collapses to a one-dimensional effective resource axis” become concrete, testable claims about the instantiated system.
 
-\subsubsection{Axiom 1}
+\subsection{Structural Instantiation}
 
-\begin{statementbox}{Axiom 1 (A1) - Monotone Capability}
+\subsubsection{Instantiating the Data Domain}
 
-For any representable capability $\Phi$ and learning system $S$, the expected capability $m_\Phi(S,R)$ is coordinate‑wise non‑decreasing in each resource $\{R^{(i)}\}$. 
+\subsubsection{Instantiating the Procedure Space}
 
-Empirically, we accept $\epsilon$‑monotonicity at confidence $\alpha$: for every adjacent pair along a resource sweep,
+\subsubsection{Instantiating the Resource Base}
 
+\begin{example}[Canonical logarithmic resource coordinates]\label{ex:log-coordinates}
+Consider the concrete resource base $\mathcal R=\R^d_{>0}$ equipped with 
+componentwise multiplication as the resource composition,
 \[
-\text{LCB}_{1-\alpha}\left[m_\Phi\bigl(R_{i+1}\bigr) - m_\Phi\bigl(R_i\bigr)\right]\ge -\epsilon,
+(R_1\oplus R_2)^i \;=\; R_1^i R_2^i,
 \]
-
-where:
-\begin{itemize}
-    \item $\alpha$ is the one-sided error rate (e.g. $0.05$),
-    \item $\text{LCB}_{1-\alpha}$ is the lower confidence bound (LCB) at confidence level $1-\alpha$,
-    \item $\epsilon=\epsilon_\text{stat}+\epsilon_\text{num}$ is a pre-declared tolerance.
-\end{itemize}
-
-\end{statementbox}
-
-Anchor: In general, more resources, more emergence.
-
-\textbf{Intuitively,} more data/parameters/compute shouldn’t \textit{hurt} a capability in expectation. It rules out “perverse” regressions that are really optimization noise; it’s a weak, falsifiable regularity to build on. (Violations typically indicate under/over-training, metric noise, or a recipe bug.)
-
-Without the precondition that $\Phi$ must be representable by $S$, we get flat noise around chance that appears to “violate” monotonicity.
-
-When it comes to choosing the tolerances, $\epsilon_\text{stat}$ can be chosen from your uncertainty. One fast choice is:
+and the usual product order
+$R_1\preceq R_2$ iff $R_1^i \le R_2^i$ for all coordinates $i$.
+Define a coordinate map
 \[
-\epsilon_\text{stat} = c\cdot \max _ i \text{SE} _i,\quad c\in [1,2],
+\psi:\R^d_{>0}\to\R^d,
+\qquad 
+\psi(R)=\log R,
 \]
-where:
-\begin{itemize}
-    \item $\text{SE}_i $ is the standard error of $m_\Phi$ at setting $i$,
-    \item $c$ reflects how conservative you want to be.
-\end{itemize}
-
-$\epsilon_\text{num}$ cover floating-point granularity (e.g. $5\times 10^{-7}$ for float32 contexts).
-
-So given two adjacent resource settings $R_i,R_{i+1}$, we observe the seed-averaged capability difference:
-\[
-\Delta_i = m_\Phi(S,R_{i+1})-m_\Phi(S,R).
-\]
-
-Because training is stochastic, $\Delta_i$ has sampling uncertainty. Let $\widehat \Delta_i$ be the empirical mean across seeds, and let $\text{SE}(\widehat \Delta_i)$ be its standard error. The LCB at confidence level $1-\alpha$ is:
-\[
-\text{LCB}_{1-\alpha}(\Delta_i)=\widehat \Delta_i - z_{1-\alpha} \text{SE}(\widehat \Delta_i),
-\]
-where $z_{1-\alpha}$ is the quantile of the standard normal. If $\text{LCB}_{1-\alpha}(\Delta_i)>-\epsilon$, then with high confidence the true change is non-negative up to tolerance $\epsilon$. If it goes below $-\epsilon$, then we have evidence of a real monotonicity violation, not just numerical or sampling noise.
-
-\subsubsection{Axiom 2}
-
-\begin{statementbox}{Axiom 2 (A2) - Curve Fit Quality}
-
-There exists a direction $\alpha\in \mathbb R^d$, an onset $s^*\in \mathbb R$, a width $w>0$, and a smooth increasing $f:\mathbb R\to [0,1]$ such that
-    
-\[
-m_\Phi(S,R)\approx f(s'),\quad f\left ( \frac{\alpha^\top \psi (R)-s^*}{w}\right),
-\]
-
-where:
-
-\begin{itemize}
-    \item $s^*$ is the resource level at the midpoint of rise (e.g., $m_\Phi=0.5$ for logistic $f$),
-    \item $w$ controls sharpness (smaller $w$ means sharper; for logistic $f$, slope at onset = $1/(4w)$ and the 10-90% rise $\approx 4.394w$),
-    \item $s'$ is is dimensionless.
-\end{itemize}
-
-The quality of “$\approx$” is quantified by a collapse error
-
-\[
-\mathrm{CE}(\alpha, s_\star, w, f)
-:=\sqrt{\frac{1}{\sum_i w_i}\sum_i w_i\big(m_{\Phi,i}-f(s'_i)\big)^2},\quad
-w_i=\tfrac{1}{\widehat{\mathrm{Var}}[m_{\Phi}(S,R_i)]}  
-\]
-
-computed over runs $\{(S,R_i)\}_i$ with seed-averaged measurements $m_{\Phi, i}$. Define the optimized \textit{collapse error:}
-
-\[
-\mathrm{CE}^*:= \min_{\alpha, s^*,w,f\in \mathcal F_\uparrow} \mathrm{CE}(\alpha,s^*,w,f),
-\]
-
-where $\mathcal F_\uparrow$ is a class of monotone S-curves. $\mathrm {CE}^*$ must be reported on held-out runs.
-
-\end{statementbox}
-
-
-\textbf{Intuition:} All resource settings act as movement along one effective axis $s=\alpha^\top\psi(R)$. After centering by $s^*$ and scaling by $w$, every run lands on the same S-curve** $f$. The collapse error is “how far the cloud is from a 1-D curve” after the best possible projection.
-
-\textbf{Why have it:} This turns “emergence under scaling” into a falsifiable claim with a single exchange-rate vector $\alpha$ and two interpretable scalars $(s^*,w)$. If the 1-D law is nearly as predictive as a flexible multi-knob surface—and better than any single resource alone—you’ve extracted a predictive primitive for \textit{when} (via $s^*$) and \textit{how sharply} (via $w$) a capability turns on, independent of the particular mix of resources.
-
-\subsubsection{Axiom 3}
-
-\begin{statementbox}{Axiom 3 (A3) - Finite-size scaling near transition}
-
-Fix a learning system $S$ and a recipe-local neighborhood $\mathcal U(S)$; only seeds and small LR/BS jitters vary. Assume A2 holds with feature map $ \psi:\mathbb R^d_{>0}\!\to\mathbb R^d$. Then there exist $(\alpha, s_\star, w, f)$ for which A2 holds such that, for every $S'\in\mathcal U(S)$:
-
-\begin{enumerate}[label=\roman*.]
-    \item The projection direction $ \alpha$ (the trade-off between resource components in $\psi(R)$) is the same for nearby systems $S'$ in your recipe-local neighborhood:
+where the logarithm is taken componentwise.
+Then:
+\begin{enumerate}
+    \item \textbf{Monoid homomorphism:}
     \[
-    \cos\angle(\alpha,\alpha_{S'}) \ge 1-\varepsilon_\alpha,
+    \psi(R_1\oplus R_2)
+      =\log(R_1\odot R_2)
+      =\log R_1 + \log R_2
+      =\psi(R_1)+\psi(R_2),
     \]
-    \item The location of the turn-on (midpoint of the S-curve in effective resource units) is consistent across $S'$:
+    so multiplicative composition becomes additive in~$\R^d$.
+
+    \item \textbf{Order preservation:}
     \[
-    |s_\star - s^\star_{S'}| \le \varepsilon_{s},
+    R_1\preceq R_2 \quad\Longleftrightarrow\quad 
+    R_1^i\le R_2^i \text{ for all } i
+    \quad\Longleftrightarrow\quad 
+    \log R_1^i \le \log R_2^i \text{ for all } i
+    \quad\Longleftrightarrow\quad 
+    \psi(R_1)\le \psi(R_2),
     \]
-    \item The sharpness of the transition is stable:
-    \[
-    |w - w_{S'}| \le \varepsilon_{w},
-    \]
-    \item After re-fitting, the collapse error isn’t worse than before by more than a small $\eta$:
-    \[
-    \frac{\mathrm{CE}^\star_{S'}}{\mathrm{CE}^\star_{S}} \le 1+\eta.
-    \]
+    so $\psi$ preserves (and reflects) the resource order.
+
+    \item \textbf{Continuity:}
+    Since the logarithm is continuous on $\R_{>0}$, the map $\psi$ is continuous with
+    respect to the standard topology.
 \end{enumerate}
+Thus the choice $\psi=\log$ provides a concrete realization of the
+representability condition in Axiom~\ref{axi:representability}: multiplicative scaling of
+resources in $\R^d_{>0}$ is represented as additive translation in the
+coordinate space~$\R^d$.
+\end{example}
 
-and, near onset, the transition width obeys a multiplicative shrinkage law
 
+\subsubsection{Instantiating the Training Kernel}
+
+\subsubsection{Instantiating the Predictor Map}
+
+\subsubsection{Instantiating a Capability}
+
+\subsection{Instantiation in Modern Training Pipelines}
+
+\subsubsection{A Typical Classification Pipeline}
+
+\subsubsection{Identifying the Learning System}
+
+\subsubsection{Identifying the Resource Coordinates}
+
+\subsubsection{Identifying the Training Kernel in Code}
+
+\subsubsection{Identifying the Capability Functional}
+
+\subsection{Predictive Consequences}
+
+\subsubsection{Monotonicity Prediction}
+
+\subsubsection{Continuity Prediction}
+
+\subsubsection{1D Collapse Prediction}
+
+\subsubsection{Representability Threshold Prediction}
+
+\section{Theoretical Consequences}
+
+\subsection{The Scaling Law}
+
+\subsubsection{Continuity of Capability}
+
+\begin{lemma}[Boundedness and continuity of the state-level capability]\label{lem:Mphi-cont}
+The state-level capability
 \[
-w(R)\approx C\exp\big(-\nu_\Phi^\top \psi(R)\big)
-\quad\text{with}\quad \nu_\Phi\in\mathbb R^d_{\ge 0},\ C>0
+M_\Phi(\theta)
+  = \E_{(x,y)\sim\mu}
+    \E_{y'\sim\Pi_\theta(\cdot|x)}[\,\mathcal U(y',y)\,]
+\]
+is bounded and continuous on $\Theta$.
+\end{lemma}
+\begin{proof}
+Boundedness follows immediately from the Definition of Utility \ref{def:learning-utility}: Since 
+\[
+|\mathcal U(y',y)|\le \|\mathcal U\|_\infty
+\]
+for all \((y',y)\), we have
+\[
+|M_\Phi(\theta)|
+  = \left|\E_{(x,y)\sim\mu}\,\E_{y'\sim\Pi_\theta(\cdot\mid x)}
+         [\mathcal U(y',y)]\right|
+  \le \|\mathcal U\|_\infty.
 \]
 
-\end{statementbox}
-
-\subsubsection{Axiom 4}
-
-\begin{statementbox}{Axiom 4 (A4) - Invariance}
-
-Conclusions about $\Phi$ must be invariant under linear reparameterizations of internal representations. Tests should rely on basis-invariant metrics (e.g., linear-probe accuracy, CKA/CKA-like, or SAE feature spaces), not neuron-level counts.
-
-\end{statementbox}
-
-\subsubsection{Axiom 5}
-
-\begin{statementbox}{Axiom 5 (A5) - Topology}
-
-\((\mathcal D, \tau_\mathcal D)\) and \((\mathcal R, \tau_\mathcal R)\) are topological spaces. Their product \(\mathcal S = \mathcal D \times \mathcal R \) induces a predictor map,
+For continuity, let $\theta_n\to\theta$. By Axiom \ref{axi:kernel-continuity},
 \[
-G:\mathcal S \to \{\Pi_\theta : X\to \mathcal P (Y)\}.
+\Pi_{\theta_n}(\cdot\mid x)\Rightarrow \Pi_\theta(\cdot\mid x)
+\quad\text{for each }x.
 \]
-For fixed $R$, $G$ is continuous in the function-space topology. 
+Since $\mathcal U$ is bounded and continuous in its first argument,
+\[
+\E_{y'\sim\Pi_{\theta_n}(\cdot\mid x)}[\mathcal U(y',y)]
+   \longrightarrow
+\E_{y'\sim\Pi_\theta(\cdot\mid x)}[\mathcal U(y',y)]
+\quad\text{for each }(x,y).
+\]
 
-\end{statementbox}
+To pass the limit through the outer $\mu$-integral, recall from Definition of State Capability \ref{def:state-capability} that
+\[
+M_\Phi(\theta)
+  = \int_{\mathcal X\times\mathcal Y}
+      \left(
+         \int_{\mathcal Y} \mathcal U(y',y)\,
+         \Pi_\theta(dy'\mid x)
+      \right)\mu(dx,dy).
+\]
 
-Anchor: $(\mathcal D, \tau_\mathcal D)\times (\mathcal R, \tau_\mathcal R)$ produces a product topological space $=S$
+For each $n$, define
+\[
+f_n(x,y)
+  :=
+  \int_{\mathcal Y} \mathcal U(y',y)\,
+     \Pi_{\theta_n}(dy'\mid x),
+\quad
+f(x,y)
+  :=
+  \int_{\mathcal Y} \mathcal U(y',y)\,
+     \Pi_{\theta}(dy'\mid x).
+\]
+Then
+\[
+M_\Phi(\theta_n)=\int_{\mathcal X\times\mathcal Y} f_n(x,y)\,d\mu(x,y),
+\quad
+M_\Phi(\theta)=\int_{\mathcal X\times\mathcal Y} f(x,y)\,d\mu(x,y).
+\]
 
-Continuity is assumed only for predictors, not for internal representations.
+We have $f_n(x,y)\to f(x,y)$ for every $(x,y)$, and by boundedness of $\mathcal U$,
+\[
+|f_n(x,y)|\le \|\mathcal U\|_\infty
+\quad\text{for all }n,(x,y).
+\]
+Since $f_n(x,y)\to f(x,y)$ pointwise, the dominated
+convergence theorem (Appendix \ref{app:dct} yields
+\[
+\int_{\mathcal X\times\mathcal Y} f_n(x,y)\,d\mu(x,y)
+   \;\longrightarrow\;
+\int_{\mathcal X\times\mathcal Y} f(x,y)\,d\mu(x,y).
+\]
+Thus $M_\Phi(\theta_n)\to M_\Phi(\theta)$.
+\end{proof}
 
-\textbf{Intuition:} This axiom does not describe \textit{what} a recipe or data-generating process is internally. It only asserts that they admit a topology, i.e. a notion of continuity and convergence. This restriction is deliberate: it ensures that we can study properties of learning systems (such as capabilities and emergence phenomena) using the language of topology.
+
+\begin{lemma}[Local continuity of the expected capability]\label{lem:mphi-cont}
+The expected capability
+\[
+m_\Phi(S,R)
+  = \int_\Theta M_\Phi(\theta)\,dK(S,R)(\theta)
+\]
+is continuous on procedure-local neighborhoods.
+\end{lemma}
+
+\begin{proof}
+\emph{continuity of $m_\Phi$ via Portmanteau.}
+Fix a procedure-local neighborhood $U\subseteq\mathcal S\times\mathcal R$.
+Let $(S_n,R_n)\to(S,R)$ with $(S_n,R_n),(S,R)\in U$.
+By Axiom \ref{axi:kernel-continuity},
+\[
+K(S_n,R_n)\ \Rightarrow\ K(S,R)\qquad\text{in }(\Prob(\Theta),\tau_{\rm weak}).
+\]
+Since $M_\Phi$ is bounded and continuous by Lemma \ref{lem:Mphi-cont}, the Portmanteau theorem yields
+\[
+\int_\Theta M_\Phi(\theta)\,dK(S_n,R_n)(\theta)\ \longrightarrow\
+\int_\Theta M_\Phi(\theta)\,dK(S,R)(\theta).
+\]
+That is, $m_\Phi(S_n,R_n)\to m_\Phi(S,R)$. Thus $m_\Phi$ is sequentially continuous on $U$. Because the procedure-local topology on $\mathcal S\times\mathcal R$ is first-countable (hence sequential), sequential continuity implies continuity. Therefore $m_\Phi$ is continuous on $U$.
+
+\end{proof}
+
+In summary:
+
+\begin{theorem}[Continuity of Capability]\label{thm:capability-cont}
+Under Basic Regularities \textnormal{(B1)--(B9)},
+the capability functions $M_\Phi$ and $m_\Phi$
+are bounded and continuous on their respective domains.
+\end{theorem}
+
+\subsubsection{Capability Monotonicity}
+
+\begin{theorem}[Capability Monotonicity]\label{thm:capability-monotonicity}
+Fix a capability type $\Phi$ and a system $S\in\mathcal S$.
+If $R_1\preceq R_2$ in the resource base $(\mathcal R,\oplus,0,\preceq,\tau_{\mathcal R})$, then
+\[
+m_\Phi(S,R_1)\;\le\; m_\Phi(S,R_2)
+\]
+\end{theorem}
+
+\begin{proof}
+By the Axiom of Kernel Monotonicity \ref{axi:kernel-monotonicity}, the training kernel $K$ is monotone compatible with the resource order:
+$R_1\preceq R_2$ implies the existence of a coupling $\gamma$ of $K(S,R_1)$ and $K(S,R_2)$ such that
+$M_\Phi(\theta_1)\le M_\Phi(\theta_2)$ for $\gamma$-a.e.\ $(\theta_1,\theta_2)$.
+Taking expectations under $\gamma$ gives
+\[
+\mathbb E_{\theta_1\sim K(S,R_1)}[M_\Phi(\theta_1)]
+\;\le\;
+\mathbb E_{\theta_2\sim K(S,R_2)}[M_\Phi(\theta_2)],
+\]
+hence $m_\Phi(S,R_1)\le m_\Phi(S,R_2)$.
+\end{proof}
+
+\begin{corollary}[Upward-closed superlevel sets; frontier = level set; codimension-1]\label{cor:upward-frontier}
+Fix $\Phi$ and $S$. For any $c\in\mathbb R$, the superlevel set
+\[
+U_c(S,\Phi):=\{R\in\mathcal R:\; m_\Phi(S,R)\ge c\}
+\]
+is upward-closed: if $R\in U_c$ and $R\preceq R'$, then $R'\in U_c$.
+If, in addition, $m_\Phi(S,\cdot)$ is continuous on a neighborhood of $U_c$, then
+\[
+\Sigma_c(S,\Phi):=\{R:\; m_\Phi(S,R)=c\}=\partial U_c.
+\]
+If furthermore $m_\Phi(S,\cdot)$ is $C^1$ near $\Sigma_c$ and $c$ is a regular value
+($\nabla_R m_\Phi(S,R)\neq 0$ on $\Sigma_c$ in any Euclidean chart of a feature map),
+then $\Sigma_c(S,\Phi)$ is a codimension-$1$ submanifold (hypersurface) of the resource chart.
+\end{corollary}
+
+\begin{proof}
+Upward-closedness: let $R\in U_c$ and $R\preceq R'$. By Theorem~\ref{thm:capability-monotonicity},
+\[
+m_\Phi(S,R')\ge m_\Phi(S,R)\ge c,
+\]
+hence $R'\in U_c$.
+
+Frontier = level set: continuity of $m_\Phi(S,\cdot)$ implies
+$U_c=\{m_\Phi\ge c\}$ is closed (preimage of $[c,\infty)$); therefore its boundary equals
+$\{m_\Phi=c\}=\Sigma_c$.
+
+Codimension-1: in any Euclidean chart provided by the feature map,
+if $m_\Phi(S,\cdot)$ is $C^1$ and $c$ is a regular value, the regular level set theorem yields
+that $\Sigma_c$ is a $(k-1)$-dimensional embedded submanifold, i.e.\ codimension $1$.
+\end{proof}
+
+\subsubsection{Existence of an Effective Direction}
+
+\begin{lemma}[Universality implies existence of an effective direction]\label{lem:effective-direction}
+Suppose Axiom~\ref{axi:universality} (Universality) holds on a procedure-local neighborhood
+of $(S,\Phi)$. That is, there exists a triple $[\psi,\alpha,f]$ such that
+\[
+m_\Phi(S,R)
+\;=\;
+f\!\left(\frac{\alpha^\top \psi(R)-s^*(S)}{w(S)}\right)
+\]
+for all $R$ in that neighborhood, and this representation is stable under
+resource-equivalence. Then there exists an equivalence class of nonzero
+directions $[\alpha]\subset (\R^k)^*$ such that, after quotienting by
+resource-equivalence, the iso-capability sets are locally hyperplanes
+\[
+\{\,R\in\mathcal R:\ \alpha^\top \psi(R)=\text{\rm const.}\,\}
+\]
+in the resource coordinates $\psi(R)$. Equivalently, in this neighborhood the
+capability depends only on the single scalar
+\[
+s(R) \;=\; \alpha^\top \psi(R),
+\]
+up to admissible affine reparameterizations of $s$.
+\end{lemma}
+
+\begin{proof}
+Fix a procedure-local neighborhood $U\subseteq\mathcal S\times\mathcal R$ of
+$(S,\Phi)$ on which the Axiom of Universality~\ref{axi:universality} holds with some triple
+$[\psi,\alpha,f]$. For the moment, fix the state $S$ and consider the induced
+neighborhood
+\[
+U_S \;:=\; \{\,R\in\mathcal R : (S,R)\in U\,\}.
+\]
+
+\medskip
+\noindent\textbf{Step 1: Resource-equivalence as a level-set relation.}
+On $U_S$, recall the definition of resource equivalence (Definition \ref{def:cap-equiv}):
+\[
+R \sim R'
+\quad\Longleftrightarrow\quad
+m_\Phi(S,R) = m_\Phi(S,R').
+\]
+By definition, iso-capability (Definition \ref{def:iso-capability} sets are precisely the equivalence classes of
+$\sim$.
+
+By Universality \ref{axi:universality}, there exist scalars $s^*(S)\in\R$ and $w(S)>0$ and a universal profile $f:\R\to\R$ such that
+\[
+m_\Phi(S,R)
+\;=\;
+f\!\left(\frac{\alpha^\top \psi(R)-s^*(S)}{w(S)}\right)
+\quad\text{for all }R\in U_S.
+\]
+Assume $f$ is strictly monotone on the relevant range (as part of the
+universality axiom). Then for any $R,R'\in U_S$,
+\[
+\begin{aligned}
+m_\Phi(S,R) = m_\Phi(S,R')
+&\quad\Longleftrightarrow\quad
+\frac{\alpha^\top \psi(R)-s^*(S)}{w(S)}
+=
+\frac{\alpha^\top \psi(R')-s^*(S)}{w(S)}\\
+&\quad\Longleftrightarrow\quad
+\alpha^\top \psi(R)=\alpha^\top \psi(R').
+\end{aligned}
+\]
+
+Thus the equivalence classes of $\sim$ are exactly the level sets of the scalar
+\[
+s(R) \;:=\; \alpha^\top \psi(R).
+\]
+
+\medskip
+\noindent\textbf{Step 2: Iso-capability sets as hyperplanes in resource coordinates.}
+Let $z=\psi(R)\in\R^k$ denote the resource coordinates. For any constant
+$c\in\R$, the corresponding iso-capability set at level
+
+ \[
+ c_0 :=
+f\left(\frac{c-s^*(S)}{w(S)}\right)
+ \]
+
+is
+\[
+\begin{aligned}
+\{\,R\in U_S : m_\Phi(S,R)=c_0\,\}&
+=
+\{\,R\in U_S : s(R)=c\,\}\\
+&=
+\{\,R\in U_S : \alpha^\top \psi(R)=c\,\}.
+\end{aligned}
+\]
+In the coordinate space $\psi(U_S)\subseteq\R^k$, this is the intersection of
+$\psi(U_S)$ with the affine hyperplane
+\[
+H_c \;:=\; \{\,z\in\R^k : \alpha^\top z = c\,\}.
+\]
+Since $\alpha\neq 0$ (otherwise $m_\Phi$ would be constant in $R$ on $U_S$ and
+the universality representation would be degenerate), each $H_c$ is a
+codimension-one hyperplane in $\R^k$.
+
+Thus, after quotienting $U_S$ by the equivalence relation $\sim$, the
+iso-capability classes are locally represented by hyperplanes
+$\{R : \alpha^\top \psi(R)=\text{const.}\}$ in the resource coordinates.
+
+\medskip
+\noindent\textbf{Step 3: Effective direction up to affine reparameterization.}
+The scalar
+\[
+s(R) = \alpha^\top \psi(R)
+\]
+is defined only up to affine reparameterizations. Indeed, replacing $s$ by
+\[
+\tilde{s}(R)
+  := \frac{s(R)-s^*(S)}{w(S)}
+\]
+and correspondingly composing $f$ with an affine change of variables does not
+change $m_\Phi(S,R)$. Likewise, replacing $\alpha$ by any nonzero scalar
+multiple $\lambda\alpha$ and defining
+\[
+\tilde{f}(u) := f(u/\lambda)
+\]
+leads to an equivalent representation of the same capability function. Thus the
+effective direction is determined only up to nonzero scalar multiples; we
+denote this equivalence class by $[\alpha]\subset (\R^k)^*$.
+
+In summary, universality on $U$ implies the existence of a (projective) class
+of nonzero directions $[\alpha]$ such that:
+\begin{enumerate}
+    \item iso-capability sets coincide with level sets of $s(R)=\alpha^\top\psi(R)$;
+    \item these level sets are (local) hyperplanes in the coordinate space; and
+    \item $m_\Phi$ depends on $R$ only through $s(R)$, up to affine
+          reparameterization of $s$.
+\end{enumerate}
+This is exactly the claimed existence of an effective direction.
+\end{proof}
+
+
+\begin{lemma}[Well-defined scaling curve]\label{lem:scaling-curve}
+Let $S$ be fixed and let $\alpha$ be an effective direction as in Lemma \ref{lem:effective-direction}.
+Define the scalar
+\[
+s(R):=\alpha^\top\psi(R).
+\]
+Then the map
+\[
+f_S:\ s\mapsto m_\Phi(S,R)\qquad\text{for any }R\text{ with }s(R)=s
+\]
+is well-defined, monotone, and continuous.
+Consequently,
+\[
+m_\Phi(S,R)=f_S\bigl(\alpha^\top\psi(R)\bigr)
+\]
+up to admissible affine reparameterizations of $s$.
+\end{lemma}
+
+\begin{proof}
+\emph{Well-definedness.}
+By Lemma \ref{lem:effective-direction},
+\[
+R\sim R'
+\quad\Longleftrightarrow\quad
+s(R)=s(R').
+\]
+Thus, if $s(R)=s(R')$, then $m_\Phi(S,R)=m_\Phi(S,R')$, so $f_S$ is well-defined.
+
+\medskip
+\noindent\emph{Monotonicity.}
+By Universality \ref{axi:universality}, there exists a strictly monotone profile $f$ such that
+\[
+m_\Phi(S,R)=f\!\left(\frac{s(R)-s^*(S)}{w(S)}\right)
+\]
+on a procedure-local neighborhood.
+Since $s(R)$ is an affine functional of $\psi(R)$ and $f$ is strictly monotone, the resulting $f_S$ is monotone in~$s$.
+
+\medskip
+\noindent\emph{Continuity.}
+By Theorem \ref{thm:capability-cont}, $R\mapsto m_\Phi(S,R)$ is continuous. Since
+\[
+R\mapsto s(R)=\alpha^\top\psi(R)
+\]
+is continuous, the quotient map $R\mapsto s(R)$ is continuous, and therefore the induced single-variable function $f_S$ is continuous.
+
+This establishes the representation
+\[
+m_\Phi(S,R)=f_S(s(R))
+=f_S(\alpha^\top\psi(R)),
+\]
+up to the admissible affine reparameterizations allowed in Universality \ref{axi:universality}. 
+\end{proof}
+
+\subsubsection{The Scaling Law}
+
+\begin{theorem}[Scaling law]\label{thm:scaling-law}
+Let $(S,\Phi)$ be an admissible learning system. Then there exists a procedure-local
+scaling map $f_S$ such that
+\[
+m_\Phi(S,R)
+  = f_S\bigl(\alpha^\top \psi(R)\bigr)
+\]
+for all $R$ in a procedure-local neighborhood of $S$, up to admissible affine reparameterizations of the scalar
+\[
+s(R)=\alpha^\top\psi(R).
+\]
+\end{theorem}
+
+\begin{proof}
+Fix an admissible learning system $(S,\Phi)$. By Universality \ref{axi:universality}, there exists a procedure-local
+neighborhood $U\subseteq\mathcal S\times\mathcal R$ of $(S,\Phi)$ and a representation triple $[\psi,\alpha,f]$ such that
+\[
+m_\Phi(S,R)
+  = f\!\left(\frac{\alpha^\top\psi(R)-s^*(S)}{w(S)}\right)
+\]
+for all $R$ with $(S,R)\in U$, and this representation is stable under gauge equivalence.
+
+By Lemma \ref{lem:effective-direction}, there exists an effective direction $\alpha\neq 0$ such that, after quotienting by capability equivalence at $S$,
+the iso-capability sets
+\[
+\{\,R\in\mathcal R : m_\Phi(S,R)=\text{\rm const.}\,\}
+\]
+are locally given by hyperplanes
+\[
+\{\,R\in\mathcal R : \alpha^\top\psi(R)=\text{\rm const.}\,\}
+\]
+in the resource coordinates $\psi(R)$.
+Equivalently, in this neighborhood the capability depends on $R$ only through
+the scalar
+\[
+s(R) := \alpha^\top\psi(R),
+\]
+up to admissible affine reparameterizations of $s$.
+
+Now fix $S$ and consider the induced neighborhood
+\[
+U_S := \{\,R\in\mathcal R : (S,R)\in U\,\}.
+\]
+Define $f_S$ on the image
+\[
+I_S := s(U_S)\subseteq\R
+\]
+by
+\[
+f_S(s) \coloneqq m_\Phi(S,R)
+\quad\text{for any }R\in U_S\text{ with }s(R)=s.
+\]
+By Lemma~\ref{lem:scaling-curve}, this definition is well-defined (i.e.
+independent of the choice of $R$ with $s(R)=s$), and the resulting map $f_S$
+is monotone and continuous in $s$. Moreover, Lemma~\ref{lem:scaling-curve}
+shows that
+\[
+m_\Phi(S,R) = f_S\bigl(s(R)\bigr)
+             = f_S\bigl(\alpha^\top\psi(R)\bigr)
+\]
+for all $R\in U_S$, up to the admissible affine reparameterizations of $s$
+allowed by Universality~\ref{axi:universality} (i.e.\ rescalings and shifts of $s$ absorbed
+into a corresponding redefinition of $f_S$).
+
+This is exactly the claimed scaling law for the fixed system $S$.
+Since $S\in\mathcal S$ was arbitrary, the conclusion holds for each admissible
+learning system.
+\end{proof}
+
+\subsection{Criticality and Phase Geometry}
+
+\subsection{Backpropagation as a Derived Principle}
+https://chatgpt.com/g/g-p-68a088c3c5b081918671bb266c308f51-ai-research/c/690ab849-f1b0-8331-9904-ba89cf358a53
+
+\subsection{Universality and Resource Equivalence}
 
 \section{Experimentation—Trying My Absolute Best To Break My Theory}
 
-When you axiomatize an empirical domain like modern AI, you’re not declaring truths, but instead you’re proposing tight, testable axioms that compress messy behavior into a few operational claims. Each axiom turns vague talk of “emergence” into specific predictions about a continuous order parameter that should rise along an effective resource axis, align across different ways of spending resources, stay stable within a defined training regime, and be immune to arbitrary reparameterization. Making these axioms falsifiable maximizes information gain. A confirming result means the lens has real predictive bite; a failure tells you exactly where the world refuses the simplification—which knob (data, parameters, steps, context length, precision, data quality) breaks curve collapse, which metric creates mirages, which recipe shift moves the onset or sharpness. In this hybrid program, experiments don’t just “validate” theory; they carve its domain of validity, turning broad conjectures into precise, recipe-local laws and revealing the minimal assumptions under which capability transitions actually behave like scaling phenomena worth proving later.
+When you axiomatize an empirical domain like modern AI, you’re not declaring truths, but instead you’re proposing tight, testable axioms that compress messy behavior into a few operational claims. Each axiom turns vague talk of “emergence” into specific predictions about a continuous order parameter that should rise along an effective resource axis, align across different ways of spending resources, stay stable within a defined training regime, and be immune to arbitrary reparameterization. Making these axioms falsifiable maximizes information gain. A confirming result means the lens has real predictive bite; a failure tells you exactly where the world refuses the simplification—which knob (data, parameters, steps, context length, precision, data quality) breaks curve collapse, which metric creates mirages, which procedure shift moves the onset or sharpness. In this hybrid program, experiments don’t just “validate” theory; they carve its domain of validity, turning broad conjectures into precise, procedure-local laws and revealing the minimal assumptions under which capability transitions actually behave like scaling phenomena worth proving later.
+
+\clearpage
+
+\appendix
+\section{Mathematical Appendix}
+\label{app:mathdefs}
+
+\subsection{Probability- and Measure Theory}
+
+\subsubsection{Measurable Structure}
+
+
+\begin{definition}[$\sigma$-Algebra]\label{app:sigma-algebra}
+Let $X$ be a nonempty set.  
+A \textit{$\sigma$-algebra} $\mathcal F$ on $X$ is a collection of subsets of $X$ satisfying:
+\begin{enumerate}
+    \item $X \in \mathcal F$,
+    \item if $A \in \mathcal F$, then $A^c = X \setminus A \in \mathcal F$,
+    \item if $\{A_i\}_{i=1}^\infty \subseteq \mathcal F$, then $\bigcup_{i=1}^\infty A_i \in \mathcal F$.
+\end{enumerate}
+Elements of $\mathcal F$ are called \textit{measurable sets}.  
+The $\sigma$-algebra encodes the subsets of $X$ to which a measure may consistently assign sizes or probabilities.  
+The smallest $\sigma$-algebra containing a family $\mathcal G \subseteq 2^X$ is called the \textit{$\sigma$-algebra generated by} $\mathcal G$, written $\sigma(\mathcal G)$.
+\end{definition}
+
+\begin{definition}[Measurable Space]\label{app:measurable-space}
+A \textit{measurable space} is a pair $(X,\mathcal F)$, where $X$ is a set and $\mathcal F$ is a $\sigma$-algebra on $X$.  
+It provides the structural notion of which subsets of $X$ are admissible for measure and integration.
+\end{definition}
+
+\begin{definition}[Measure]\label{app:measure}
+Let $(X,\mathcal F)$ be a measurable space.  
+A \textit{measure} is a function $\mu : \mathcal F \to [0,\infty]$ such that:
+\begin{enumerate}
+    \item $\mu(\emptyset) = 0$,
+    \item (Countable additivity) if $\{A_i\}_{i=1}^\infty$ are disjoint in $\mathcal F$, then
+    \[
+    \mu\!\left(\bigcup_{i=1}^\infty A_i\right) = \sum_{i=1}^\infty \mu(A_i).
+    \]
+\end{enumerate}
+A measure assigns "size" or "mass" to measurable sets in a consistent way.  
+If $\mu(X) = 1$, we call $\mu$ a \textit{probability measure} and $(X,\mathcal F,\mu)$ a \textit{probability space}.
+\end{definition}
+
+\begin{definition}[Measurable Map]\label{app:measurable-map}
+Let $(X,\mathcal F_X)$ and $(Y,\mathcal F_Y)$ be measurable spaces.  
+A function $f : X \to Y$ is \textit{measurable} if
+\[
+f^{-1}(A) \in \mathcal F_X \quad \text{for all } A \in \mathcal F_Y.
+\]
+That is, the preimage of every measurable set in $Y$ is measurable in $X$.  
+This ensures that measures defined on $X$ and $Y$ interact coherently under $f$, enabling the construction of \textit{pushforward measures}
+\[
+f_\# \mu(A) = \mu(f^{-1}(A))
+\]
+and the definition of integrals $\int f\, d\mu$.
+\end{definition}
+
+The concept of measurability provides the bridge between topology and probability.  
+It ensures that mappings between domains—such as signals $x : \Omega \to C$ in the main text—preserve the structure necessary to define probabilities and expectations.  
+Without measurability, integrals like $\mathbb E[x]$ or probability measures on images $x(\Omega)$ would be undefined.
+
+In the main theory, every space that carries probabilistic structure (data domains, parameter spaces, value spaces) is equipped with a Borel $\sigma$-algebra generated by its topology. Measurable maps—signals, kernels, and predictors—are functions that respect these structures.
+
+\subsubsection{Borel Structure}
+\label{app:borel}
+
+\begin{definition}[Borel $\sigma$-algebra]
+Let $(X,\tau)$ be a topological space.  
+The \emph{Borel $\sigma$-algebra} on $X$, denoted $\mathscr B(X)$, is the smallest $\sigma$-algebra containing all open sets of $X$.  
+The elements of $\mathscr B(X)$ are called \emph{Borel sets}.
+\end{definition}
+
+The Borel $\sigma$-algebra is the minimal collection of subsets of $X$ to which one can assign probabilities or measures while remaining consistent with the topology.  
+It allows us to integrate and talk about probabilities without leaving the structure of the underlying space.  
+In our framework, $\Theta$, $\mathcal S$, and $\mathcal R$ all carry their natural topologies, and we use their corresponding Borel $\sigma$-algebras to define measurable maps such as the training kernel
+\[
+K:(\mathcal S\times\mathcal R,\B(\mathcal S\times\mathcal R))
+  \longrightarrow (\Prob(\Theta),\B(\Prob(\Theta))) ,
+\]
+where:
+\[
+\B(\Prob(\Theta)):=\text{Borel}(\tau_{\mathrm{weak}})
+\]
+
+If $\mathcal S$ and $\mathcal R$ are Polish, then
+$\B(\mathcal S\times\mathcal R)=\B(\mathcal S)\times\B(\mathcal R)$.
+
+\begin{definition}[Borel measurable function]
+Let $(X,\mathscr A)$ and $(Y,\mathscr B)$ be measurable spaces.  
+A map $f:X\to Y$ is \emph{(Borel) measurable} if for every $B\in\mathscr B$,
+\[
+f^{-1}(B)\in \mathscr A.
+\]
+\end{definition}
+
+Measurability ensures that the pre-image of any event we can \textit{measure} in $Y$ remains measurable in $X$.  
+It is the minimal condition required for integrals like $\int f\,d\mu$ to make sense.  
+
+A measurable function $f:X\to\mathbb R$ is \textit{bounded} if $\sup_{x\in X}|f(x)|<\infty$.  
+Boundedness guarantees that integrals against probability measures are finite, a property used throughout the theory for quantities such as $M_\Phi(\theta)$ and $m_\Phi(S,R)$.
+
+\textbf{Relevance in this theory.}
+\begin{itemize}
+    \item The capability function $M_\Phi:\Theta\to\mathbb R$ must be Borel measurable so that expectations $\int M_\Phi\,dK(S,R)$ are well-defined.
+    \item The kernel $K$ itself is measurable in the sense that $(S,R)\mapsto K(S,R)(A)$ is measurable for every Borel set $A\subseteq\Theta$.
+    \item Boundedness of $M_\Phi$ ensures that all integrals and expectations are finite and continuous under weak convergence.
+\end{itemize}
+
+\subsubsection{Probability Spaces and Measures}
+\label{app:probability-spaces-measures}
+
+\begin{definition}{Measure space}{}
+A \emph{measure space} is a triple $(X,\mathscr A,\mu)$ where:
+\begin{itemize}
+    \item $X$ is a set (the underlying space),
+    \item $\mathscr A$ is a $\sigma$-algebra of subsets of $X$ (the measurable sets),
+    \item $\mu:\mathscr A\to[0,\infty]$ is a measure satisfying:
+    \begin{enumerate}
+        \item $\mu(\emptyset)=0$,
+        \item For any countable family of disjoint sets $(A_i)_{i=1}^\infty\subseteq\mathscr A$,
+        \[
+        \mu\!\left(\bigcup_{i=1}^\infty A_i\right)=\sum_{i=1}^\infty\mu(A_i).
+        \]
+    \end{enumerate}
+\end{itemize}
+\end{definition}
+
+A measure space is a rigorous way of assigning "size" or "volume" to sets, even in cases where standard geometry fails. For instance, on $\mathbb R^d$, Lebesgue measure generalizes the notion of length, area, and volume to very irregular sets.
+
+\begin{definition}{Probability space}{}
+A \emph{probability space} is a measure space $(X,\mathscr F,\mathbb P)$ where $\mathbb P(X)=1$.
+\end{definition}
+
+A probability space describes all possible outcomes (the sample space $X$), the events we can talk about (the $\sigma$-algebra $\mathscr F$), and how likely each event is (the measure $\mathbb P$).  
+
+In context, every learning configuration $(S,R)$ induces a probability space:
+\[
+(\Theta,\mathscr B(\Theta), K(S,R)),
+\]
+where $K(S,R)$ acts as a probability measure over parameter states $\theta$. This makes $(\Theta,\mathscr B(\Theta),K(S,R))$ a valid probability space on which we can define and integrate measurable functions like $M_\Phi(\theta)$.
+
+
+\begin{definition}{Borel probability measure}{}
+Let $(X,\tau)$ be a topological space and let $\mathscr B(X)$ denote its Borel $\sigma$-algebra. A \emph{Borel probability measure} on $X$ is a measure $\mu:\mathscr B(X)\to[0,1]$ satisfying $\mu(X)=1$.
+
+We denote by $\Prob(X)$ the set of all Borel probability measures on $X$.When $X$ is Polish, $(\Prob(X),\tau_{\mathrm{weak}})$ is also Polish (by Prokhorov’s theorem), making it the natural codomain for Markov kernels.
+\end{definition}
+
+A Borel probability measure assigns probabilities to all Borel subsets of a topological space.
+It is the most natural way to extend the idea of “probability distributions” to general spaces:
+instead of describing probability by densities or histograms,
+a Borel measure simply says which subsets of $X$ have what probability mass.
+
+All probability measures appearing in this theory—those produced by the training kernel $K(S,R)$, the predictors $\Pi_\theta$, and the data distribution $\mu$—are Borel probability measures.
+This guarantees:
+\begin{itemize}
+    \item Compatibility with the topological structure of $\mathcal S$, $\mathcal R$, and $\Theta$ (Regularities B1–B2 and B7).
+    \item Applicability of the Portmanteau theorem and weak topology on $\Prob(\Theta)$.
+    \item Existence of integrals such as
+          \[
+          m_\Phi(S,R)
+            = \int_\Theta M_\Phi(\theta)\,dK(S,R)(\theta),
+          \]
+          which are Lebesgue integrals with respect to a Borel probability measure.
+\end{itemize}
+
+\begin{definition}[Pushforward measure]
+If $f:X\to Y$ is measurable and $\mu$ is a measure on $X$,  
+the \emph{pushforward measure} $f_\#\mu$ on $Y$ is defined by
+\[
+f_\#\mu(B)=\mu(f^{-1}(B)),\qquad B\in\mathscr B(Y).
+\]
+\end{definition}
+
+Given a probability space $(X,\mathscr A,\mu)$ and an integrable function $f:X\to\mathbb R$,  
+the expectation is defined as
+\[
+\E_\mu[f] := \int_X f\,d\mu.
+\]
+This is the mathematical backbone of all expressions like  
+$m_\Phi(S,R)=\E_{\theta\sim K(S,R)}[M_\Phi(\theta)]$.
+
+\subsubsection{Markov Kernels and Weak Continuity}
+\label{app:markov-kernel}
+
+\begin{definition}{Markov kernel}{}
+Let $(X,\mathscr A)$ and $(Y,\mathscr B)$ be measurable spaces.  
+A function $K:X\times\mathscr B\to[0,1]$ is a \emph{Markov kernel} if:
+\begin{enumerate}
+    \item For each $A\in\mathscr B$, the map $x\mapsto K(x,A)$ is $\mathscr A$-measurable.
+    \item For each $x\in X$, the map $A\mapsto K(x,A)$ is a probability measure on $(Y,\mathscr B)$.
+\end{enumerate}
+\end{definition}
+
+It associates to each point $x\in X$ a probability measure on $(Y,\mathcal B)$ such that, for every measurable set $B\in \mathcal B$, the map $x\mapsto\kappa (B,x)$ is measurable with respect to the $\sigma$-algebra $\mathcal A$.
+
+If a deterministic function gives you one point, a Markov kernel gives you a whole distribution. We can see kernels as a stochastic function: A Markov kernel is a stochastic map: instead of sending $x$ to a single point of $Y$, it sends $x$ to a probability distribution on $(Y,\B(Y))$ in a measurable way.
+
+In practice, kernels let us say “the output is random, but in a controlled, measurable way," which is exactly why we use it in defining the training kernel. Without the kernel being measurable, the composed quantity
+\[
+(S,R)\mapsto \int_\Theta M_\Phi(\theta)\,dK(S,R)(\theta)
+\]
+would not be guaranteed measurable; this property is crucial in Lemma~\ref{lem:wellposed-cont}.
+
+\begin{definition}{Weak continuity}{}
+Let $\Theta$ be a Polish space with Borel $\sigma$-algebra $\mathscr B(\Theta)$.
+A Markov kernel $K:(\mathcal S\times\mathcal R)\to \Prob(\Theta)$ is said to be
+\emph{weakly continuous} if, for every sequence $(S_n,R_n)\to(S,R)$ in $\mathcal S\times\mathcal R$,
+\[
+K(S_n,R_n)\Rightarrow K(S,R)
+\quad\text{in }(\Prob(\Theta),\tau_{\text{weak}}),
+\]
+i.e.\ for all bounded continuous $f:\Theta\to\mathbb R$,
+\[
+\int_\Theta f(\theta)\,dK(S_n,R_n)(\theta)
+   \longrightarrow
+\int_\Theta f(\theta)\,dK(S,R)(\theta).
+\]
+\end{definition}
+
+Weak continuity ensures that small perturbations in the system or resource parameters produce only small changes (in the weak sense) in the resulting distribution of trained parameters. This is the formal notion behind the idea that "training behaves continuously" with respect to $(S,R)$.
+
+This property connects the geometry of the learning domain $\mathcal S\times\mathcal R$ with the probabilistic space $\Prob(\Theta)$. It is the assumption used in Lemma~\ref{lem:wellposed-cont} to guarantee the continuity of $m_\Phi(S,R)$ via the Portmanteau theorem.
+
+\noindent\textbf{Remark.}
+Because $\mathcal S\times\mathcal R$ and $\Prob(\Theta)$ are Polish, sequential weak continuity is equivalent to topological continuity with respect to $\tau_{\mathrm{weak}}$.
+
+\subsubsection{Weak Convergence and Topologies}
+\label{app:weak-topology}
+Reference: Billingsley (1968), Villani (2009).
+
+Let $\Theta$ be a Polish space with Borel $\sigma$-algebra $\mathscr B(\Theta)$.
+Denote by $\Prob(\Theta)$ the set of Borel probability measures on $\Theta$.
+
+\begin{definition}{Weak convergence}{}
+A sequence $(\mu_n)\subseteq \Prob(\Theta)$ is said to \emph{converge weakly} to $\mu\in\Prob(\Theta)$, written
+$\mu_n\Rightarrow\mu$, if
+\[
+\int_\Theta f(\theta)\,d\mu_n(\theta)\longrightarrow
+\int_\Theta f(\theta)\,d\mu(\theta)
+\quad\text{for every bounded continuous }f:\Theta\to\mathbb R.
+\]
+\end{definition}
+
+\begin{definition}{Weak Topology}{}
+    The \textit{weak topology} is the coarsest topology such that, for every bounded continuous $f:\Theta\to \R$, the map
+    \[
+    \mu \longmapsto \int_\Theta f(\theta) \ d\mu(\theta)
+    \]
+    is continuous.
+\end{definition}
+
+So a sequence of distributions $(\mu_n)$ converges weakly to $\mu$ if every continuous measurement of the system sees the same averages in the limit. That is, even if individual samples from $\mu_n$ fluctuate wildly, their aggregate expectations on smooth observables stabilize. In context, $f(\theta)=M_\Phi(\theta)$ is one such observable, measuring capability. The weak topology ensures that small changes in $(S,R)$, hence in the distribution $K(S,R)$, can produce small changes in expected capabilities $m_\Phi(S,R)$.
+
+\subsubsection{Portmanteau Theorem}
+\label{app:portmanteau}
+
+\begin{theorem}{Portmanteau}{}
+For probability measures $\mu_n,\mu\in\Prob(\Theta)$ on a metric space $\Theta$, the following are equivalent:
+\begin{enumerate}
+    \item $\mu_n\Rightarrow\mu$.
+    \item For all bounded continuous $f:\Theta\to\mathbb R$,
+    \[
+    \int f\,d\mu_n \to \int f\,d\mu.
+    \]
+    \item For every closed set $F\subseteq\Theta$,
+    \[
+    \limsup_{n\to\infty}\mu_n(F)\le\mu(F).
+    \]
+    \item For every open set $G\subseteq\Theta$,
+    \[
+    \liminf_{n\to\infty}\mu_n(G)\ge\mu(G).
+    \]
+\end{enumerate}
+\end{theorem}
+
+Weak convergence formalizes the idea that distributions are close when they give similar expectations to all smooth observables. It governs the continuity of integrals when the measures vary (contrast with the Dominated Convergence Theorem, which governs limits when the functions vary).
+
+\begin{corollary}{Continuity of integrals under weak convergence}{}
+If $\mu_n \Rightarrow \mu$ and $f$ is bounded and continuous, then $\int f\,d\mu_n \to \int f\,d\mu$.
+\end{corollary}
+
+This is important since for the training kernel
+\[
+K:(\mathcal S\times\mathcal R,\tau_\mathcal S\times\tau_\mathcal R)
+   \longrightarrow (\Prob(\Theta),\tau_{\text{weak}}),
+\]
+and any bounded continuous capability function $M_\Phi:\Theta\to\mathbb R$,
+the Portmanteau theorem implies
+\[
+K(S_n,R_n)\Rightarrow K(S,R)
+\Longrightarrow
+\int M_\Phi\,dK(S_n,R_n)\to \int M_\Phi\,dK(S,R),
+\]
+which yields the local continuity of
+$m_\Phi(S,R)=\E_{\theta\sim K(S,R)}[M_\Phi(\theta)]$
+established in Lemma 1 of the main text.
+
+\subsubsection{Lebesgue Integration}
+\label{app:lebesgue}
+
+\begin{definition}[Lebesgue integral]
+Let $(X,\mathscr A,\mu)$ be a measure space and $f:X\to[0,\infty]$ a measurable function.
+The \emph{Lebesgue integral} of $f$ with respect to $\mu$ is defined as
+\[
+\int_X f\,d\mu = \sup\left\{
+   \int_X s\,d\mu \; :\;
+   s \text{ is a simple function with } 0\le s\le f
+\right\},
+\]
+where a simple function is a finite linear combination
+$s(x)=\sum_{i=1}^n a_i\mathbf 1_{A_i}(x)$ with $A_i\in\mathscr A$ and $a_i\ge0$.
+For general (possibly signed) measurable $f$, we define
+\[
+\int f\,d\mu = \int f^+\,d\mu - \int f^-\,d\mu,
+\]
+where $f^+=\max(f,0)$ and $f^-=\max(-f,0)$.
+\end{definition}
+
+Lebesgue integration measures the "weighted area" under $f$ by first cutting the \emph{range} of $f$ into levels rather than partitioning the \emph{domain} as in Riemann integration. It is designed to handle discontinuities, limits, and arbitrary measurable domains robustly.
+
+Riemann integration only works when the domain is an interval and $f$ is nearly continuous everywhere.  
+Lebesgue integration, on the other hand, can integrate over arbitrary measurable sets and with respect to arbitrary measures. In our case, we integrate over $(\Theta,\mathscr B(\Theta),K(S,R))$, where $K(S,R)$ is a probability measure that may not have a density or any geometric structure. Thus, the integral
+\[
+\int_\Theta M_\Phi(\theta)\,dK(S,R)(\theta)\eqqcolon m_\Phi(S,R)
+\]
+is necessarily a \emph{Lebesgue integral.}
+
+Known properties:
+\begin{itemize}
+    \item \textbf{Linearity:} $\int (a f + b g)\,d\mu = a\int f\,d\mu + b\int g\,d\mu$.
+    \item \textbf{Monotone convergence:} If $0\le f_n\uparrow f$, then $\int f_n\,d\mu\uparrow\int f\,d\mu$.
+    \item \textbf{Dominated convergence:} If $|f_n|\le g\in L^1(\mu)$ and $f_n\to f$ pointwise, then $\int f_n\,d\mu\to\int f\,d\mu$.
+    \item \textbf{Absolute integrability:} If $\int |f|\,d\mu<\infty$, we write $f\in L^1(\mu)$.
+\end{itemize}
+
+Relevance to this theory:
+\begin{itemize}
+    \item All expectations, such as $\E_{\theta\sim K(S,R)}[M_\Phi(\theta)]$, are Lebesgue integrals on the probability space $(\Theta,\mathscr B(\Theta),K(S,R))$.
+    \item Lebesgue integration allows us to handle continuous, discontinuous, or even infinite-dimensional parameter spaces uniformly.
+    \item Theorems like Dominated Convergence (Appendix~A.x+2) guarantee that taking limits and integrating over $\Theta$ commute—crucial for proving continuity and scaling-law results.
+\end{itemize}
+
+For example, if $\Theta=\mathbb R^d$ and $K(S,R)$ has a density $p_{S,R}(\theta)$,  
+then the Lebesgue integral reduces to the familiar expression
+\[
+m_\Phi(S,R)=\int_{\mathbb R^d} M_\Phi(\theta)\,p_{S,R}(\theta)\,d\theta,
+\]
+which is the Riemann integral weighted by the density, but the general Lebesgue form remains valid even when $p_{S,R}$ does not exist.
+
+\subsubsection{Dominated Convergence Theorem}
+\label{app:dct}
+
+\begin{theorem}{Dominated Convergence}{}
+Let $(X,\mathscr A,\mu)$ be a measure space and let $(f_n)_{n\in\mathbb N}$ be a sequence of measurable functions 
+$f_n:X\to\mathbb R$ such that $f_n(x)\to f(x)$ for $\mu$-almost every $x\in X$.
+Assume there exists an integrable function $g\in L^1(\mu)$ satisfying
+\[
+|f_n(x)|\le g(x) \quad \text{for all } n\in\mathbb N,\ \text{for $\mu$-a.e. }x\in X.
+\]
+Then $f$ is integrable and
+\[
+\lim_{n\to\infty}\int_X f_n\,d\mu=\int_X f\,d\mu.
+\]
+\end{theorem}
+
+The theorem allows one to interchange limits and integrals when the functions themselves vary, provided that all are \textit{dominated} by a common integrable envelope $g$.
+It ensures continuity of the map $f\mapsto \int f\,d\mu$ under pointwise convergence with uniform integrability.
+In our setting this is used internally, e.g.\ when defining
+\[
+M_\Phi(\theta)=\E_{(x,y)\sim\mu}\E_{y'\sim \Pi_\theta(\cdot|x)}[U(y',y)],
+\]
+to justify passing limits through expectations as the inner functions vary.
+
+\subsection{Topology and Functional Analysis}
+
+\subsubsection{Topological Vector and Banach Spaces}
+\label{app:tvs}
+
+\subsubsection{Hausdorff and Polish Spaces}
+\label{app:hausdorff-polish}
+
+\begin{definition}[Hausdorff space]
+A topological space $(X,\tau)$ is \emph{Hausdorff} if for any two distinct points $x_1,x_2\in X$, there exist open sets $U,V\in\tau$ such that
+\[
+x_1\in U,\quad x_2\in V,\quad U\cap V=\emptyset.
+\]
+\end{definition}
+
+The Hausdorff property ensures that points can be separated by neighborhoods. In a Hausdorff space, limits of sequences (if they exist) are unique. This property is the minimal separation requirement for doing analysis. Without it, the notion of continuity or convergence becomes ambiguous.
+
+The Hausdorff condition is built into most of our spaces—$\mathcal S$, $\mathcal R$, and $\Theta$—so that
+limits of parameter sequences $\theta_n\to\theta$ or procedure sequences $(S_n,R_n)\to(S,R)$ are well-defined. It ensures the continuity statements in Lemma~\ref{lem:Mphi-cont} and Lemma~\ref{lem:mphi-cont} have an unambiguous sense of “approaching a unique limit.”
+
+
+\begin{definition}[Polish space]
+A \emph{Polish space} is a topological space that is separable and completely metrizable;
+that is, there exists a metric $d$ on $X$ such that:
+\begin{enumerate}
+    \item $(X,d)$ is complete: every Cauchy sequence converges in $X$;
+    \item $(X,d)$ is separable: there exists a countable dense subset $D\subseteq X$.
+\end{enumerate}
+\end{definition}
+
+Polish spaces strike the perfect balance between richness and manageability: they are large enough to include infinite-dimensional and function spaces, but structured enough for all standard convergence and measure-theoretic results to hold. They are the canonical stage for probability theory and functional analysis.
+
+Basic Regularity (B7) asserts that $\Theta$ is Polish. This guarantees:
+\begin{itemize}
+    \item Weak convergence of measures (used in B8 and Lemma~\ref{lem:mphi-cont}) is well-defined and metrizable.
+    \item Compactness/tightness arguments can be applied when studying scaling limits.
+    \item $\Prob(\Theta)$ is itself Polish, allowing kernels
+          $K:(\mathcal S\times\mathcal R)\to\Prob(\Theta)$
+          to be treated with standard continuity theorems.
+\end{itemize}
+
+In short, the “Polish” assumption ensures that our learning domain behaves like a well-structured infinite-dimensional manifold where probability, continuity, and convergence all coexist harmoniously.
+
+
+\begin{definition}[Sequential continuity]
+Let $(X,\tau_X)$ and $(Y,\tau_Y)$ be topological spaces and let $f:X\to Y$. The map $f$ is said to be \emph{sequentially continuous} at $x\in X$ if, for every sequence $(x_n)\subseteq X$ with $x_n\to x$ in $\tau_X$, we have
+\[
+f(x_n)\to f(x)\quad\text{in }\tau_Y.
+\]
+It is \emph{sequentially continuous} on $X$ if it is sequentially continuous at every $x\in X$.
+\end{definition}
+
+In general, sequential continuity is a weaker condition than topological continuity: it only checks the preservation of convergence for sequences, while full continuity requires the preimage of every open set in $Y$ to be open in $X$. However, in first-countable spaces—those whose topology can be captured by sequences—the two notions coincide.
+
+\begin{proposition}[Equivalence in metric and Polish spaces]
+If $X$ is a metric (hence Hausdorff and first-countable) space and $Y$ is any topological space, then a map $f:X\to Y$ is continuous if and only if it is sequentially continuous. In particular, this holds for all Polish spaces.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+If $f$ is continuous, it is sequentially continuous by definition. Conversely, suppose $f$ is sequentially continuous.
+In metric spaces, a set $U\subseteq X$ is open iff for every $x\in U$ there exists $\varepsilon>0$ such that $B_\varepsilon(x)\subseteq U$, which is equivalent to saying that no sequence from $X\setminus U$ can converge to $x$.
+Sequential continuity ensures that the image of any convergent sequence preserves this property, so $f^{-1}(V)$ is open whenever $V$ is open in $Y$. Hence $f$ is continuous.
+\end{proof}
+
+In metric (and therefore Polish) spaces, sequences capture all possible modes of convergence. So verifying continuity via sequences is not merely sufficient—it is \textit{equivalent}. This equivalence is why proofs on Polish spaces often conclude with the line: \emph{“sequential continuity implies continuity.”}
+
+In Lemma~\ref{lem:mphi-cont}, we showed that
+\[
+m_\Phi(S_n,R_n)\to m_\Phi(S,R)
+\]
+whenever $(S_n,R_n)\to(S,R)$ and $K(S_n,R_n)\Rightarrow K(S,R)$. This gives \emph{sequential} continuity of $m_\Phi$.
+Because $(\mathcal S\times\mathcal R,\tau_\mathcal S\times\tau_\mathcal R)$ is Polish by Regularities (B1)--(B2),
+sequential continuity immediately implies topological continuity. Thus the assumption that our learning spaces are Polish is what allows the proof to close cleanly.
+
+The equivalence between sequential and topological continuity is more than a technicality—it expresses the deep regularity of the spaces your theory operates on. Because your learning domains are Polish, you can safely reason about convergence entirely in terms of sequences (as we did in Lemma~\ref{lem:mphi-cont}), without invoking nets or filters. This makes the theory operationally elegant and aligns it with the way machine-learning processes actually behave in practice: training procedures, parameter updates, and data limits are all naturally sequential.
+
+\subsubsection{Function-Space Topologies}
+\label{app:function-space-topologies}
+
+\begin{definition}{Pointwise convergence topology}{}
+Let $Y^X$ denote the set of all functions $f:X\to Y$, where $(Y,\tau_Y)$ is a topological space.
+The \emph{pointwise convergence topology} on $Y^X$ is the coarsest topology such that,
+for every $x\in X$, the evaluation map
+\[
+\mathrm{ev}_x : f \mapsto f(x)
+\]
+is continuous.
+A sequence $(f_n)$ converges to $f$ pointwise if $f_n(x)\to f(x)$ for each $x\in X$.
+\end{definition}
+
+\begin{definition}{Compact-open topology}{}
+Let $(X,\tau_X)$ be a topological space and $(Y,\tau_Y)$ a metric space.
+The \emph{compact-open topology} on $C(X,Y)$, the space of continuous maps $X\to Y$, is generated by subbasic sets of the form
+\[
+W(K,U)=\{\,f\in C(X,Y):f(K)\subseteq U\,\},
+\]
+where $K\subseteq X$ is compact and $U\subseteq Y$ is open.
+\end{definition}
+
+Many objects in the theory are function-valued:
+\begin{itemize}
+    \item the predictor $\Pi_\theta:\mathcal X\to\Prob(\mathcal Y)$,
+    \item the training map $K:(\mathcal S\times\mathcal R)\to\Prob(\Theta)$,
+    \item the capability function $M_\Phi:\Theta\to\R$.
+\end{itemize}
+Each lives naturally in a function space. By equipping these spaces with appropriate function topologies, we can speak rigorously of continuity and convergence of mappings between them.
+
+Specifically:
+\begin{itemize}
+    \item The continuity of $\theta\mapsto\Pi_\theta$ in (B4) is continuity
+          in a weak function-space topology on $\Prob(\mathcal Y)$.
+    \item The continuity of $(S,R)\mapsto K(S,R)$ in (B8) is continuity
+          in the function-space topology on $\Prob(\Theta)$ induced by the weak topology.
+    \item Lemma~\ref{lem:Mphi-cont} and Lemma~\ref{lem:mphi-cont}
+          rely on these topologies to interpret weak convergence and ensure that
+          expectations vary smoothly under parameter and resource perturbations.
+\end{itemize}
+
+Thus, function-space topologies give the geometric foundation for treating learning systems as continuous transformations between probability spaces.
+
+\subsubsection{Wasserstein Metric and Optimal Transport}
+\label{app:w-metric}
+
+Distributions are "close" if we can rearrange one into the other with little effort.
+
+Formally, let $(X,d)$ be a metric space. Let $\mathcal P _p(X)$ be the set of Borel probability measures $\mu$ on $X$ with finite $p$-th moment:
+\[
+    \int_X d(x,x_0)^p\mu(dx)<\infty
+\]
+for some arbitrary reference point $x_0\in X$.
+
+For $\mu, \nu\in \mathcal P _p(X)$, a \textit{coupling} is a joint distribution $\gamma$ on $X\times X$ with marginals $\mu$ and $\nu$:
+
+\[
+    \gamma(A\times X)=\mu (A),\quad \gamma(X\times B)=\nu(B)
+\]
+
+for all measurable $A,B\subseteq X$
+
+Then, the \textit{Wasserstein-}$p$ distance is:
+\[
+    W_p(\mu,\nu)=\left(\inf_{\gamma\in \Gamma(\mu,\nu)}\int_{X\times X} d(x,y)^p d\gamma(x,y)\right)^{1/p}
+\]
+where $\Gamma(\mu, \nu)$ is the set of all couplings.
+
+So 
+\subsubsection{Kantorovich–Rubinstein Duality}
+\label{app:kantorovich–rubinstein-duality}
+
+\subsubsection{Product and Compact-Open Topologies}
+\label{app:open-compact-topologies}
+
+\subsubsection{First-countability and sequential continuity}
+
+\subsubsection{The Dual Space}
+
+\subsubsection{The General Linear Group}
+
+\subsubsection{Linear Functionals}
+
+\subsubsection{Affine Hyperplanes}
+
+\subsubsection{Affine reparameterization and gauge freedom}
+
+\subsubsection{Continuity of Functionals and Measurable Maps}
+\label{app:continuity-of-functionals}
+
+\subsection{Algebraic and Structural Foundations}
+
+\subsubsection{Equivalence Relations and Classes}
+\label{app:equivalence-relations}
+
+\subsubsection{Quotient Structures}
+\label{app:equivalence-relations}
+
+\subsubsection{Partial Orders and Resource Topologies}
+\label{app:partial-order}
+
+\subsubsection{Monoids and Homomorphisms}
+\label{app:monoids}
+
+\subsubsection{Symmetry and Group Actions}
+\label{app:equivalence-relations}
+
+
+
+
+
+\subsubsection{Category-Theoretic Remark}
+\label{app:partial-order}
+
+\subsection{Statistics and Learning Theory}
+
+\subsubsection{Order Parameters and Phase Transitions}
+\label{app:order-parameter}
+Reference: Stanley (1971).
+
+\subsubsection{Lipschitzness}
+\label{app:lipschitzness}
+Reference: Heinonen (2005).
+
+\section{Early Empirical Prototypes}
 
 \subsection{Shared setup (for all experiments)}
 
 \begin{itemize}
-    \item Systems And recipes: keep a fixed recipe $\Xi$ (AdamW + cosine schedule, bf16, attention-only transformer, tied embeddings) and define your recipe-local neighborhood via your recipe distance with hard categoricals and tolerance-weighted Euclidean on continuous knobs (±10% LR/WD, ±0.02 dropout, etc.). This makes A3’s “locality” operational.
+    \item Systems And procedures: keep a fixed procedure $P$ (AdamW + cosine schedule, bf16, attention-only transformer, tied embeddings) and define your procedure-local neighborhood via your procedure distance with hard categoricals and tolerance-weighted Euclidean on continuous knobs (±10% LR/WD, ±0.02 dropout, etc.). This makes A3’s “locality” operational.
     \item Training map $K$ and predictor $\Pi_\theta$: compute 
     \[
     m_\Phi(S,R)=\mathbb E_{\theta\sim K(S,R)}[M_\Phi(\theta)]
     \]
-    with continuous scoring $\mathcal U_\Phi$ (probability mass on the acceptance set or normalized log-prob), not thresholds (your A6-style precaution).
+    with continuous scoring $\mathcal U$ (probability mass on the acceptance set or normalized log-prob), not thresholds (your A6-style precaution).
     \item \textbf{Resources:} start with $R=(N,P,T)$ and $\psi(R)=\log R$; later add a 4th coordinate (context length $L$, or quality $Q$).
     \item \textbf{Grid:} small, dense patches beat huge sweeps. Typical 18–36 runs per capability: $P\!\in\!\{0.5,1,2\}$M; $N\!\in\!\{1,2,4\}$M tokens; steps so tokens $\approx N$; 2 seeds each.
     \item \textbf{Models:} 1–4 layer attn-only transformer, context 64–128, tiny vocab. Save activations for probe tests.
     \item \textbf{Analysis:} compute collapse error CE and optimized CE versus (i) single-knob baselines and (ii) a smooth 2-D/3-D surface $g(\psi(R))$ (thin-plate spline), with cross-validation. This is exactly your A2 “Curve Fit Quality” test.
 \end{itemize}
-
-\section{Experiments}
 
 \subsection{A1 Monotone capability—try to induce non-monotonicity}
 
@@ -1044,19 +2752,19 @@ This is the experiment I did to arrive at a definition of representability.
 
 \clearpage
 
-\subsection{A5: Testing local continuity between recipes and the learning system}
+\subsection{A5: Testing local continuity between procedures and the learning system}
 
 \subsubsection{Overview}
 
-In this experiment we fix data $D$ and resources $R$, and we jitter the recipe $\Xi$ (learning rate, width, seed, etc), giving us multiple recipes $\Xi_1,\Xi_2,\dots$, and in turn multiple learning systems $\Xi_1\times D, \Xi_2\times D,\dots$. We then train each learning system once (sampling a $\theta$ from the training kernel), and compare the induced precitor maps $\Pi_\theta$ via their capacity score $M_\Phi(\theta)$.
+In this experiment we fix data $D$ and resources $R$, and we jitter the procedure $P$ (learning rate, width, seed, etc), giving us multiple procedures $P_1,P_2,\dots$, and in turn multiple learning systems $P_1\times D, P_2\times D,\dots$. We then train each learning system once (sampling a $\theta$ from the training kernel), and compare the induced precitor maps $\Pi_\theta$ via their capacity score $M_\Phi(\theta)$.
 
-By axiom 5, it should be the case that varying the recipe slightly within its neighborhood in $(\mathcal R, \tau_\mathcal R)$, the emergent capability function (parity), $m_\Phi((D,\Xi),R)$ varies continuously with respect to those perturbations. This is what we are testing. 
+By axiom 5, it should be the case that varying the procedure slightly within its neighborhood in $(\mathcal P, \tau_\mathcal P)$, the emergent capability function (parity), $m_\Phi((D,P),R)$ varies continuously with respect to those perturbations. This is what we are testing. 
 
 So we empirically want to "prove" the continuity of the deterministic trained predictor map
 \[
-G:(\Xi, \omega)\mapsto \Pi_{\theta(\Xi, \omega)} \in \mathcal S _{\text{pred}}
+G:(P, \omega)\mapsto \Pi_{\theta(P, \omega)} \in \mathcal S _{\text{pred}}
 \]
-where $\omega$ is the randomness/seed. In other words, we check whether small recipe changes implies small changes in the predictor, for single seeds.
+where $\omega$ is the randomness/seed. In other words, we check whether small procedure changes implies small changes in the predictor, for single seeds.
 
 \clearpage
 \subsubsection{Findings}
@@ -1073,12 +2781,12 @@ where $\omega$ is the randomness/seed. In other words, we check whether small re
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.65\textwidth]{figures/A5/local continuity/recipe-space distance.png}
+    \includegraphics[width=0.65\textwidth]{figures/A5/local continuity/procedure-space distance.png}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.65\textwidth]{figures/A5/local continuity/recipe distance base recipes.png}
+    \includegraphics[width=0.65\textwidth]{figures/A5/local continuity/procedure distance base procedures.png}
 \end{figure}
 
 \begin{figure}[h]
@@ -1088,7 +2796,7 @@ where $\omega$ is the randomness/seed. In other words, we check whether small re
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.65\textwidth]{figures/A5/local continuity/cka distance vs recipe distance.png}
+    \includegraphics[width=0.65\textwidth]{figures/A5/local continuity/cka distance vs procedure distance.png}
 \end{figure}
 
 \begin{figure}[h]
@@ -1127,22 +2835,22 @@ Seed-avg Lipschitz $L$ (func): $7.44e-06$, $R^2=0.472$
 \clearpage
 \subsubsection{Conclusions}
 
-Thus, we've gathered concrete evidence that in function space the predictor varies continuously and very weakly under local recipe perturbations. So this experiment justifies the "nearby recipes leads to nearby systems" intuition. Note that this is a local continuity result for $G$, not yet for $K$, the training map.
+Thus, we've gathered concrete evidence that in function space the predictor varies continuously and very weakly under local procedure perturbations. So this experiment justifies the "nearby procedures leads to nearby systems" intuition. Note that this is a local continuity result for $G$, not yet for $K$, the training map.
 
-Axiom 5 is an assumption of structure, and not a continuity claim by itself. To motivate it further we want to show that reasonable metrics/topologies on $\mathcal S$ lead to reasonable neighborhoods in $\mathcal S$. Tiny jitters in some $\Xi$ or $D$ shouldn't cause wild, discontinuous jumps in the trained learning system's behavior.
+Axiom 5 is an assumption of structure, and not a continuity claim by itself. To motivate it further we want to show that reasonable metrics/topologies on $\mathcal S$ lead to reasonable neighborhoods in $\mathcal S$. Tiny jitters in some $P$ or $D$ shouldn't cause wild, discontinuous jumps in the trained learning system's behavior.
 
 The current results already supports this specifically \textit{for outputs}: 
 \[
 \text{tiny } d_X\Longrightarrow d_\text{func} \approx 10^{-5}
 \]
 
-That is, nearby recipes induce almost identical predictions. 95-percentage distances inside small $d_X$ balls are $\sim 10^{-5}$. Conclusively, the experiment supports using the proposed $d_X$ to topologize $\mathcal R$ and support local continuity of the recipe-to-system map in outputs. 
+That is, nearby procedures induce almost identical predictions. 95-percentage distances inside small $d_X$ balls are $\sim 10^{-5}$. Conclusively, the experiment supports using the proposed $d_X$ to topologize $\mathcal P$ and support local continuity of the procedure-to-system map in outputs. 
 
 \subsubsection{Representation-space continuity}
 
-During the same experiment, we don't have reasonable evidence to conclude anything about the representation space. It is inconclusive for representation geometry and does not yet test the stochastic training kernel continuity. The $1-\text{CKA}$ is much larger, with median $\sim 0.5-0.6$, and highly variable even under the tiny recipe changed made. So nearby recipes might yield representionally different learning systems. 
+During the same experiment, we don't have reasonable evidence to conclude anything about the representation space. It is inconclusive for representation geometry and does not yet test the stochastic training kernel continuity. The $1-\text{CKA}$ is much larger, with median $\sim 0.5-0.6$, and highly variable even under the tiny procedure changed made. So nearby procedures might yield representionally different learning systems. 
 
-Secondly, simple linear fits give tiny positive slopes but negative $R^2$ for both spaces. There’s some monotone relationship with recipe distance, but high variance means we cannot draw a quantitative law yet.
+Secondly, simple linear fits give tiny positive slopes but negative $R^2$ for both spaces. There’s some monotone relationship with procedure distance, but high variance means we cannot draw a quantitative law yet.
 
 Lightbulb!!! Right now Axiom 5 is very general, and while it is hard to justify in it of itself, this experiment might suggest that this axion is empirically well-motivated only at the level of predictor outputs. For representations, continuity is not guaranteed.
 
@@ -1321,143 +3029,9 @@ Cross-Task Regularities:
 
 Evaluate if $\alpha$ (direction weights) remain approximately invariant across architectures and tasks — which would hint at a universal scaling manifold.
 
-\clearpage
-\appendix
+% References
+\newpage
+\bibliographystyle{abbrvnat}
+\bibliography{references}
 
-\section{Historical Axioms}
-% Local (section-scoped) contents to navigate axiom histories:
-\etocsettocstyle{\subsection*{Historical Axioms — Contents}}{} % heading for the local ToC
-\localtableofcontents
-\medskip
-
-% --- Axiom 1 history ---
-\subsection{Axiom 1: Monotone Capability}
-
-\begin{histaxiom}[v0.0 — 2025-08-23]
-\textbf{Status:} Retired.
-
-\textbf{Old statement.}
-Fix a learning system $S$ (as defined in the domain) and a capability $\Phi$. The order parameter $m_\Phi(S,R)\in[0,1]$ is **non-decreasing** in each resource coordinate of $R$
-when the others are held fixed:
-
-\[
-\nabla _{ R} m_\Phi (S,R)\ge 0,
-\]
-
-with derivatives interpreted in a discrete sense when resources change in steps.
-
-\textbf{Issue.}
-The axiom failed if the capability/task wasn't \textit{representable} by the learning system. As shown in experiments, for example, a 4-layer MLP can't perform well on a parity task with input lengths of 32. Thus, it is stuck at random guessing which didn't change no matter how much the resources in was increased. 
-
-The axiom also failed due to numerical fluctuations.
-
-\textbf{Solution.}
-TBD.
-
-\end{histaxiom}
-
-
-
-% --- Axiom 2 history ---
-\subsection{Axiom 2: One-Dimensional Collapse}
-
-\begin{histaxiom}[Axiom 2 — v0.2 — 2025-07-22]
-
-\end{histaxiom}
-
-\subsection{Axiom 5: Topology}
-
-\begin{histaxiom}[Axiom 5 - v0.0 - 2025-09-03]
-\textbf{Status:} Retired.
-\textbf{Old statement.}
-The collection of data-generating processes forms a topological space $(\mathcal D, \tau_D)$ and the collection of recipes forms a topological space $(\mathcal R, \tau_\mathcal R)$.
-
-\textbf{Issue And Solution.}
-We don’t have reasonable evidence to conclude anything about
-the representation space. It is inconclusive for representation geometry and does not yet
-test the stochastic training kernel continuity. 
-
-The theory might be more useful when speaking strictly about behavioral continuity under scaling, not about representational continuity. Thus, we add a precondition to axiom 5.
-    
-\end{histaxiom}
-
-
-\section{Mathematical Concepts}
-
-\subsection{Probability- and Measure Theory}
-
-\subsubsection{Markov Kernel}
-
-Given a measurable space $X$ (inputs) and $Y$ (outputs), $\mathcal B (Y)$ the $\sigma$-algebra of measurable subsets of $Y$. A \textit{Markov} kernel $K$ from $X$ to $Y$ is a map
-\[
-    K:X\times \mathcal B (Y)\to [0,1]
-\]
-such that:
-\begin{enumerate}
-    \item For every fixed $x\in X$, the set function $B\mapsto K(x,B)$ is a probability measure on $(Y,\mathcal B(Y))$.
-    \item For every fixed measurable set $B\subseteq Y$, the function $x\mapsto K(x,B)$ is measurable.  
-\end{enumerate}
-
-It associates to each point $x\in X$ a probability measure on $(Y,\mathcal B)$ such that, for every measurable set $B\in \mathcal B$, the map $x\mapsto\kappa (B,x)$ is measurable with respect to the $\sigma$-algebra $\mathcal A$.
-
-[wiki reference]
-
-If a deterministic function gives you one point, a Markov kernel gives you a whole distribution. We can see kernels as a stochastic function: There exists a measurable map $F:X\times \Omega\to Y$ on some probability space $(\Omega, \mathbb P)$ such that 
-\[
-K(x,\cdot)=\mathbb P (F(x,\omega)\in \cdot)
-\]
-
-In practice, kernels let us say “the output is random, but in a controlled, measurable way," which is exactly why we use it in defining the training kernel.
-
-\subsubsection{Weak convergence of measures}
-
-
-\subsection{Topology and Functional Analysis}
-
-\subsubsection{Wasserstein Metric}
-
-The W metric is a natural way for measuring the "distance" between probability distributions. If we have two probability distributions $D$ and $D'$, over a space $X$, if you think of them as piles of sand, the W distance is the minimum cost of transporting sand from one pile to reshape it into the other.
-
-Distributions are "close" if we can rearrange one into the other with little effort.
-
-Formally, let $(X,d)$ be a metric space. Let $\mathcal P _p(X)$ be the set of Borel probability measures $\mu$ on $X$ with finite $p$-th moment:
-\[
-    \int_X d(x,x_0)^p\mu(dx)<\infty
-\]
-for some arbitrary reference point $x_0\in X$.
-
-For $\mu, \nu\in \mathcal P _p(X)$, a \textit{coupling} is a joint distribution $\gamma$ on $X\times X$ with marginals $\mu$ and $\nu$:
-
-\[
-    \gamma(A\times X)=\mu (A),\quad \gamma(X\times B)=\nu(B)
-\]
-
-for all measurable $A,B\subseteq X$
-
-Then, the \textit{Wasserstein-}$p$ distance is:
-\[
-    W_p(\mu,\nu)=\left(\inf_{\gamma\in \Gamma(\mu,\nu)}\int_{X\times X} d(x,y)^p d\gamma(x,y)\right)^{1/p}
-\]
-where $\Gamma(\mu, \nu)$ is the set of all couplings.
-
-So 
-\subsubsection{Kantorovich–Rubinstein Duality}
-
-\subsubsection{Product Topologies}
-
-\subsubsection{Open-Compact Topologies}
-
-\subsubsection{Functionals}
-
-\subsubsection{Continuity of functionals}
-
-\subsubsection{Polish spaces}
-
-
-\subsection{Statistics and Learning Theory}
-
-\subsubsection{Order Parameter}
-
-
-\subsubsection{Lipschitzness}
 \end{document}
